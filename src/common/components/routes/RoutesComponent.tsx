@@ -6,6 +6,7 @@ export const RoutesComponent = () => {
   return (
     <Routes>
       {/*add your routes here*/}
+      <Route path={'/'} element={''} />
       <Route path={'/login'} element={<Login />} />
     </Routes>
   )
