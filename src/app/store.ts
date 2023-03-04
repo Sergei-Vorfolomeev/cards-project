@@ -1,9 +1,12 @@
 import { AnyAction, combineReducers, legacy_createStore } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { reducer } from './reducer'
 
 // store
-const rootReducer = combineReducers({})
+const rootReducer = combineReducers({
+  reducer: reducer,
+})
 export const store = legacy_createStore(rootReducer)
 
 //custom hooks
