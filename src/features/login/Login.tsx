@@ -12,7 +12,8 @@ export const Login = () => {
   const loading = useAppSelector(state => state.registrationReducer.loading)
   const dispatch = useAppDispatch()
 
-  // if (isAuth) return <Navigate to={'/profile'} />
+  // eslint-disable-next-line react/jsx-no-undef
+  // if (isAuth) return <Navigate to={<Profile />} />
   return (
     <div className={styles.login}>
       {loading && <Loader />}

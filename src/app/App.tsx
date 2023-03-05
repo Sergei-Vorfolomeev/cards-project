@@ -16,9 +16,9 @@ function App() {
 
   return (
     <div className="App">
-      {/*<Header />*/}
+      <Header />
       <RoutesComponent />
-      {isAuth && <Login />}
+      {!isAuth && <Login />}
     </div>
   )
 }
