@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <Header />
       <RoutesComponent />
-      {!isAuth && <Login />}
+      {/*{!isAuth && <Login />}*/}
     </div>
   )
 }

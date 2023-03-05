@@ -59,12 +59,21 @@
   border-bottom: 1px solid rgb(0, 0, 0, 0.2);
 }
 
-.rememberMeLabel {
-  display: inline-block;
+.checkBoxContainer {
+  margin: 24px 0 28px;
 }
 
 .loginCheckbox {
   display: inline-block;
+}
+
+.rememberMeLabel {
+  margin-left: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: black;
 }
 
 .forgotPasswordContainer {
@@ -73,6 +82,9 @@
 }
 
 .forgotPassword {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
   color: black;
   text-decoration: none;
 }
@@ -87,6 +99,7 @@
 
   font: inherit;
   font-size: 16px;
+  font-weight: 600;
   line-height: 20px;
   color: #ffffff;
   text-align: center;
@@ -97,4 +110,31 @@
   border: none;
   border-radius: 30px;
   outline: inherit;
+}
+
+.haveAccount {
+  margin: 31px 0 11px;
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #000000;
+  text-align: center;
+
+  opacity: 0.5;
+}
+
+.signUpBox {
+  width: 65px;
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.signUpLink {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #366eff;
+  text-decoration: underline;
 }

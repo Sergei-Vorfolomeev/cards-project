@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '../../app/store'
@@ -43,7 +43,7 @@ export const Login = () => {
             <ErrorMessage name="email" />
           </div>
 
-          <div>
+          <div className={styles.loginInputContainer}>
             <label htmlFor="password" className={styles.loginInputLabel}>
               Password
             </label>
@@ -51,7 +51,7 @@ export const Login = () => {
             <ErrorMessage name="password" />
           </div>
 
-          <div>
+          <div className={styles.checkBoxContainer}>
             <Field name="rememberMe" type="checkbox" className={styles.loginCheckbox} />
             <label htmlFor="rememberMe" className={styles.rememberMeLabel}>
               Remember me
@@ -61,7 +61,7 @@ export const Login = () => {
 
           <div className={styles.forgotPasswordContainer}>
             <NavLink to={'/recover-password'} className={styles.forgotPassword}>
-              Forgot password?
+              Forgot Password?
             </NavLink>
           </div>
 
@@ -69,9 +69,11 @@ export const Login = () => {
             Sign In
           </button>
 
-          <div>Already have an account?</div>
-          <p>
-            <NavLink to={'/registration'}>Sign Up</NavLink>
+          <div className={styles.haveAccount}>Already have an account?</div>
+          <p className={styles.signUpBox}>
+            <NavLink to={'/registration'} className={styles.signUpLink}>
+              Sign Up
+            </NavLink>
           </p>
         </Form>
       </Formik>

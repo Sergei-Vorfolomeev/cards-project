@@ -13,7 +13,6 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       <span>IT-Incubator</span>
-      <NavLink to={'/login'}>Login</NavLink>
       {isAuth ? (
         <Button
           name={'Log Out'}
