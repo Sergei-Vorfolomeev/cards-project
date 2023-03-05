@@ -7,6 +7,11 @@ type LoginRequestType = {
   rememberMe: boolean
 }
 
+type RegisterRequestType = {
+  email: string
+  password: string
+}
+
 type LoginResponseType = {
   _id: string
   email: string
@@ -41,4 +46,7 @@ export const authAPI = {
   me() {
     return instance.post<LoginResponseType>('/auth/me', {}).then(res => res.data)
   },
+  register(data: RegisterRequestType){
+    return instance.post<LoginResponseType>('/auth/register', data).then(res => res.data)
+  }
 }
