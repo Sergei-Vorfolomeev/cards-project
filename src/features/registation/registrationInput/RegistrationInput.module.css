@@ -1,0 +1,35 @@
+.registration_input {
+    position: relative;
+}
+
+.registrationLabel {
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #000000;
+    opacity: 0.5;
+    margin-bottom: 0px;
+}
+
+.registration_input input {
+    display: block;
+    border: none;
+    border-bottom: 1px solid rgb(0, 0, 0, .2);
+    width: 100%;
+    color: #000000;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.registration_input input:focus {
+    outline: none;
+}
+
+.registration_eye {
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    bottom: 6px;
+    cursor: pointer;
+}

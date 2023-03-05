@@ -6,6 +6,8 @@ import { authReducer } from '../features/login/authReducer'
 // store
 const rootReducer = combineReducers({
   auth: authReducer,
+  registrationReducer: registrationReducer
+
 })
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
 
