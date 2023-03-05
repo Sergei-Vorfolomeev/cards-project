@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 //types
-type LoginRequestType = {
+export type LoginRequestType = {
   email: string
   password: string
   rememberMe: boolean
 }
 
-type LoginResponseType = {
+export type LoginResponseType = {
   _id: string
   email: string
   name: string
