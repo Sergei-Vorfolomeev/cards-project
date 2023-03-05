@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { loginTC } from './authReducer'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import { Loader } from '../../common/components/loader/Loader'
 
 export const Login = () => {
   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
   const loading = useAppSelector(state => state.registrationReducer.loading)
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  // eslint-disable-next-line react/jsx-no-undef
-  // if (isAuth) return <Navigate to={<Profile />} />
+  if (isAuth) {
+    navigate('/profile')
+  }
   return (
     <div className={styles.login}>
       {loading && <Loader />}
@@ -63,7 +65,9 @@ export const Login = () => {
             </NavLink>
           </div>
 
-          <button type="submit">Sign In</button>
+          <button type="submit" className={styles.btn}>
+            Sign In
+          </button>
 
           <div>Already have an account?</div>
           <p>

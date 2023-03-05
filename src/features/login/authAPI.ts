@@ -27,6 +27,10 @@ export type LoginResponseType = {
 
   error?: string
 }
+export type ResponseType = {
+  info: string
+  error: string
+}
 
 //instance
 export const instance = axios.create({
@@ -42,10 +46,13 @@ export const authAPI = {
   login(data: LoginRequestType) {
     return instance.post<LoginResponseType>('/auth/login', data).then(res => res.data)
   },
+  logout() {
+    return instance.delete<ResponseType>('/auth/me').then(res => res)
+  },
   me() {
     return instance.post<LoginResponseType>('/auth/me', {}).then(res => res.data)
   },
-  register(data: RegisterRequestType){
+  register(data: RegisterRequestType) {
     return instance.post<LoginResponseType>('/auth/register', data).then(res => res.data)
-  }
+  },
 }

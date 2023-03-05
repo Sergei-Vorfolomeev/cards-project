@@ -63,7 +63,7 @@ type ErrorType = {
 }
 
 // action creators
-const loginAC = (data: LoginResponseType, value: boolean) => {
+const loginAC = (data: LoginResponseType | InitialStateType, value: boolean) => {
   return {
     type: 'LOGIN',
     payload: {
@@ -76,7 +76,7 @@ const loginAC = (data: LoginResponseType, value: boolean) => {
 // thunk creators
 export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) => {
   try {
-    const res = await authAPI.login(data)
+    const res: LoginResponseType = await authAPI.login(data)
     dispatch(loginAC(res, true))
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
@@ -87,6 +87,24 @@ export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) =>
     }
   }
 }
+
+export const logoutTC = () => async (dispatch: Dispatch) => {
+  try {
+    const res = await authAPI.logout()
+    console.log(res)
+    if (res.statusText === 'OK') {
+      dispatch(loginAC(initialState, false))
+    }
+  } catch (e) {
+    if (axios.isAxiosError<ErrorType>(e)) {
+      const error = e.response?.data ? e.response.data.error : e.message
+      alert(error)
+    } else {
+      alert('Some error')
+    }
+  }
+}
+
 export const meTC = () => async (dispatch: Dispatch) => {
   try {
     const res = await authAPI.me()
