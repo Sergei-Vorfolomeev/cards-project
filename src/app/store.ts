@@ -1,9 +1,12 @@
 import { AnyAction, combineReducers, legacy_createStore } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { authReducer } from '../features/login/authReducer'
 
 // store
-const rootReducer = combineReducers({})
+const rootReducer = combineReducers({
+  auth: authReducer,
+})
 export const store = legacy_createStore(rootReducer)
 
 //custom hooks
