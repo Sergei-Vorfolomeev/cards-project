@@ -147,6 +147,16 @@
   text-decoration: underline;
 }
 
+.registrationEye {
+  cursor: pointer;
+
+  position: absolute;
+  top: 20px;
+  right: 0;
+
+  display: inline-block;
+}
+
 .error {
   color: #da0606;
 }

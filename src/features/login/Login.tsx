@@ -63,7 +63,11 @@ export const Login = () => {
                 type={isHidden ? 'password' : 'text'}
                 className={styles.loginInput}
               />
-              <img className={s.registration_eye} src={passwordEye} onClick={imgOnClickHandler} />
+              <img
+                className={styles.registrationEye}
+                src={passwordEye}
+                onClick={imgOnClickHandler}
+              />
               <ErrorMessage name="password" component="div" className={styles.error} />
             </div>
 
