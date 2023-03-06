@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '../../app/store'
@@ -6,12 +6,20 @@ import { loginTC } from './authReducer'
 import { NavLink, useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import { Loader } from '../../common/components/loader/Loader'
+import passwordEye from '../../common/assets/pictures/password-eye.svg'
+import s from '../registation/registrationInput/RegistrationInput.module.css'
 
 export const Login = () => {
   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
   const loading = useAppSelector(state => state.registrationReducer.loading)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  const [isHidden, setIsHidden] = useState<boolean>(true)
+
+  const imgOnClickHandler = () => {
+    setIsHidden(!isHidden)
+  }
 
   if (isAuth) {
     navigate('/profile')
@@ -40,15 +48,20 @@ export const Login = () => {
               Email
             </label>
             <Field name="email" type="email" className={styles.loginInput} />
-            <ErrorMessage name="email" />
+            <ErrorMessage name="email" component="div" className={styles.error} />
           </div>
 
           <div className={styles.loginInputContainer}>
             <label htmlFor="password" className={styles.loginInputLabel}>
               Password
             </label>
-            <Field name="password" type="password" className={styles.loginInput} />
-            <ErrorMessage name="password" />
+            <Field
+              name="password"
+              type={isHidden ? 'password' : 'text'}
+              className={styles.loginInput}
+            />
+            <img className={s.registration_eye} src={passwordEye} onClick={imgOnClickHandler} />
+            <ErrorMessage name="password" component="div" className={styles.error} />
           </div>
 
           <div className={styles.checkBoxContainer}>

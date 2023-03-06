@@ -1,6 +1,6 @@
 .login {
   width: 413px;
-  height: 528px;
+  height: 552px;
   margin: auto;
 
   background: #ffffff;
@@ -22,7 +22,7 @@
 
 .login form {
   max-width: 347px;
-  margin-top: 31px;
+  margin-top: 41px;
   padding-left: 33px;
 
   text-align: left;
@@ -51,12 +51,21 @@
   display: block;
 
   width: 100%;
+  margin-bottom: 5px;
 
   font-size: 16px;
   color: #000000;
 
   border: none;
   border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+
+.loginInputContainer:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.loginInput:focus {
+  outline: none;
 }
 
 .checkBoxContainer {
@@ -94,7 +103,7 @@
 
   width: 100%;
   height: 36px;
-  margin-top: 60px;
+  margin-top: 50px;
   padding: 0;
 
   font: inherit;
@@ -105,7 +114,6 @@
   text-align: center;
   letter-spacing: 0.01em;
 
-  background: none;
   background: #366eff;
   border: none;
   border-radius: 30px;
@@ -137,4 +145,8 @@
   line-height: 24px;
   color: #366eff;
   text-decoration: underline;
+}
+
+.error {
+  color: #da0606;
 }
