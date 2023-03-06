@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import { authAPI, LoginRequestType, LoginResponseType } from './authAPI'
 import axios from 'axios'
+import { setErrorAC } from '../../app/appReducer'
 
 type InitialStateType = {
   _id: string
@@ -81,9 +82,9 @@ export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) =>
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
       const error = e.response?.data ? e.response.data.error : e.message
-      alert(error)
+      dispatch(setErrorAC(error))
     } else {
-      alert('Some error')
+      dispatch(setErrorAC('Some error'))
     }
   }
 }
@@ -98,9 +99,9 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
       const error = e.response?.data ? e.response.data.error : e.message
-      alert(error)
+      dispatch(setErrorAC(error))
     } else {
-      alert('Some error')
+      dispatch(setErrorAC('Some error'))
     }
   }
 }
@@ -112,9 +113,9 @@ export const meTC = () => async (dispatch: Dispatch) => {
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
       const error = e.response?.data ? e.response.data.error : e.message
-      alert(error)
+      dispatch(setErrorAC(error))
     } else {
-      alert('Some error')
+      dispatch(setErrorAC('Some error'))
     }
   }
 }
