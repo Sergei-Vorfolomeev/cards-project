@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 //types
-type LoginRequestType = {
+export type LoginRequestType = {
   email: string
   password: string
   rememberMe: boolean
@@ -11,8 +11,7 @@ type RegisterRequestType = {
   email: string
   password: string
 }
-
-type LoginResponseType = {
+export type LoginResponseType = {
   _id: string
   email: string
   name: string
@@ -27,6 +26,10 @@ type LoginResponseType = {
   rememberMe: boolean
 
   error?: string
+}
+export type ResponseType = {
+  info: string
+  error: string
 }
 
 //instance
@@ -43,13 +46,13 @@ export const authAPI = {
   login(data: LoginRequestType) {
     return instance.post<LoginResponseType>('/auth/login', data).then(res => res.data)
   },
+  logout() {
+    return instance.delete<ResponseType>('/auth/me').then(res => res)
+  },
   me() {
     return instance.post<LoginResponseType>('/auth/me', {}).then(res => res.data)
   },
-  register(data: RegisterRequestType){
+  register(data: RegisterRequestType) {
     return instance.post<LoginResponseType>('/auth/register', data).then(res => res.data)
   },
-  logout() {
-    return instance.delete(`/auth/me`, {})
-  }
 }

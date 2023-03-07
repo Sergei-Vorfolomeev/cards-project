@@ -11,7 +11,9 @@ export const Button = ({ name, callBack }: ButtonPropsType) => {
 
   return (
     <div>
-      <button onClick={onClickHandler}>{name}</button>
+      <button onClick={onClickHandler} type={'button'}>
+        {name}
+      </button>
     </div>
   )
 }
