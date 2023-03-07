@@ -48,5 +48,8 @@ export const authAPI = {
   },
   register(data: RegisterRequestType){
     return instance.post<LoginResponseType>('/auth/register', data).then(res => res.data)
+  },
+  logout() {
+    return instance.delete(`/auth/me`, {})
   }
 }

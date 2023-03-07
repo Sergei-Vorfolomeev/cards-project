@@ -1,0 +1,74 @@
+.profile_container {
+    width: 100%;
+    max-width: 1170px;
+    margin: auto;
+}
+
+.profile_wrapper {
+    width: 413px;
+    height: 528px;
+    background: #FFFFFF;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    margin: auto;
+    padding: 27px 87px 36px;
+    box-sizing: border-box;
+}
+
+.profile_container h2 {
+    padding-top: 35px;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 32px;
+    color: #000000;
+    text-align: center;
+}
+
+.profile_button {
+    color: #FFFFFF;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    margin-top: 60px;
+    background: #366EFF;
+    border-radius: 30px;
+    height: 36px;
+    width: 100%;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 0.01em;
+}
+
+.profile_backbutton {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    /* identical to box height, or 171% */
+
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+    background: no-repeat;
+    border: none;
+    outline: none;
+
+}
+
+.profile_backbutton:before {
+    content: '';
+    background-image: url("./img/arrow.svg");
+    width: 14px;
+    height: 11px;
+    background-repeat: no-repeat ;
+    background-position: center;
+    margin-right: 5px;
+}
