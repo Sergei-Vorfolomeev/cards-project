@@ -77,6 +77,8 @@
 }
 
 .rememberMeLabel {
+  cursor: pointer;
+
   margin-left: 12px;
 
   font-size: 14px;
@@ -151,10 +153,12 @@
   cursor: pointer;
 
   position: absolute;
-  top: 20px;
+  top: 18px;
   right: 0;
 
   display: inline-block;
+
+  width: 20px;
 }
 
 .error {

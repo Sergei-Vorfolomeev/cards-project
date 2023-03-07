@@ -6,8 +6,8 @@ import { loginTC } from './authReducer'
 import { NavLink, useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import { Loader } from '../../common/components/loader/Loader'
-import passwordEye from '../../common/assets/pictures/password-eye.svg'
-import s from '../registation/registrationInput/RegistrationInput.module.css'
+import passwordEye from '../../common/assets/pictures/eye.svg'
+import passwordEyeHide from '../../common/assets/pictures/eye-off.svg'
 import { Error } from '../../common/components/error/Error'
 
 export const Login = () => {
@@ -63,16 +63,29 @@ export const Login = () => {
                 type={isHidden ? 'password' : 'text'}
                 className={styles.loginInput}
               />
-              <img
-                className={styles.registrationEye}
-                src={passwordEye}
-                onClick={imgOnClickHandler}
-              />
+              {isHidden ? (
+                <img
+                  className={styles.registrationEye}
+                  src={passwordEye}
+                  onClick={imgOnClickHandler}
+                />
+              ) : (
+                <img
+                  className={styles.registrationEye}
+                  src={passwordEyeHide}
+                  onClick={imgOnClickHandler}
+                />
+              )}
               <ErrorMessage name="password" component="div" className={styles.error} />
             </div>
 
             <div className={styles.checkBoxContainer}>
-              <Field name="rememberMe" type="checkbox" className={styles.loginCheckbox} />
+              <Field
+                id="rememberMe"
+                name="rememberMe"
+                type="checkbox"
+                className={styles.loginCheckbox}
+              />
               <label htmlFor="rememberMe" className={styles.rememberMeLabel}>
                 Remember me
               </label>
