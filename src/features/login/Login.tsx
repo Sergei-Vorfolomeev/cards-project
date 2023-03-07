@@ -10,6 +10,14 @@ import passwordEye from '../../common/assets/pictures/eye.svg'
 import passwordEyeHide from '../../common/assets/pictures/eye-off.svg'
 import { Error } from '../../common/components/error/Error'
 
+const SignupSchema = Yup.object({
+  email: Yup.string().email('Invalid email address').required('Required field'),
+  password: Yup.string()
+    .max(25, 'Password must be 25 characters or less')
+    .min(5, 'Password must be 5 characters or more')
+    .required('Required field'),
+})
+
 export const Login = () => {
   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
   const loading = useAppSelector(state => state.registrationReducer.loading)
@@ -33,13 +41,7 @@ export const Login = () => {
         <h2>Sign In</h2>
         <Formik
           initialValues={{ email: '', password: '', rememberMe: false }}
-          validationSchema={Yup.object({
-            email: Yup.string().email('Invalid email address').required('Required field'),
-            password: Yup.string()
-              .max(25, 'Password must be 25 characters or less')
-              .min(5, 'Password must be 5 characters or more')
-              .required('Required field'),
-          })}
+          validationSchema={SignupSchema}
           onSubmit={(values, { resetForm }) => {
             dispatch(loginTC(values))
             resetForm()
