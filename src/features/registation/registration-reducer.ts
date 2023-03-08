@@ -26,13 +26,13 @@ const setRegisterLoadingAC = (loading: boolean) => ({type: SET_LOADING, loading}
 const setRegisterErrorAC = (error: string) => ({type: SET_ERROR, error} as const)
 
 // thunk creators
-
 export const setRegisterTC = (email: string, password: string) => (dispatch: Dispatch) => {
     dispatch(setRegisterLoadingAC(true))
     let data = {email, password}
     return authAPI.register(data)
         .then((res) => {
             dispatch(setRegisterAC(true))
+            console.log(res)
         })
         .catch((e) => {
             console.log(e.response.data.error)
