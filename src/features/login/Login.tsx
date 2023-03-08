@@ -6,9 +6,10 @@ import { loginTC } from './authReducer'
 import { NavLink, useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import { Loader } from '../../common/components/loader/Loader'
-// import passwordEye from '../../common/assets/pictures/eye.svg'
-// import passwordEyeHide from '../../common/assets/pictures/eye-off.svg'
+import passwordEye from '../../common/assets/pictures/eye.svg'
+import passwordEyeHide from '../../common/assets/pictures/eye-off.svg'
 import { Error } from '../../common/components/error/Error'
+import { PATH } from '../../common/components/routes/RoutesComponent'
 
 const SignupSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required field'),
@@ -32,7 +33,7 @@ export const Login = () => {
   }
 
   if (isAuth) {
-    navigate('/profile')
+    navigate(PATH.PROFILE)
   }
   return (
     <div>
@@ -68,13 +69,13 @@ export const Login = () => {
               {isHidden ? (
                 <img
                   className={styles.registrationEye}
-                  src={"passwordEye"}
+                  src={passwordEye}
                   onClick={imgOnClickHandler}
                 />
               ) : (
                 <img
                   className={styles.registrationEye}
-                  src={"passwordEyeHide"}
+                  src={passwordEyeHide}
                   onClick={imgOnClickHandler}
                 />
               )}
@@ -95,7 +96,7 @@ export const Login = () => {
             </div>
 
             <div className={styles.forgotPasswordContainer}>
-              <NavLink to={'/recover-password'} className={styles.forgotPassword}>
+              <NavLink to={PATH.UPDATE_PASSWORD} className={styles.forgotPassword}>
                 Forgot Password?
               </NavLink>
             </div>
@@ -106,7 +107,7 @@ export const Login = () => {
 
             <div className={styles.haveAccount}>Already have an account?</div>
             <p className={styles.signUpBox}>
-              <NavLink to={'/registration'} className={styles.signUpLink}>
+              <NavLink to={PATH.REGISTRATION} className={styles.signUpLink}>
                 Sign Up
               </NavLink>
             </p>
