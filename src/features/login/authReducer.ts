@@ -1,7 +1,7 @@
-import { Dispatch } from 'redux'
-import { authAPI, LoginRequestType, LoginResponseType } from './authAPI'
-import axios from 'axios'
-import { setErrorAC } from '../../app/appReducer'
+import { Dispatch } from "redux";
+import { authAPI, ChangeDataResponseType, LoginRequestType, LoginResponseType } from "./authAPI";
+import axios from "axios";
+import { setErrorAC } from "../../app/appReducer";
 
 type InitialStateType = {
   _id: string
@@ -22,10 +22,10 @@ type InitialStateType = {
 }
 
 const initialState = {
-  _id: '',
-  email: '',
-  name: '',
-  avatar: '',
+  _id: "",
+  email: "",
+  name: "",
+  avatar: "",
   publicCardPacksCount: 0,
   // количество колод
 
@@ -35,87 +35,130 @@ const initialState = {
   verified: false, // подтвердил ли почту
   rememberMe: false,
 
-  error: '',
-  isAuth: false,
-}
+  error: "",
+  isAuth: false
+};
 
 export const authReducer = (
   state: InitialStateType = initialState,
   action: ActionsType
 ): InitialStateType => {
   switch (action.type) {
-    case 'LOGIN':
+    case "LOGIN":
       return {
         ...state,
         ...action.payload.data,
-        isAuth: action.payload.value,
-      }
+        isAuth: action.payload.value
+      };
+    case "CHANGE_DATA":
+      return {
+        ...state,
+        name: action.payload.data.name ?? "",
+        avatar: action.payload.data.avatar,
+        updated: action.payload.data.updated
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 //types
-type ActionsType = LoginACType
+type ActionsType = LoginACType | ChangeDataACType
 type LoginACType = ReturnType<typeof loginAC>
-
+type ChangeDataACType = ReturnType<typeof changeDataAC>
 type ErrorType = {
   error: string
+}
+type changeDataACType = ChangeDataResponseType & {
+  updated: null | Date
 }
 
 // action creators
 const loginAC = (data: LoginResponseType | InitialStateType, value: boolean) => {
   return {
-    type: 'LOGIN',
+    type: "LOGIN",
     payload: {
       data,
-      value,
-    },
-  } as const
-}
+      value
+    }
+  } as const;
+};
+
+const changeDataAC = (data: changeDataACType) => {
+  return {
+    type: "CHANGE_DATA",
+    payload: {
+      data
+    }
+  } as const;
+};
 
 // thunk creators
 export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) => {
   try {
-    const res: LoginResponseType = await authAPI.login(data)
-    dispatch(loginAC(res, true))
+    const res: LoginResponseType = await authAPI.login(data);
+    dispatch(loginAC(res, true));
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
-      const error = e.response?.data ? e.response.data.error : e.message
-      dispatch(setErrorAC(error))
+      const error = e.response?.data ? e.response.data.error : e.message;
+      dispatch(setErrorAC(error));
     } else {
-      dispatch(setErrorAC('Some error'))
+      dispatch(setErrorAC("Some error"));
     }
   }
-}
+};
 
 export const logoutTC = () => async (dispatch: Dispatch) => {
   try {
-    const res = await authAPI.logout()
-    console.log(res)
-    if (res.statusText === 'OK') {
-      dispatch(loginAC(initialState, false))
+    const res = await authAPI.logout();
+    console.log(res);
+    if (res.statusText === "OK") {
+      dispatch(loginAC(initialState, false));
     }
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
-      const error = e.response?.data ? e.response.data.error : e.message
-      dispatch(setErrorAC(error))
+      const error = e.response?.data ? e.response.data.error : e.message;
+      dispatch(setErrorAC(error));
     } else {
-      dispatch(setErrorAC('Some error'))
+      dispatch(setErrorAC("Some error"));
     }
   }
-}
+};
 
 export const meTC = () => async (dispatch: Dispatch) => {
   try {
-    const res = await authAPI.me()
-    dispatch(loginAC(res, true))
+    const res = await authAPI.me();
+    dispatch(loginAC(res, true));
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
-      const error = e.response?.data ? e.response.data.error : e.message
-      dispatch(setErrorAC(error))
+      const error = e.response?.data ? e.response.data.error : e.message;
+      dispatch(setErrorAC(error));
     } else {
-      dispatch(setErrorAC('Some error'))
+      dispatch(setErrorAC("Some error"));
     }
   }
-}
+};
+
+export const changeDataTC = (data: ChangeDataResponseType) => async (dispatch: Dispatch) => {
+  try {
+    const res = await authAPI.changeData(data);
+    debugger
+    if (res.statusText === "OK") {
+      const {data} = res
+
+      dispatch(changeDataAC({
+        name: data.updatedUser.name,
+        avatar: data.updatedUser.avatar,
+        updated: data.updatedUser.updated
+      }));
+    }
+  } catch (e) {
+    if (axios.isAxiosError<ErrorType>(e)) {
+      const error = e.response?.data ? e.response.data.error : e.message;
+      dispatch(setErrorAC(error));
+    } else {
+      dispatch(setErrorAC("Some error"));
+    }
+  }
+};
+

@@ -30,7 +30,6 @@ export const setProfileTC = () => (dispatch: Dispatch) => {
     dispatch(setProfileLoadingAC(true))
     return authAPI.logout()
         .then((res) => {
-            console.log(res.data)
             dispatch(setLogoutAC(false))
         })
         .catch((e) => {
@@ -38,6 +37,20 @@ export const setProfileTC = () => (dispatch: Dispatch) => {
             dispatch( setProfileErrorAC(e.response.data.error))
         })
         .finally(() => dispatch(setProfileLoadingAC(false)))
+
+}
+
+export const setNewNameTC = () => (dispatch: Dispatch) => {
+    dispatch(setProfileLoadingAC(true))
+    return authAPI.logout()
+      .then((res) => {
+          dispatch(setLogoutAC(false))
+      })
+      .catch((e) => {
+          console.log(e.response.data.error)
+          dispatch( setProfileErrorAC(e.response.data.error))
+      })
+      .finally(() => dispatch(setProfileLoadingAC(false)))
 
 }
 

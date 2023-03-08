@@ -6,8 +6,8 @@ import { loginTC } from './authReducer'
 import { NavLink, useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import { Loader } from '../../common/components/loader/Loader'
-import passwordEye from '../../common/assets/pictures/eye.svg'
-import passwordEyeHide from '../../common/assets/pictures/eye-off.svg'
+// import passwordEye from '../../common/assets/pictures/eye.svg'
+// import passwordEyeHide from '../../common/assets/pictures/eye-off.svg'
 import { Error } from '../../common/components/error/Error'
 
 export const Login = () => {
@@ -40,7 +40,7 @@ export const Login = () => {
               .min(5, 'Password must be 5 characters or more')
               .required('Required field'),
           })}
-          onSubmit={(values, { resetForm }) => {
+          onSubmit={(values : any, { resetForm }) => {
             dispatch(loginTC(values))
             resetForm()
           }}
@@ -64,17 +64,19 @@ export const Login = () => {
                 className={styles.loginInput}
               />
               {isHidden ? (
-                <img
-                  className={styles.registrationEye}
-                  src={passwordEye}
-                  onClick={imgOnClickHandler}
-                />
+                <div></div>
+                // <img
+                //   className={styles.registrationEye}
+                //   src={passwordEye}
+                //   onClick={imgOnClickHandler}
+                // />
               ) : (
-                <img
-                  className={styles.registrationEye}
-                  src={passwordEyeHide}
-                  onClick={imgOnClickHandler}
-                />
+                <div></div>
+                // <img
+                //   className={styles.registrationEye}
+                //   src={passwordEyeHide}
+                //   onClick={imgOnClickHandler}
+                // />
               )}
               <ErrorMessage name="password" component="div" className={styles.error} />
             </div>
