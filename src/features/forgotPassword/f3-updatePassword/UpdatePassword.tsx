@@ -13,35 +13,41 @@ import {PATH} from "../../../common/components/routes/RoutesComponent";
 const UpdatePassword = () => {
 
     const dispatch = useAppDispatch()
-    const errorApi = useAppSelector<string>(state=> state.forgotReducer.error)
-    const newPasswordWasSet = useAppSelector<boolean>(state=> state.forgotReducer.newPasswordWasSet)
-    const isLoading = useAppSelector<boolean>(state=> state.forgotReducer.isLoading)
+    const errorApi = useAppSelector<string>(state => state.forgotReducer.error)
+    const newPasswordWasSet = useAppSelector<boolean>(state => state.forgotReducer.newPasswordWasSet)
+    const isLoading = useAppSelector<boolean>(state => state.forgotReducer.isLoading)
 
     const [newPassword, setNewPassword] = useState<string>('')
     const [updatePasswordError, setUpdatePasswordError] = useState<string>('')
 
     const updatePasswordParam = useParams().setNewPasswordToken
 
-    useEffect(()=> {
+    useEffect(() => {
         setUpdatePasswordError(errorApi)
-    },[errorApi])
+    }, [errorApi])
 
     const buttonOnClickHandler = () => {
-        updatePasswordParam ? dispatch(updatePasswordTC(newPassword,updatePasswordParam)) :  setUpdatePasswordError('errorApi')
+        if (newPassword.length > 6) {
+            updatePasswordParam ? dispatch(updatePasswordTC(newPassword, updatePasswordParam)) : setUpdatePasswordError('errorApi')
+        } else {
+            setUpdatePasswordError('Minimum password length is 7 symbols')
+        }
     }
     const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewPassword(e.currentTarget.value)
         setUpdatePasswordError('')
     }
 
-    if (newPasswordWasSet) {return <Navigate to={PATH.LOGIN}/>}
+    if (newPasswordWasSet) {
+        return <Navigate to={PATH.LOGIN}/>
+    }
 
     return (
         <div className={s.updatePassword}>
             <div className={s.updatePassword_container}>
                 {isLoading && <Loader/>}
                 <ForgotTitle text={"Create new password"}/>
-                <div style={{height:'80px'}}></div>
+                <div style={{height: '80px'}}></div>
                 <RegistrationInput type={'password'} id={'setNewPassword'} text={''} value={newPassword}
                                    onChange={inputOnChangeHandler}/>
                 <ForgotError error={updatePasswordError}/>

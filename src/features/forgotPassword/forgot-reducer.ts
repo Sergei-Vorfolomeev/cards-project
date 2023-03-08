@@ -40,11 +40,11 @@ export const sentEmailTC = (email: string) => (dispatch: Dispatch) => {
     dispatch(setLoadingAC(true))
     dispatch(sentSentLetterAC(false))
     dispatch(setNewPasswordAC(false))
-    setEmailAC(email)
+    dispatch( setEmailAC(''))
     return authAPI.forgot(email)
         .then((res) => {
-            setEmailAC(email)
             dispatch(sentSentLetterAC(true))
+            dispatch( setEmailAC(email))
         })
         .catch((e) => {
             e.response.data.error ? dispatch(setErrorAC(e.response.data.error)) : dispatch(setErrorAC('Invalid Email'))
