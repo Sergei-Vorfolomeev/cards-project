@@ -60,7 +60,7 @@ export const authReducer = (
 type ActionsType = LoginACType
 type LoginACType = ReturnType<typeof loginAC>
 
-type ErrorType = {
+export type ErrorType = {
   error: string
 }
 
