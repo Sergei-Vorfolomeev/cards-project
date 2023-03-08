@@ -43,11 +43,24 @@ export const sentEmailTC = (email: string) => (dispatch: Dispatch) => {
     setEmailAC(email)
     return authAPI.forgot(email)
         .then((res) => {
-            setEmailAC('')
+            setEmailAC(email)
             dispatch(sentSentLetterAC(true))
         })
         .catch((e) => {
             e.response.data.error ? dispatch(setErrorAC(e.response.data.error)) : dispatch(setErrorAC('Invalid Email'))
+        })
+        .finally(() => dispatch(setLoadingAC(false)))
+}
+
+export const updatePasswordTC = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
+    dispatch(setLoadingAC(true))
+    return authAPI.setNewPasswordRequest(password, resetPasswordToken)
+        .then((res)=> {
+            setEmailAC('')
+            dispatch(setNewPasswordAC(true))
+        })
+        .catch((e) => {
+            e.response.data.error ? dispatch(setErrorAC(e.response.data.error)) : dispatch(setErrorAC('Invalid password'))
         })
         .finally(() => dispatch(setLoadingAC(false)))
 }

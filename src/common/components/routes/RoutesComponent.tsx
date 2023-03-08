@@ -5,6 +5,7 @@ import {Profile} from "../../../features/profile/Profile";
 import Registration from "../../../features/registation/Registration";
 import ForgotPassword from "../../../features/forgotPassword/f1-forgotPassword/ForgotPassword";
 import SentEmail from "../../../features/forgotPassword/f2-sentEmail/SentEmail";
+import UpdatePassword from "../../../features/forgotPassword/f3-updatePassword/UpdatePassword";
 
 export const PATH = {
     LOGIN: '/login',
@@ -27,7 +28,7 @@ export const RoutesComponent = () => {
             <Route path={PATH.PROFILE} element={<Profile/>}/>
             <Route path={PATH.UPDATE_PASSWORD} element={<ForgotPassword/>}/>
             <Route path={PATH.UPDATE_PASSWORD_INFO} element={<SentEmail/>}/>
-            <Route path={PATH.SET_NEW_PASSWORD} element={<Profile/>}/>
+            <Route path={PATH.SET_NEW_PASSWORD} element={<UpdatePassword/>}/>
         </Routes>
     )
 }
