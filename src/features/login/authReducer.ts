@@ -2,6 +2,7 @@ import { Dispatch } from 'redux'
 import { authAPI, LoginRequestType, LoginResponseType } from './authAPI'
 import axios from 'axios'
 import { setErrorAC } from '../../app/appReducer'
+import { setRegisterLoadingAC } from '../registation/registration-reducer'
 
 type InitialStateType = {
   _id: string
@@ -76,6 +77,7 @@ const loginAC = (data: LoginResponseType | InitialStateType, value: boolean) => 
 
 // thunk creators
 export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) => {
+  dispatch(setRegisterLoadingAC(true))
   try {
     const res: LoginResponseType = await authAPI.login(data)
     dispatch(loginAC(res, true))
@@ -86,10 +88,13 @@ export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) =>
     } else {
       dispatch(setErrorAC('Some error'))
     }
+  } finally {
+    dispatch(setRegisterLoadingAC(false))
   }
 }
 
 export const logoutTC = () => async (dispatch: Dispatch) => {
+  dispatch(setRegisterLoadingAC(true))
   try {
     const res = await authAPI.logout()
     console.log(res)
@@ -103,6 +108,8 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
     } else {
       dispatch(setErrorAC('Some error'))
     }
+  } finally {
+    dispatch(setRegisterLoadingAC(false))
   }
 }
 
