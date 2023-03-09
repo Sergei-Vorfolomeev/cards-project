@@ -1,37 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import s from "./Profile.module.css";
-import { Dispatch } from "redux";
-import { authAPI } from "../login/authAPI";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { setProfileTC } from "./profile-reducer";
-import { useNavigate } from "react-router-dom";
-import { changeDataTC, logoutTC } from "../login/authReducer";
-import { EditableSpan } from "../../common/components/editable-span/EditableSpan";
+import { Navigate, useParams } from "react-router-dom";
+import { changeDataTC, logoutTC, meTC } from "../login/authReducer";
+import { EditableSpan } from "./editable-span/EditableSpan";
+import { Loader } from "../../common/components/loader/Loader";
+import avatar from "./img/avatar.jpg"
 
 
 export const Profile = () => {
 
-  const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
-  const name = useAppSelector<string>(state => state.auth.name)
+  const isAuth = useAppSelector<boolean>(state => state.auth.isAuth);
+  const name = useAppSelector<string>(state => state.auth.name);
+  const loading = useAppSelector(state => state.registrationReducer.loading)
 
-  const navigate = useNavigate()
-
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const onClickHandler = () => {
-    dispatch(logoutTC())
-  }
+    dispatch(logoutTC());
+  };
 
   const onChangeHandler = (newValue: string) => {
-    if(newValue){
-      dispatch(changeDataTC({name:newValue}))
+    if (newValue) {
+      dispatch(changeDataTC({ name: newValue }));
     }
-  }
+  };
+
+  console.log(isAuth);
 
   if (!isAuth) {
-    navigate('/login')
+    return <Navigate to={"/login"} />;
   }
-  return <div className={s.profile_container}>
+  return (loading ? <Loader/> : <div className={s.profile_container}>
     <div className={s.backbutton_wrapper}>
       <button className={s.profile_backbutton}>Back to Packs List</button>
     </div>
@@ -39,17 +39,16 @@ export const Profile = () => {
       <h2>Personal Information</h2>
       <div>
         <div>
-          <img src="/" alt="" />
+          <img src={avatar} alt="avatar" />
         </div>
-        <div>
-          <EditableSpan value={name} onChange={onChangeHandler}/>
-          <img src="/" alt="" />
+        <div className={s.profileName}>
+          <EditableSpan value={name} onChange={onChangeHandler} />
         </div>
-        <div>
-         'j&johnson@gmail.com'
+        <div className={s.profileEmail}>
+          'j&johnson@gmail.com'
         </div>
-        <button className={s.profile_button} onClick={onClickHandler}>Log out</button>
+        <button className={s.profileButton} onClick={onClickHandler}>Log out</button>
       </div>
     </div>
-  </div>;
+  </div>);
 };

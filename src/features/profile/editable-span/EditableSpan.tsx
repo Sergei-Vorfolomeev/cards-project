@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import {TextField} from "@mui/material";
+import editIcon from "./../img/edit.svg"
+import s from "./../Profile.module.css";
 
 
 type EditableSpanPropsType = {
@@ -26,5 +28,13 @@ export const EditableSpan = React.memo(function(props: EditableSpanPropsType) {
 
   return editMode
     ?    <TextField value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
-    : <span onDoubleClick={activateEditMode}>{props.value}</span>
+    :
+    <div className={s.spanBlock}>
+    <span onDoubleClick={activateEditMode}>{props.value}</span>
+      <img
+        src={editIcon}
+        className={s.editIcon}
+        alt={'edit'}
+      />
+    </div>
 })

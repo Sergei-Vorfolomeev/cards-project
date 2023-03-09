@@ -5,6 +5,7 @@ const initialValue: initialValueType = {
     loading: false,
     error: '',
     isAuth: true
+    // isLogin: false
 }
 
 export const profileReducer = (state: initialValueType = initialValue, action: ActionTypes): initialValueType => {

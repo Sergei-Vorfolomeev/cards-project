@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { authAPI, ChangeDataResponseType, LoginRequestType, LoginResponseType } from "./authAPI";
 import axios from "axios";
 import { setErrorAC } from "../../app/appReducer";
+import { setRegisterLoadingAC } from "../registation/registration-reducer";
 
 type InitialStateType = {
   _id: string
@@ -50,6 +51,11 @@ export const authReducer = (
         ...action.payload.data,
         isAuth: action.payload.value
       };
+    case "LOGOUT":
+      return {
+        ...state,
+        isAuth: action.payload.isAuth
+      };
     case "CHANGE_DATA":
       return {
         ...state,
@@ -63,8 +69,9 @@ export const authReducer = (
 };
 
 //types
-type ActionsType = LoginACType | ChangeDataACType
+type ActionsType = LoginACType | ChangeDataACType | LogoutACType
 type LoginACType = ReturnType<typeof loginAC>
+type LogoutACType = ReturnType<typeof logoutAC>
 type ChangeDataACType = ReturnType<typeof changeDataAC>
 type ErrorType = {
   error: string
@@ -93,6 +100,15 @@ const changeDataAC = (data: changeDataACType) => {
   } as const;
 };
 
+const logoutAC = (isAuth: boolean) => {
+  return {
+    type: "LOGOUT",
+    payload: {
+      isAuth
+    }
+  } as const;
+};
+
 // thunk creators
 export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) => {
   try {
@@ -111,9 +127,8 @@ export const loginTC = (data: LoginRequestType) => async (dispatch: Dispatch) =>
 export const logoutTC = () => async (dispatch: Dispatch) => {
   try {
     const res = await authAPI.logout();
-    console.log(res);
     if (res.statusText === "OK") {
-      dispatch(loginAC(initialState, false));
+      dispatch(logoutAC(false));
     }
   } catch (e) {
     if (axios.isAxiosError<ErrorType>(e)) {
@@ -127,6 +142,7 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
 
 export const meTC = () => async (dispatch: Dispatch) => {
   try {
+    dispatch(setRegisterLoadingAC(true));
     const res = await authAPI.me();
     dispatch(loginAC(res, true));
   } catch (e) {
@@ -136,16 +152,17 @@ export const meTC = () => async (dispatch: Dispatch) => {
     } else {
       dispatch(setErrorAC("Some error"));
     }
+  } finally {
+      dispatch(setRegisterLoadingAC(false));
   }
+
 };
 
 export const changeDataTC = (data: ChangeDataResponseType) => async (dispatch: Dispatch) => {
   try {
     const res = await authAPI.changeData(data);
-    debugger
     if (res.statusText === "OK") {
-      const {data} = res
-
+      const { data } = res;
       dispatch(changeDataAC({
         name: data.updatedUser.name,
         avatar: data.updatedUser.avatar,

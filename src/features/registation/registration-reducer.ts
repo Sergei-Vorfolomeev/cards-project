@@ -22,7 +22,7 @@ export const registrationReducer = (state: initialValueType = initialValue, acti
 
 // action creators
 const setRegisterAC = (register: boolean) => ({type: SET_REGISTER, register} as const)
-const setRegisterLoadingAC = (loading: boolean) => ({type: SET_LOADING, loading} as const)
+export const setRegisterLoadingAC = (loading: boolean) => ({type: SET_LOADING, loading} as const)
 const setRegisterErrorAC = (error: string) => ({type: SET_ERROR, error} as const)
 
 // thunk creators

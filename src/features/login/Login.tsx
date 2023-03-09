@@ -27,7 +27,7 @@ export const Login = () => {
     navigate('/profile')
   }
   return (
-    <div>
+    (loading ? <Loader/> : <div>
       <div className={styles.login}>
         {loading && <Loader />}
         <h2>Sign In</h2>
@@ -115,5 +115,5 @@ export const Login = () => {
       </div>
       {errorMessage && <Error message={errorMessage} />}
     </div>
-  )
+  ))
 }
