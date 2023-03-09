@@ -36,7 +36,7 @@ export const Login = () => {
     navigate(PATH.PROFILE)
   }
   return (
-    <div>
+    (loading ? <Loader/> : <div>
       <div className={styles.login}>
         {loading && <Loader />}
         <h2>Sign In</h2>

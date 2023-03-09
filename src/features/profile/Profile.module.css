@@ -1,12 +1,12 @@
 .profile_container {
     width: 100%;
-    max-width: 1170px;
+    max-width: 1000px;
     margin: auto;
 }
 
 .profile_wrapper {
     width: 413px;
-    height: 528px;
+    height: auto;
     background: #FFFFFF;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
     border-radius: 2px;
@@ -16,34 +16,62 @@
 }
 
 .profile_container h2 {
-    padding-top: 35px;
     font-family: 'Montserrat', sans-serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 26px;
-    line-height: 32px;
+    font-size: 22px;
+    line-height: 27px;
     color: #000000;
+    padding-top: 0;
+    margin-top: 0;
     text-align: center;
+    margin-bottom: 30px;
 }
 
-.profile_button {
-    color: #FFFFFF;
+.profileButton {
+
     background: none;
     border: none;
     padding: 0;
-    font: inherit;
     cursor: pointer;
     outline: inherit;
-    margin-top: 60px;
-    background: #366EFF;
-    border-radius: 30px;
+    margin-top: 28px;
     height: 36px;
-    width: 100%;
-    font-size: 16px;
+    min-width: 127px;
+    width: fit-content;
     line-height: 20px;
     text-align: center;
     letter-spacing: 0.01em;
+    background: #FCFCFC;
+    box-shadow: 0px 2px 10px rgb(109 109 109 / 25%), inset 0px 1px 0px rgb(255 255 255 / 30%);
+    border-radius: 30px;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.01em;
+    color: #000000;
+    opacity: 0.8;
+    padding-left: 18px;
+    padding-top: 2px;
 }
+
+.profileButton:before {
+    content: '';
+    background-image: url("./img/logout.svg");
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 5px;
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 21px;
+}
+
 
 .profile_backbutton {
     font-family: 'Montserrat', sans-serif;
@@ -60,7 +88,7 @@
     background: no-repeat;
     border: none;
     outline: none;
-
+padding: 0;
 }
 
 .profile_backbutton:before {
@@ -68,7 +96,49 @@
     background-image: url("./img/arrow.svg");
     width: 14px;
     height: 11px;
-    background-repeat: no-repeat ;
+    background-repeat: no-repeat;
     background-position: center;
-    margin-right: 5px;
+    margin-right: 14px;
 }
+
+.backbutton_wrapper {
+    margin-top: 23px;
+    margin-bottom: 11px;
+}
+
+.profileName span {
+    margin-top: 13px;
+}
+
+.profileName {
+    margin-top: 13px;
+}
+
+.profileName span {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+
+}
+
+.editIcon {
+    margin-left: 9px;
+}
+
+
+.profileEmail {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    opacity: 0.5;
+    margin-top: 15px;
+}
+
+
+
+
