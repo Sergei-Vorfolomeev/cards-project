@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/github.io/friday-project/static/css/main.fab5a4d1.css",
-    "main.js": "/github.io/friday-project/static/js/main.868959d4.js",
+    "main.js": "/github.io/friday-project/static/js/main.cdb8fb12.js",
     "static/js/787.7136d4b4.chunk.js": "/github.io/friday-project/static/js/787.7136d4b4.chunk.js",
     "static/media/error.svg": "/github.io/friday-project/static/media/error.5a3135f381b00b53044eff200e725391.svg",
     "static/media/avatar.jpg": "/github.io/friday-project/static/media/avatar.73d18715c70ac4f7fd5e.jpg",
@@ -13,11 +13,11 @@
     "static/media/eye.svg": "/github.io/friday-project/static/media/eye.a0e7779d11a558ef0ba69f4ede0d084a.svg",
     "static/media/arrow.svg": "/github.io/friday-project/static/media/arrow.9c43ee4473c188dca315.svg",
     "main.fab5a4d1.css.map": "/github.io/friday-project/static/css/main.fab5a4d1.css.map",
-    "main.868959d4.js.map": "/github.io/friday-project/static/js/main.868959d4.js.map",
+    "main.cdb8fb12.js.map": "/github.io/friday-project/static/js/main.cdb8fb12.js.map",
     "787.7136d4b4.chunk.js.map": "/github.io/friday-project/static/js/787.7136d4b4.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fab5a4d1.css",
-    "static/js/main.868959d4.js"
+    "static/js/main.cdb8fb12.js"
   ]
 }
