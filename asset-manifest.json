@@ -1,16 +1,23 @@
 {
   "files": {
-    "main.css": "/friday-project/static/css/main.073c9b0a.css",
-    "main.js": "/friday-project/static/js/main.b6e60580.js",
-    "static/js/787.7136d4b4.chunk.js": "/friday-project/static/js/787.7136d4b4.chunk.js",
-    "static/media/logo.svg": "/friday-project/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/friday-project/index.html",
-    "main.073c9b0a.css.map": "/friday-project/static/css/main.073c9b0a.css.map",
-    "main.b6e60580.js.map": "/friday-project/static/js/main.b6e60580.js.map",
-    "787.7136d4b4.chunk.js.map": "/friday-project/static/js/787.7136d4b4.chunk.js.map"
+    "main.css": "/github.io/friday-project/static/css/main.fab5a4d1.css",
+    "main.js": "/github.io/friday-project/static/js/main.868959d4.js",
+    "static/js/787.7136d4b4.chunk.js": "/github.io/friday-project/static/js/787.7136d4b4.chunk.js",
+    "static/media/error.svg": "/github.io/friday-project/static/media/error.5a3135f381b00b53044eff200e725391.svg",
+    "static/media/avatar.jpg": "/github.io/friday-project/static/media/avatar.73d18715c70ac4f7fd5e.jpg",
+    "static/media/checkEmail.svg": "/github.io/friday-project/static/media/checkEmail.836e246556dd50d082cf05d8309583a6.svg",
+    "static/media/edit.svg": "/github.io/friday-project/static/media/edit.14cfa330cce6f5cbb9f53dbb63a16248.svg",
+    "static/media/eye-off.svg": "/github.io/friday-project/static/media/eye-off.cae665a627b70e724b35c67236a636a9.svg",
+    "index.html": "/github.io/friday-project/index.html",
+    "static/media/logout.svg": "/github.io/friday-project/static/media/logout.819881059549eb959ed2.svg",
+    "static/media/eye.svg": "/github.io/friday-project/static/media/eye.a0e7779d11a558ef0ba69f4ede0d084a.svg",
+    "static/media/arrow.svg": "/github.io/friday-project/static/media/arrow.9c43ee4473c188dca315.svg",
+    "main.fab5a4d1.css.map": "/github.io/friday-project/static/css/main.fab5a4d1.css.map",
+    "main.868959d4.js.map": "/github.io/friday-project/static/js/main.868959d4.js.map",
+    "787.7136d4b4.chunk.js.map": "/github.io/friday-project/static/js/787.7136d4b4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.b6e60580.js"
+    "static/css/main.fab5a4d1.css",
+    "static/js/main.868959d4.js"
   ]
 }
