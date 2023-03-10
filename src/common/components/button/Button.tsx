@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './Button.module.css'
 
 type ButtonPropsType = {
   name: string
@@ -11,7 +12,7 @@ export const Button = ({ name, callBack }: ButtonPropsType) => {
 
   return (
     <div>
-      <button onClick={onClickHandler} type={'button'}>
+      <button onClick={onClickHandler} type={'button'} className={styles.btn}>
         {name}
       </button>
     </div>
