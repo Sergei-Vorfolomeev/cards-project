@@ -24,6 +24,7 @@ export const RoutesComponent = () => {
   return (
     <Routes>
       {/*add your routes here*/}
+      <Route path={'/'} element={<Profile />} />
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.REGISTRATION} element={<Registration />} />
       <Route path={PATH.PROFILE} element={<Profile />} />
