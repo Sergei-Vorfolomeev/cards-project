@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styles from './Error.module.css'
-// import closeIcon from '../../assets/pictures/icons8-macos-close-30.png'
+import closeIcon from '../../assets/pictures/icons8-macos-close-30.png'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { setErrorAC } from '../../../app/appReducer'
 
@@ -29,7 +29,7 @@ export const Error = ({ message }: ErrorPropsType) => {
   return (
     <div className={styles.errorBox}>
       <span className={styles.errorMessage}>{message}</span>
-      {/*<img src={closeIcon} alt="closeIcon" className={styles.closeIcon} onClick={closeError} />*/}
+      <img src={closeIcon} alt="closeIcon" className={styles.closeIcon} onClick={closeError} />
     </div>
   )
 }

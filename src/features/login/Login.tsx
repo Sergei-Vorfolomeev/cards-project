@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '../../app/store'
@@ -21,7 +21,7 @@ const SignupSchema = Yup.object({
 
 export const Login = () => {
   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
-  const loading = useAppSelector(state => state.registrationReducer.loading)
+  const loading = useAppSelector(state => state.app.loading)
   const errorMessage = useAppSelector<string>(state => state.app.errorMessage)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -32,11 +32,16 @@ export const Login = () => {
     setIsHidden(!isHidden)
   }
 
-  if (isAuth) {
-    navigate(PATH.PROFILE)
-  }
-  return (
-    (loading ? <Loader/> : <div>
+  useEffect(() => {
+    if (isAuth) {
+      navigate(PATH.PROFILE)
+    }
+  }, [isAuth, navigate])
+
+  return loading ? (
+    <Loader />
+  ) : (
+    <div>
       <div className={styles.login}>
         {loading && <Loader />}
         <h2>Sign In</h2>
@@ -71,12 +76,14 @@ export const Login = () => {
                   className={styles.registrationEye}
                   src={passwordEye}
                   onClick={imgOnClickHandler}
+                  alt={'passwordEye'}
                 />
               ) : (
                 <img
                   className={styles.registrationEye}
                   src={passwordEyeHide}
                   onClick={imgOnClickHandler}
+                  alt={'passwordEyeHide'}
                 />
               )}
               <ErrorMessage name="password" component="div" className={styles.error} />

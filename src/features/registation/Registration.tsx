@@ -1,90 +1,100 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import s from "./Registration.module.css";
-import { Navigate, NavLink } from "react-router-dom";
-import { Loader } from "../../common/components/loader/Loader";
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { setRegisterTC } from "./registration-reducer";
-import RegistrationInput from "./registrationInput/RegistrationInput";
+import React, { ChangeEvent, useState } from 'react'
+import s from './Registration.module.css'
+import { Navigate, NavLink } from 'react-router-dom'
+import { Loader } from '../../common/components/loader/Loader'
+import { useAppDispatch, useAppSelector } from '../../app/store'
+import RegistrationInput from './registrationInput/RegistrationInput'
+import { setErrorAC } from '../../app/appReducer'
+import { Error } from '../../common/components/error/Error'
+import { PATH } from '../../common/components/routes/RoutesComponent'
+import { setRegisterTC } from '../login/authReducer'
 
 const Registration = () => {
+  const errorMessage = useAppSelector<string>(state => state.app.errorMessage)
+  const loading = useAppSelector(state => state.app.loading)
+  const register = useAppSelector(state => state.auth.register)
+  const dispatch = useAppDispatch()
 
-  const errorApi = useAppSelector<any>(state => state.registrationReducer.error);
-  const loading = useAppSelector(state => state.registrationReducer.loading);
-  const register = useAppSelector(state => state.registrationReducer.register);
-  const dispatch = useAppDispatch();
-
-  const [emailValue, setEmailValue] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordCheck, setPasswordCheck] = useState<string>("");
-  const [registrationError, setRegistrationError] = useState<string>("");
-
-  useEffect(() => {
-    setRegistrationError(errorApi);
-  }, [errorApi]);
+  const [emailValue, setEmailValue] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [passwordCheck, setPasswordCheck] = useState<string>('')
 
   const ButtonOnClickHandler = () => {
-    setRegistrationError("");
     if (password && passwordCheck) {
       if (password === passwordCheck) {
         if (password.length > 2) {
-          dispatch(setRegisterTC(emailValue, password));
-          setRegistrationError(errorApi);
+          dispatch(setRegisterTC(emailValue, password))
         } else {
-          setRegistrationError("Password is not safe. It must be minimum 3 symbols");
+          dispatch(setErrorAC('Password is not safe. It must be minimum 3 symbols'))
         }
       } else {
-        setRegistrationError("Password is different from the confirmed password");
+        dispatch(setErrorAC('Password is different from the confirmed password'))
       }
     } else {
-      setRegistrationError("Create password and confirm it");
+      dispatch(setErrorAC('Create password and confirm it'))
     }
-  };
+  }
 
-// OnChangeHandlers
+  // OnChangeHandlers
 
   const emailOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmailValue(e.currentTarget.value);
-    setRegistrationError("");
-  };
+    setEmailValue(e.currentTarget.value)
+  }
   const emailOnBlurHandler = () => {
-    const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-    !EMAIL_REGEXP.test(emailValue) ? setRegistrationError("Add correct email") : setRegistrationError("");
-  };
+    const EMAIL_REGEXP =
+      /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+    !EMAIL_REGEXP.test(emailValue) && dispatch(setErrorAC('Add correct email'))
+  }
 
   const passwordOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.currentTarget.value);
-    registrationError !== "Add correct email" ? setRegistrationError("") : setRegistrationError("Add correct email");
-  };
+    setPassword(e.currentTarget.value)
+  }
   const passwordCheckOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setPasswordCheck(e.currentTarget.value);
-    registrationError !== "Add correct email" ? setRegistrationError("") : setRegistrationError("Add correct email");
-  };
+    setPasswordCheck(e.currentTarget.value)
+  }
 
   if (register) {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={PATH.PROFILE} />
   } else {
     return (
       <div className={s.registration}>
         {loading && <Loader />}
         <h2>Sign Up</h2>
         <form>
-          <RegistrationInput type={"email"} id={"email"} text={"Email"} value={emailValue}
-                             onChange={emailOnChangeHandler} onBlur={emailOnBlurHandler} />
-          <RegistrationInput type={"password"} id={"password"} text={"Password"} value={password}
-                             onChange={passwordOnChangeHandler} />
-          <RegistrationInput type={"password"} id={"passwordCheck"} text={"Confirm password"}
-                             value={passwordCheck}
-                             onChange={passwordCheckOnChangeHandler} />
-          <button className={s.registration_button} type={"submit"} onClick={ButtonOnClickHandler}>Sign Up
+          <RegistrationInput
+            type={'email'}
+            id={'email'}
+            text={'Email'}
+            value={emailValue}
+            onChange={emailOnChangeHandler}
+            onBlur={emailOnBlurHandler}
+          />
+          <RegistrationInput
+            type={'password'}
+            id={'password'}
+            text={'Password'}
+            value={password}
+            onChange={passwordOnChangeHandler}
+          />
+          <RegistrationInput
+            type={'password'}
+            id={'passwordCheck'}
+            text={'Confirm password'}
+            value={passwordCheck}
+            onChange={passwordCheckOnChangeHandler}
+          />
+          <button className={s.registration_button} type={'submit'} onClick={ButtonOnClickHandler}>
+            Sign Up
           </button>
         </form>
-        <div className={s.registration_error}>{registrationError}</div>
+        {errorMessage && <Error message={errorMessage} />}
         <p className={s.registration_haveAccount}>Already have an account?</p>
-        <p className={s.registration_loginReference}><NavLink to={"/login"}>Sign In</NavLink></p>
+        <p className={s.registration_loginReference}>
+          <NavLink to={PATH.LOGIN}>Sign In</NavLink>
+        </p>
       </div>
-    );
+    )
   }
-};
+}
 
-
-export default Registration;
+export default Registration
