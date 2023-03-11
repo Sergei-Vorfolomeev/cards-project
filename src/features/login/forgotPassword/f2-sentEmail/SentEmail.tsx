@@ -1,14 +1,15 @@
 import React from 'react'
 import s from './SentEmail.module.css'
 import ForgotTitle from '../f4-common/forgotTitle/ForgotTitle'
-import checkEmailImg from '../../../common/assets/pictures/checkEmail.svg'
+import checkEmailImg from '../../../../common/assets/pictures/checkEmail.svg'
 import ForgotButton from '../f4-common/forgotButton/ForgotButton'
-import { useAppSelector } from '../../../app/store'
 import { useNavigate } from 'react-router-dom'
-import { PATH } from '../../../common/components/routes/RoutesComponent'
+import { PATH } from '../../../../common/components/routes/RoutesComponent'
+import { useSelector } from 'react-redux'
+import { getEmail } from '../../loginSelectors'
 
 const SentEmail = () => {
-  const email = useAppSelector(state => state.auth.email)
+  const email = useSelector(getEmail)
   const navigate = useNavigate()
 
   const buttonOnClickHandler = () => {

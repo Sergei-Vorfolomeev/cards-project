@@ -1,21 +1,25 @@
 import React, { ChangeEvent, useState } from 'react'
 import s from './UpdatePassword.module.css'
 import ForgotTitle from '../f4-common/forgotTitle/ForgotTitle'
-import RegistrationInput from '../../registation/registrationInput/RegistrationInput'
+import RegistrationInput from '../../../registration/registrationInput/RegistrationInput'
 import ForgotButton from '../f4-common/forgotButton/ForgotButton'
-import { Error } from '../../../common/components/error/Error'
-import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { Loader } from '../../../common/components/loader/Loader'
+import { Error } from '../../../../common/components/error/Error'
+import { useAppDispatch } from '../../../../app/store'
+import { Loader } from '../../../../common/components/loader/Loader'
 import { Navigate, useParams } from 'react-router-dom'
-import { PATH } from '../../../common/components/routes/RoutesComponent'
-import { setErrorAC } from '../../../app/appReducer'
-import { updatePasswordTC } from '../../login/authReducer'
+import { PATH } from '../../../../common/components/routes/RoutesComponent'
+import { setErrorAC } from '../../../../app/appReducer'
+import { updatePasswordTC } from '../../authReducer'
+import { useSelector } from 'react-redux'
+import { getErrorMessage, getLoading } from '../../../../app/appSelectors'
+import { getNewPasswordWasSet } from '../../loginSelectors'
 
 const UpdatePassword = () => {
+  const newPasswordWasSet = useSelector(getNewPasswordWasSet)
+  const isLoading = useSelector(getLoading)
+  const errorMessage = useSelector(getErrorMessage)
+
   const dispatch = useAppDispatch()
-  const newPasswordWasSet = useAppSelector<boolean>(state => state.auth.newPasswordWasSet)
-  const isLoading = useAppSelector<boolean>(state => state.app.loading)
-  const errorMessage = useAppSelector<string>(state => state.app.errorMessage)
 
   const [newPassword, setNewPassword] = useState<string>('')
 

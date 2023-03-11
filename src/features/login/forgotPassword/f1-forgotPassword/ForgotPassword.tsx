@@ -1,20 +1,24 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
 import s from './ForgotPassword.module.css'
 import { Navigate, NavLink } from 'react-router-dom'
-import { PATH } from '../../../common/components/routes/RoutesComponent'
+import { PATH } from '../../../../common/components/routes/RoutesComponent'
 import ForgotButton from '../f4-common/forgotButton/ForgotButton'
 import ForgotTitle from '../f4-common/forgotTitle/ForgotTitle'
-import { Error } from '../../../common/components/error/Error'
-import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { Loader } from '../../../common/components/loader/Loader'
-import { setErrorAC } from '../../../app/appReducer'
-import { sentEmailTC } from '../../login/authReducer'
+import { Error } from '../../../../common/components/error/Error'
+import { useAppDispatch, useAppSelector } from '../../../../app/store'
+import { Loader } from '../../../../common/components/loader/Loader'
+import { setErrorAC } from '../../../../app/appReducer'
+import { sentEmailTC } from '../../authReducer'
+import { useSelector } from 'react-redux'
+import { getErrorMessage, getLoading } from '../../../../app/appSelectors'
+import { getLetterWasSent } from '../../loginSelectors'
 
 export const ForgotPassword = () => {
+  const isLoading = useSelector(getLoading)
+  const errorMessage = useSelector(getErrorMessage)
+  const letterWasSent = useSelector(getLetterWasSent)
+
   const dispatch = useAppDispatch()
-  const errorMessage = useAppSelector<string>(state => state.app.errorMessage)
-  const isLoading = useAppSelector<boolean>(state => state.app.loading)
-  const letterWasSent = useAppSelector<boolean>(state => state.auth.letterWasSent)
 
   const [email, setEmail] = useState<string>('')
 

@@ -8,11 +8,14 @@ import avatar from './img/avatar.jpg'
 import { EditableSpan } from './editable-span/EditableSpan'
 import { changeDataTC, logoutTC } from '../login/authReducer'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { getName } from './profileSelectors'
+import { useSelector } from 'react-redux'
+import { getEmail, getIsAuth } from '../login/loginSelectors'
 
 export const Profile = () => {
-  const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
-  const email = useAppSelector<string>(state => state.auth.email)
-  const name = useAppSelector<string>(state => state.auth.name)
+  const isAuth = useSelector(getIsAuth)
+  const email = useSelector(getEmail)
+  const name = useSelector(getName)
   const loading = useAppSelector(state => state.app.loading)
   const errorMessage = useAppSelector<string>(state => state.app.errorMessage)
 

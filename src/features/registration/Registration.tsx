@@ -2,17 +2,20 @@ import React, { ChangeEvent, useState } from 'react'
 import s from './Registration.module.css'
 import { Navigate, NavLink } from 'react-router-dom'
 import { Loader } from '../../common/components/loader/Loader'
-import { useAppDispatch, useAppSelector } from '../../app/store'
+import { useAppDispatch } from '../../app/store'
 import RegistrationInput from './registrationInput/RegistrationInput'
 import { setErrorAC } from '../../app/appReducer'
 import { Error } from '../../common/components/error/Error'
 import { PATH } from '../../common/components/routes/RoutesComponent'
 import { setRegisterTC } from '../login/authReducer'
+import { useSelector } from 'react-redux'
+import { getErrorMessage, getLoading } from '../../app/appSelectors'
+import { getRegister } from '../login/loginSelectors'
 
 const Registration = () => {
-  const errorMessage = useAppSelector<string>(state => state.app.errorMessage)
-  const loading = useAppSelector(state => state.app.loading)
-  const register = useAppSelector(state => state.auth.register)
+  const errorMessage = useSelector(getErrorMessage)
+  const loading = useSelector(getLoading)
+  const register = useSelector(getRegister)
   const dispatch = useAppDispatch()
 
   const [emailValue, setEmailValue] = useState<string>('')
