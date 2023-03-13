@@ -16,7 +16,7 @@ export const packsReducer = (state: initialStateType = initialState, action: Act
         case 'packs/SET-NEW-PACKS':
             return {...action.packs}
         case 'packs/SET-PACKS-SORTED':
-            return {...action.packs}
+            return {...state, cardPacks: [...action.packs]}
         default:
             return state
     }
@@ -25,7 +25,7 @@ export const packsReducer = (state: initialStateType = initialState, action: Act
 // action creators
 
 const setAllPacksAC = (packs: initialStateType) => ({type: 'packs/SET-NEW-PACKS', packs} as const)
-export const setAllPacksSortedAC = (packs: initialStateType) => ({type: 'packs/SET-PACKS-SORTED', packs} as const)
+export const setAllPacksSortedAC = (packs: PackType[]) => ({type: 'packs/SET-PACKS-SORTED', packs} as const)
 
 
 // think creators
@@ -39,7 +39,7 @@ export const getAllPacksTC = () => async (dispatch: Dispatch) => {
     }
 }
 
-export const setAllPacksSortedTC = (packs: initialStateType) =>  (dispatch: Dispatch) => {
+export const setAllPacksSortedTC = (packs: PackType[]) =>  (dispatch: Dispatch) => {
     try {
         dispatch(setAllPacksSortedAC(packs))
     } catch (e:any) {
