@@ -1,6 +1,8 @@
 .packsInputForm {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .packsLabel {
@@ -11,6 +13,7 @@
     line-height: 17px;
     color: #000000;
     text-align: left;
+    margin-bottom: 10px;
 }
 
 .packsInput {
@@ -27,8 +30,12 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 24px;
-    color: #000000;
-    opacity: 0.5;
+    color: #000000 ;
+
+}
+
+.packsInput:focus {
+    outline: none;
 }
 
 @media (max-width: 600px){

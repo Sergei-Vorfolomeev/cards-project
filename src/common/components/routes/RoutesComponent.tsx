@@ -8,6 +8,7 @@ import SentEmail from '../../../features/login/forgotPassword/f2-sentEmail/SentE
 import UpdatePassword from '../../../features/login/forgotPassword/f3-updatePassword/UpdatePassword'
 import Page404 from './page404/Page404'
 import {AllPacks} from "../../../features/packs/p1-allPacks/AllPacks";
+import {MyPacks} from "../../../features/packs/p4-myPacks/MyPacks";
 
 export const PATH = {
     LOGIN: '/login',
@@ -18,7 +19,8 @@ export const PATH = {
     UPDATE_PASSWORD_INFO: '/updatePassword/info',
     SET_NEW_PASSWORD: '/set-new-password/:setNewPasswordToken?',
     ERROR_404: '/error404',
-    PACKS_ALL: '/allPacks'
+    PACKS_ALL: '/allPacks',
+    PACKS_MY: '/myPacks'
 }
 
 export const RoutesComponent = () => {
@@ -33,6 +35,7 @@ export const RoutesComponent = () => {
             <Route path={PATH.UPDATE_PASSWORD_INFO} element={<SentEmail/>}/>
             <Route path={PATH.SET_NEW_PASSWORD} element={<UpdatePassword/>}/>
             <Route path={PATH.PACKS_ALL} element={<AllPacks/>}/>
+            <Route path={PATH.PACKS_MY} element={<MyPacks/>}/>
 
             <Route path={PATH.ERROR_404} element={<Page404/>}/>
             <Route path="*" element={<Navigate to={PATH.ERROR_404}/>}/>

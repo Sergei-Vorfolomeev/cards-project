@@ -1,0 +1,27 @@
+.allPacks {
+
+}
+
+.allPacks_container {
+    width: 80%;
+    margin: 0px auto;
+}
+
+.allPacks_titleAndButton {
+    margin-top: 39px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.allPacks_interface {
+    margin-top: 34px;
+    display: flex;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+}
+
+.allPacks_interface img {
+    margin-top: 40px;
+}

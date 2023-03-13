@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './BackToPackLists.module.css'
-import arrowBack from '../../../../common/assets/pictures/arrowBack.svg'
+import arrowBack from '../../../../../common/assets/pictures/arrowBack.svg'
 
 export const BackToPackLists = () => {
     return (

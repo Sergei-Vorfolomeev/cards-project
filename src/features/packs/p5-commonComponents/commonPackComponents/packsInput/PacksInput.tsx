@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './PacksInput.module.css'
-import searchIcon from '../../../../common/assets/pictures/searchIcon.svg'
+import searchIcon from '../../../../../common/assets/pictures/searchIcon.svg'
 
 type PropsType = {
     id: string
@@ -8,7 +8,7 @@ type PropsType = {
     type: string
     value: string
     width: string
-    onChange: () => void
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 export const PacksInput = ({id,text,type,value,onChange,width}:PropsType) => {

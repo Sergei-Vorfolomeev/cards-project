@@ -41,7 +41,7 @@ export const Profile = () => {
   ) : (
     <div className={s.profile_container}>
       <div className={s.backbutton_wrapper}>
-        <button className={s.profile_backbutton}>Back to Packs List</button>
+        <button className={s.profile_backbutton} onClick={()=>navigate(PATH.PACKS_ALL)}>Back to Packs List</button>
       </div>
       <div className={s.profile_wrapper}>
         <h2>Personal Information</h2>
