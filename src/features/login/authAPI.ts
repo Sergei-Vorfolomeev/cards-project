@@ -32,7 +32,7 @@ export type ChangeDataResponseType = {
   avatar?: string // url or base64
 }
 
-export type ResponseType = {
+export type AuthResponseType = {
   info: string
   error: string
   updatedUser: UserResponseType
@@ -53,7 +53,7 @@ export const authAPI = {
     return instance.post<UserResponseType>('/auth/login', data).then(res => res.data)
   },
   logout() {
-    return instance.delete<ResponseType>('/auth/me').then(res => res)
+    return instance.delete<AuthResponseType>('/auth/me').then(res => res)
   },
   me() {
     return instance.post<UserResponseType>('/auth/me', {}).then(res => res.data)
@@ -76,6 +76,6 @@ export const authAPI = {
     return instance.post<UserResponseType>('/auth/set-new-password', data).then(res => res.data)
   },
   changeData(data: ChangeDataResponseType) {
-    return instance.put<ResponseType>('/auth/me', data).then(res => res)
+    return instance.put<AuthResponseType>('/auth/me', data).then(res => res)
   },
 }
