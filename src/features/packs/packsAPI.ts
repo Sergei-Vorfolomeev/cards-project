@@ -8,14 +8,19 @@ export const instance = axios.create({
   withCredentials: true,
 })
 
-//authAPI
+// API
 export const packsAPI = {
   getAllPacks() {
     let data = { packName: 'english', min: 0, max: 100, page: 1, pageCount: 100 }
     return instance.get<PacksResponseType>('/cards/pack', { params: data }).then(res => res.data)
   },
+  addPack() {
+    let cardsPack = { name: 'New added pack' }
+    return instance.post('/cards/pack', cardsPack).then(res => res.data)
+  },
 }
 
+// types
 export type PacksResponseType = {
   cardPacks: PackType[]
   cardPacksTotalCount: number
