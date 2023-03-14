@@ -9,6 +9,8 @@ import UpdatePassword from '../../../features/login/forgotPassword/f3-updatePass
 import Page404 from './page404/Page404'
 import {AllPacks} from "../../../features/packs/p1-allPacks/AllPacks";
 import {MyPacks} from "../../../features/packs/p4-myPacks/MyPacks";
+import {EmptyPack} from "../../../features/packs/p2-emptyPack/EmptyPack";
+import {FriendsPack} from "../../../features/packs/p3-friendsPacks/FriendsPack";
 
 export const PATH = {
     LOGIN: '/login',
@@ -20,7 +22,9 @@ export const PATH = {
     SET_NEW_PASSWORD: '/set-new-password/:setNewPasswordToken?',
     ERROR_404: '/error404',
     PACKS_ALL: '/allPacks',
-    PACKS_MY: '/myPacks'
+    PACK_MY: '/myPacks',
+    NO_PACKS: '/emptyPack',
+    PACK_FRIEND: '/friendsPack/:friendId?',
 }
 
 export const RoutesComponent = () => {
@@ -35,7 +39,9 @@ export const RoutesComponent = () => {
             <Route path={PATH.UPDATE_PASSWORD_INFO} element={<SentEmail/>}/>
             <Route path={PATH.SET_NEW_PASSWORD} element={<UpdatePassword/>}/>
             <Route path={PATH.PACKS_ALL} element={<AllPacks/>}/>
-            <Route path={PATH.PACKS_MY} element={<MyPacks/>}/>
+            <Route path={PATH.PACK_MY} element={<MyPacks/>}/>
+            <Route path={PATH.NO_PACKS} element={<EmptyPack/>}/>
+            <Route path={PATH.PACK_FRIEND} element={<FriendsPack/>}/>
 
             <Route path={PATH.ERROR_404} element={<Page404/>}/>
             <Route path="*" element={<Navigate to={PATH.ERROR_404}/>}/>

@@ -1,0 +1,14 @@
+.friendsPack_container {
+    width: 80%;
+    margin: 0px auto;
+}
+
+.friendsPack_titleAndButton {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.friendsPack_table {
+    margin-top: 20px;
+}

@@ -8,7 +8,7 @@ import {NumberOfCards} from "../p5-commonComponents/usefullComponents/numberOfCa
 import cleanFiltersIcon from '../../../common/assets/pictures/cleanFiletetIcon.svg'
 import {useNavigate} from "react-router-dom";
 import {PATH} from '../../../common/components/routes/RoutesComponent';
-import {TableForPacks} from "../p5-commonComponents/commonPackComponents/tables/tableForPacks/TableForPacks";
+import {TableForPacks} from "../p5-commonComponents/commonPackComponents/tables/tableForPacks/allPacksTable/TableForPacks";
 import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {getAllPacksTC} from "../packsReducer";
 
@@ -33,7 +33,7 @@ export const AllPacks = () => {
         setInputValue(e.currentTarget.value)
     }
     const showPacksCardsOnClickHandler = () => {
-        return navigate(PATH.PACKS_MY)
+        return navigate(PATH.PACK_MY)
     }
     const minMaxCardsValueChangeHandler = (event: Event, newValue: number | number[]) => {
         setMinMaxCardsValue(newValue as number[]);
@@ -62,29 +62,4 @@ export const AllPacks = () => {
     );
 };
 
-let testData = [
-    {
-        _id: 'string',
-        user_id: 'string',
-        name: 'string',
-        cardsCount: 1,
-        created: '12.11.2002',
-        updated: '11.22.2022',
-    },
-    {
-        _id: 'tring',
-        user_id: 'string',
-        name: 'tring',
-        cardsCount: 110,
-        created: '12.11.2001',
-        updated: '1.22.2005',
-    },
-    {
-        _id: 'ring',
-        user_id: 'string',
-        name: 'ring',
-        cardsCount: 12,
-        created: '2.11.2006',
-        updated: '1.22.2010',
-    }
-]
+
