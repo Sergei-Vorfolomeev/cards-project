@@ -8,14 +8,19 @@ import {NumberOfCards} from "../p5-commonComponents/usefullComponents/numberOfCa
 import cleanFiltersIcon from '../../../common/assets/pictures/cleanFiletetIcon.svg'
 import {useNavigate} from "react-router-dom";
 import {PATH} from '../../../common/components/routes/RoutesComponent';
-import {TableForPacks} from "../p5-commonComponents/commonPackComponents/tables/tableForPacks/allPacksTable/TableForPacks";
+import {TableForPacks} from "./allPacksTable/TableForPacks";
 import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {getAllPacksTC} from "../packsReducer";
+import {Loader} from "../../../common/components/loader/Loader";
+import {Error} from "../../../common/components/error/Error";
 
 
 export const AllPacks = () => {
 
     const packs = useAppSelector(state => state.packs.cardPacks)
+    const isAuth = useAppSelector(state => state.auth.isAuth)
+    const isLoading = useAppSelector(state => state.app.loading)
+    const errorMessage = useAppSelector(state => state.app.errorMessage)
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -24,8 +29,8 @@ export const AllPacks = () => {
     const [minMaxCardsValue, setMinMaxCardsValue] = React.useState<number[]>([0, 100]);
 
     useEffect(() => {
-        dispatch(getAllPacksTC())
-    }, [])
+       if (isAuth) dispatch(getAllPacksTC())
+    }, [isAuth])
 
     const buttonOnClickHandler = () => {
     }
@@ -41,6 +46,7 @@ export const AllPacks = () => {
 
     return (
         <div className={s.allPacks}>
+            {isLoading && <Loader/>}
             <div className={s.allPacks_container}>
                 <div className={s.allPacks_titleAndButton}>
                     <PacksTitle title={'Packs list'}/>
@@ -58,6 +64,7 @@ export const AllPacks = () => {
                 </div>
                 <div className={s.allPacks_pagination}></div>
             </div>
+            {errorMessage && <Error message={errorMessage} />}
         </div>
     );
 };

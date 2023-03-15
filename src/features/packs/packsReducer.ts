@@ -1,5 +1,7 @@
 import {Dispatch} from "redux";
-import {packsAPI} from "./packsAPI";
+import {packsAPI, ResponseTypePacks} from "./packsAPI";
+import {setErrorAC, setLoadingAC} from "../../app/appReducer";
+import {handleError} from "../../common/utils/error-utils";
 
 const initialState: initialStateType = {
     cardPacks: [],
@@ -8,18 +10,19 @@ const initialState: initialStateType = {
     minCardsCount: 0,
     page: 1,
     pageCount: 5,
-    sortDirection: 'up'
+    sortDirection: 'up',
+    error: ''
 }
 
 
 export const packsReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
         case 'packs/SET-NEW-PACKS':
-            return {...state, cardPacks: [...action.packs]}
+            return {...state, ...action.packsInfo}
         case 'packs/SET-PACKS-SORTED-UP':
-            return {...state, cardPacks: [...action.packs], sortDirection: "up"}
+            return {...state, ...action.packsInfo, sortDirection: "up"}
         case 'packs/SET-PACKS-SORTED-DOWN':
-            return {...state, cardPacks: [...action.packs], sortDirection: "down"}
+            return {...state, ...action.packsInfo, sortDirection: "down"}
         default:
             return state
     }
@@ -27,36 +30,42 @@ export const packsReducer = (state: initialStateType = initialState, action: Act
 
 // action creators
 
-const setAllPacksAC = (packs: PackType[]) => ({type: 'packs/SET-NEW-PACKS', packs} as const)
-export const setAllPacksSortUpdAC = (packs: PackType[]) => ({type: 'packs/SET-PACKS-SORTED-UP', packs} as const)
-export const setAllPacksSortDownAC = (packs: PackType[]) => ({type: 'packs/SET-PACKS-SORTED-DOWN', packs} as const)
+const setAllPacksAC = (packsInfo: ResponseTypePacks) => ({type: 'packs/SET-NEW-PACKS', packsInfo} as const)
+export const setAllPacksSortUpdAC = (packsInfo: ResponseTypePacks) => ({type: 'packs/SET-PACKS-SORTED-UP', packsInfo} as const)
+export const setAllPacksSortDownAC = (packsInfo: ResponseTypePacks) => ({type: 'packs/SET-PACKS-SORTED-DOWN', packsInfo} as const)
 
 // think creators
 
 export const getAllPacksTC = () => async (dispatch: Dispatch) => {
+    dispatch(setLoadingAC(true))
     try {
         let res = await packsAPI.getAllPacks()
-        dispatch(setAllPacksAC(res.cardPacks))
+        dispatch(setAllPacksAC(res))
     } catch (e: any) {
-
+        console.log(e)
+        handleError(e, dispatch)
+    } finally {
+        dispatch(setLoadingAC(false))
     }
+
+
 }
 
 export const getSortUpPacksTC = () => async (dispatch: Dispatch) => {
     try {
         let res = await packsAPI.getSortUpPacks()
-        dispatch(setAllPacksSortUpdAC(res.cardPacks))
+        dispatch(setAllPacksSortUpdAC(res))
     } catch (e: any) {
-
+        handleError(e, dispatch)
     }
 }
 
 export const getSortDownPacksTC = () => async (dispatch: Dispatch) => {
     try {
         let res = await packsAPI.getSortDownPacks()
-        dispatch(setAllPacksSortDownAC(res.cardPacks))
+        dispatch(setAllPacksSortDownAC(res))
     } catch (e: any) {
-
+        handleError(e, dispatch)
     }
 }
 
@@ -75,6 +84,7 @@ type initialStateType = {
     page: number
     pageCount: number
     sortDirection: 'up' | 'down'
+    error: string
 }
 
 type PackType = {

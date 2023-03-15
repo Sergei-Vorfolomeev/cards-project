@@ -7,40 +7,35 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import {useAppDispatch, useAppSelector} from "../../../../../../../app/store";
+import {useAppDispatch, useAppSelector} from "../../../../app/store";
 import {
     getSortDownPacksTC,
     getSortUpPacksTC,
-} from "../../../../../packsReducer";
-import { TableFooter, TablePagination} from "@mui/material";
-
+} from "../../packsReducer";
+import {TableFooter, TablePagination} from "@mui/material";
+import {ActionsWithPacks} from "../actions/ActionsWithPacks";
+import {NavLink, useNavigate} from "react-router-dom";
+import s from '../AllPacks.module.css'
 
 
 export const TableForPacks = ({packsData}: PropsType) => {
 
     const dispatch = useAppDispatch()
-    const currentPageNumber = useAppSelector(state => state.packs.page)
-    const elementsOnPage = useAppSelector(state => state.packs.pageCount)
     const sortDirection = useAppSelector(state => state.packs.sortDirection)
-    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
-
-
+    const userId = useAppSelector(state => state.auth._id)
 
     const columnsData = ['Name', 'Cards', 'Last updated', 'Created By', 'Actions']
 
     const setSortDirectionHandler = () => {
         sortDirection === 'up' ? dispatch(getSortDownPacksTC()) : dispatch(getSortUpPacksTC())
     }
-    // const onChangePagination = (event: React.ChangeEvent<unknown>, value: number) => {
-    //     getPacksPaginationTC(value, elementsOnPage);
-    // };
 
-    const createData = (name: string, cards: number, lastUpdated: string, createdBy: string) => {
-        return {name, cards, lastUpdated, createdBy}
+    const createData = (name: string, cards: number, lastUpdated: string, createdBy: string, userId: string, packId: string) => {
+        return {name, cards, lastUpdated, createdBy, userId, packId}
     }
 
-console.log(packsData)
-    let rows = packsData.map(pack => createData(pack.name, pack.cardsCount, pack.created, pack.updated))
+
+    let rows = packsData.map(pack => createData(pack.name, pack.cardsCount, pack.created, pack.updated, pack.user_id, pack._id))
 
     return (
         <TableContainer component={Paper}>
@@ -51,13 +46,13 @@ console.log(packsData)
                             <TableCell sx={{fontWeight: '700', cursor: 'pointer'}}
                                        align="center"
                                        key={index}
-                                       >
+                            >
                                 <TableSortLabel
                                     active={columnData === 'Last updated'}
-                                    direction={sortDirection === 'up' ?  "desc" : "asc" }
+                                    direction={sortDirection === 'up' ? "desc" : "asc"}
                                     sx={columnData === 'Last updated' ? {visibility: "visible"} : {visibility: "hidden"}}
                                     onClick={() => {
-                                         setSortDirectionHandler();
+                                        setSortDirectionHandler();
                                     }}
                                 />
                                 {columnData}
@@ -71,7 +66,10 @@ console.log(packsData)
                             key={row.createdBy}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
-                            <TableCell align="center">{row.name}</TableCell>
+                            <TableCell sx={{cursor: 'pointer'}} align="center">
+                                <NavLink className={s.allPacks_link}
+                                    to={`/friendsPack/${row.packId}`}>{row.name} </NavLink>
+                            </TableCell>
                             <TableCell align="center">{row.cards}</TableCell>
                             <TableCell align="center">{new Date(row.createdBy).toLocaleString("en-US", {
                                 year: 'numeric', month: 'long', day: 'numeric',
@@ -79,7 +77,7 @@ console.log(packsData)
                             <TableCell align="center">{new Date(row.lastUpdated).toLocaleString("en-US", {
                                 year: 'numeric', month: 'long', day: 'numeric',
                             })}</TableCell>
-                            <TableCell align="center">HI</TableCell>
+                            <TableCell align="center"><ActionsWithPacks cardsQuantity={row.cards} isMyPack={true}/></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

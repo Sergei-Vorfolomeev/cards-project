@@ -2,6 +2,7 @@
     text-align: left;
     margin-top: 24px;
     margin-bottom: 27px;
+    cursor: pointer;
 }
 
 .backToPackLists span {

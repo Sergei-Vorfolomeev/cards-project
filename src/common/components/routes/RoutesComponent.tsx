@@ -24,7 +24,7 @@ export const PATH = {
     PACKS_ALL: '/allPacks',
     PACK_MY: '/myPacks',
     NO_PACKS: '/emptyPack',
-    PACK_FRIEND: '/friendsPack/:friendId?',
+    PACK_FRIEND: '/friendsPack/:packId?',
 }
 
 export const RoutesComponent = () => {

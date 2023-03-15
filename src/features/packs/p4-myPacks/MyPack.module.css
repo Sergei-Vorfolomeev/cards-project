@@ -1,0 +1,23 @@
+.myPacks_container {
+    width: 80%;
+    margin: auto;
+}
+
+.myPacks_titleAndButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+}
+
+.myPacks_titleMenu {
+    display: flex;
+}
+
+.myPacks_titleMenu  img {
+    margin-left: 9px;
+}
+
+.myPacks_table {
+    margin-top: 24px;
+}

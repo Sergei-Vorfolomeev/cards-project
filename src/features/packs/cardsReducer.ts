@@ -1,5 +1,7 @@
 import {Dispatch} from "redux";
-import {packsAPI} from "./packsAPI";
+import {packsAPI, ResponseTypeCards} from "./packsAPI";
+import {setLoadingAC} from "../../app/appReducer";
+import {handleError} from "../../common/utils/error-utils";
 
 const initialState: InitialStateType = {
     cards: [],
@@ -16,11 +18,11 @@ const initialState: InitialStateType = {
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'cards/SET-CARDS':
-            return {...state, cards: [...action.packs]}
-        // case 'packs/SET-PACKS-SORTED-UP':
-        //     return {...state, cardPacks: [...action.packs], sortDirection: "up"}
-        // case 'packs/SET-PACKS-SORTED-DOWN':
-        //     return {...state, cardPacks: [...action.packs], sortDirection: "down"}
+            return {...state, ...action.cardsInfo}
+        case 'packs/SET-CARDS-SORTED-UP':
+            return {...state, ...action.cardsInfo, sortDirection: "up"}
+        case 'packs/SET-CARDS-SORTED-DOWN':
+            return {...state, ...action.cardsInfo, sortDirection: "down"}
         default:
             return state
     }
@@ -28,27 +30,55 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
 
 // action creators
 
-const setAllFriendsCardsAC = (packs: CardType[]) => ({type: 'cards/SET-CARDS', packs} as const)
-// export const setAllPacksSortUpdAC = (packs: PackType[]) => ({type: 'packs/SET-PACKS-SORTED-UP', packs} as const)
-// export const setAllPacksSortDownAC = (packs: PackType[]) => ({type: 'packs/SET-PACKS-SORTED-DOWN', packs} as const)
+const setAllFriendsCardsAC = (cardsInfo: ResponseTypeCards) => ({type: 'cards/SET-CARDS', cardsInfo} as const)
+export const setCardsSortUpdAC = (cardsInfo: ResponseTypeCards) => ({
+    type: 'packs/SET-CARDS-SORTED-UP',
+    cardsInfo
+} as const)
+export const setCardsSortDownAC = (cardsInfo: ResponseTypeCards) => ({
+    type: 'packs/SET-CARDS-SORTED-DOWN',
+    cardsInfo
+} as const)
 
 // think creators
 
 
-export const getFriendsCardsTC = (cardsPack_id: string) => async (dispatch: Dispatch) => {
+export const getCardsTC = (cardsPack_id: string) => async (dispatch: Dispatch) => {
+    dispatch(setLoadingAC(true))
     try {
-        let res = await packsAPI.getFriendsPacks(cardsPack_id)
-        dispatch(setAllFriendsCardsAC(res.cards))
+        let res = await packsAPI.getAllCards(cardsPack_id)
+        dispatch(setAllFriendsCardsAC(res))
     } catch (e: any) {
-
+        handleError(e, dispatch)
+    } finally {
+        dispatch(setLoadingAC(false))
     }
 }
 
+export const getCardsSortUpTC = (cardsPack_id: string) => async (dispatch: Dispatch) => {
+    try {
+        let res = await packsAPI.getSortUpCards(cardsPack_id)
+        dispatch(setCardsSortUpdAC(res))
+    } catch (e: any) {
+        handleError(e, dispatch)
+    }
+}
+
+export const getCardsSortDownTC = (cardsPack_id: string) => async (dispatch: Dispatch) => {
+    try {
+        let res = await packsAPI.getSortDownCards(cardsPack_id)
+        dispatch(setCardsSortDownAC(res))
+    } catch (e: any) {
+        handleError(e, dispatch)
+    }
+}
 
 //types
 
 type ActionsType =
     ReturnType<typeof setAllFriendsCardsAC>
+    | ReturnType<typeof setCardsSortUpdAC>
+    | ReturnType<typeof setCardsSortDownAC>
 
 
 export type InitialStateType = {
