@@ -11,8 +11,8 @@ export const instance = axios.create({
 
 //authAPI
 export const packsAPI = {
-    getAllPacks() {
-        let data = {packName: 'english', min: 0, max: 100, page: 1, pageCount: 10}
+    getAllPacks(data = {}) {
+        // let data = {packName: 'english', min: 0, max: 100, page: 1, pageCount: 10}
         return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
     },
     getSortUpPacks() {

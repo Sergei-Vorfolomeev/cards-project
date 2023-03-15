@@ -1,0 +1,25 @@
+.pagination {
+    display: flex;
+    margin: 35px 0;
+    align-items: center;
+}
+
+.text1 {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #000000;
+    padding: 0 30px;
+}
+
+.text2 {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #000000;
+    padding-left: 30px;
+}

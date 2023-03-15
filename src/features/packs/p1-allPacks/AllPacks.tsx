@@ -6,11 +6,12 @@ import {PacksInput} from "../p5-commonComponents/commonPackComponents/packsInput
 import {ShowPacksCards} from "../p5-commonComponents/usefullComponents/showPacksCards/ShowPacksCards";
 import {NumberOfCards} from "../p5-commonComponents/usefullComponents/numberOfCards/NumberOfCards";
 import cleanFiltersIcon from '../../../common/assets/pictures/cleanFiletetIcon.svg'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {PATH} from '../../../common/components/routes/RoutesComponent';
 import {TableForPacks} from "../p5-commonComponents/commonPackComponents/tables/tableForPacks/allPacksTable/TableForPacks";
 import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {getAllPacksTC} from "../packsReducer";
+import { SuperPagination } from "../p5-commonComponents/commonPackComponents/packPagination/SuperPagination";
 
 
 export const AllPacks = () => {
@@ -23,8 +24,27 @@ export const AllPacks = () => {
     const [inputValue, setInputValue] = useState<string>('')
     const [minMaxCardsValue, setMinMaxCardsValue] = React.useState<number[]>([0, 100]);
 
+    //for pagination
+    const page = useAppSelector(state => state.packs.page)
+    const count = useAppSelector(state => state.packs.pageCount)
+    const totalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
+    const maxCardsCount = useAppSelector(state => state.packs.maxCardsCount)
+    const minCardsCount = useAppSelector(state => state.packs.minCardsCount)
+
+    const onChangePagination = (newPage: number, newCount: number) => {
+        dispatch(getAllPacksTC({min: minCardsCount, max: maxCardsCount, page: newPage, pageCount: newCount, }))
+    }
+    //end for pagination
+
+    //for filtration
+    const onChangeCardsFilter = () =>{
+        dispatch(getAllPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1], page: 1, pageCount: 10}))
+    }
+    //end for filtration
+
     useEffect(() => {
-        dispatch(getAllPacksTC())
+        dispatch(getAllPacksTC({min: 0, max: 100, page: 1, pageCount: 10}))
+
     }, [])
 
     const buttonOnClickHandler = () => {
@@ -39,6 +59,8 @@ export const AllPacks = () => {
         setMinMaxCardsValue(newValue as number[]);
     };
 
+
+
     return (
         <div className={s.allPacks}>
             <div className={s.allPacks_container}>
@@ -51,13 +73,25 @@ export const AllPacks = () => {
                                 width={'413px'} onChange={inputOnChangeHandler}/>
                     <ShowPacksCards onClick={showPacksCardsOnClickHandler}/>
                     <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue}/>
-                    <img src={cleanFiltersIcon}/>
+                    {/* filtration */}
+                    <button onClick={onChangeCardsFilter}>
+                        <img src={cleanFiltersIcon} alt={"filter-image"}/>
+                    </button>
                 </div>
                 <div className={s.allPacks_table}>
                     <TableForPacks packsData={packs}/>
                 </div>
                 <div className={s.allPacks_pagination}></div>
+
+                {/* pagination */}
+                <SuperPagination
+                  page={page}
+                  itemsCountForPage={count}
+                  totalCount={totalCount}
+                  onChange={onChangePagination}
+                />
             </div>
+
         </div>
     );
 };
