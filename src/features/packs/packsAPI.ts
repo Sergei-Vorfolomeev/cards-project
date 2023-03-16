@@ -23,7 +23,16 @@ export const packsAPI = {
     let data = { sortPacks: '1updated', page: 1, pageCount: 10 }
     return instance.get<ResponseTypePacks>('/cards/pack', { params: data }).then(res => res.data)
   },
-  getAllCards(cardsPack_id: string) {
+  addPack(newPack: { cardsPack: { name: string } }) {
+    return instance.post('/cards/pack', newPack)
+  },
+  deletePack(packId: string) {
+    return instance.delete(`/cards/pack?id=${packId}`)
+  },
+  updatePack(updatedPack: { cardsPack: { _id: string; name: string } }) {
+    return instance.put('/cards/pack', updatedPack)
+  },
+  getCards(cardsPack_id: string) {
     let data = { page: 1, pageCount: 10, cardsPack_id }
     return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
   },
@@ -35,14 +44,14 @@ export const packsAPI = {
     let data = { sortPacks: '1updated', page: 1, pageCount: 10, cardsPack_id }
     return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
   },
-  addPack(newPack: { cardsPack: { name: string } }) {
-    return instance.post('/cards/pack', newPack)
+  addCard(newCard: { card: { cardsPack_id: string } }) {
+    return instance.post('/cards/card', newCard)
   },
-  deletePack(packId: string) {
-    return instance.delete(`/cards/pack?id=${packId}`)
+  deleteCard(cardId: string) {
+    return instance.delete(`/cards/card?id=${cardId}`)
   },
-  updatePack(updatedPack: { cardsPack: { _id: string; name: string } }) {
-    return instance.put('/cards/pack', updatedPack)
+  updateCard(newCard: { card: { _id: string; question: string } }) {
+    return instance.put(`/cards/card`, newCard)
   },
 }
 

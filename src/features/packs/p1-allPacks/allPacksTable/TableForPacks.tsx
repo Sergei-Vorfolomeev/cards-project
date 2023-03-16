@@ -13,6 +13,7 @@ import { TableFooter, TablePagination } from '@mui/material'
 import { ActionsWithPacks } from '../actions/ActionsWithPacks'
 import { NavLink, useNavigate } from 'react-router-dom'
 import s from '../AllPacks.module.css'
+import { PATH } from '../../../../common/components/routes/RoutesComponent'
 
 export const TableForPacks = ({ packsData }: PropsType) => {
   const dispatch = useAppDispatch()
@@ -71,9 +72,15 @@ export const TableForPacks = ({ packsData }: PropsType) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell sx={{ cursor: 'pointer' }} align="center">
-                <NavLink className={s.allPacks_link} to={`/friendsPack/${row.packId}`}>
-                  {row.name}{' '}
-                </NavLink>
+                {row.userId === userId ? (
+                  <NavLink className={s.allPacks_link} to={`/myPack/${row.packId}`}>
+                    {row.name}{' '}
+                  </NavLink>
+                ) : (
+                  <NavLink className={s.allPacks_link} to={`/friendsPack/${row.packId}`}>
+                    {row.name}{' '}
+                  </NavLink>
+                )}
               </TableCell>
               <TableCell align="center">{row.cards}</TableCell>
               <TableCell align="center">

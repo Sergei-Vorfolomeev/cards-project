@@ -5,19 +5,17 @@ import { PackButton } from '../p5-commonComponents/commonPackComponents/packButt
 import { PacksTitle } from '../p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
 import myPackMenu from '../../../common/assets/pictures/myPackMenu.svg'
 import { PacksInput } from '../p5-commonComponents/commonPackComponents/packsInput/PacksInput'
-import { MyPackTable } from './myPackTable/myPackTable'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { getCardsTC } from '../cardsReducer'
 import { Loader } from '../../../common/components/loader/Loader'
 import { Error } from '../../../common/components/error/Error'
 import { useSelector } from 'react-redux'
 import { getIsAuth } from '../../login/loginSelectors'
-import { useNavigate } from 'react-router-dom'
-import { TableForPacks } from '../p1-allPacks/allPacksTable/TableForPacks'
-import { addPackTC, deletePackTC, getPacksTC } from '../packsReducer'
+import { useNavigate, useParams } from 'react-router-dom'
+import { addCardTC, getCardsTC } from '../cardsReducer'
+import { MyPackTable } from './myPackTable/myPackTable'
 
-export const MyPacks = () => {
-  const cardPacks = useAppSelector(state => state.packs.cardPacks)
+export const MyPack = () => {
+  const cardsData = useAppSelector(state => state.cards.cards)
   const myUserId = useAppSelector(state => state.auth._id)
   const isAuth = useSelector(getIsAuth)
   const isLoading = useAppSelector(state => state.app.loading)
@@ -25,23 +23,26 @@ export const MyPacks = () => {
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  let { packId } = useParams()
 
   // userId для теста пока нет своих карточек '63de3dc3b10c7af78a7bd186'
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(getPacksTC(myUserId))
+      packId && dispatch(getCardsTC(packId))
+      console.log(packId)
     } else {
       navigate('/login')
     }
-  }, [myUserId])
+  }, [myUserId, packId, isAuth, dispatch, navigate])
 
   const [myPacksInput, setMyPacksInput] = useState<string>('')
   const onChangeMyPacksInput = (e: ChangeEvent<HTMLInputElement>) =>
     setMyPacksInput(e.currentTarget.value)
 
-  const addPackOnClickHandler = () => {
-    dispatch(addPackTC(myUserId))
+  const addCardOnClickHandler = () => {
+    console.log(packId)
+    packId && dispatch(addCardTC(packId))
   }
 
   return (
@@ -54,7 +55,7 @@ export const MyPacks = () => {
             <PacksTitle title={'My Pack'} />
             <img src={myPackMenu} />
           </div>
-          <PackButton name={'Add new pack'} onClick={addPackOnClickHandler} />
+          <PackButton name={'Add new card'} onClick={addCardOnClickHandler} />
         </div>
         <PacksInput
           id={'myPacksInput'}
@@ -65,8 +66,8 @@ export const MyPacks = () => {
           onChange={onChangeMyPacksInput}
         />
         <div className={s.myPacks_table}>
-          {/*<MyPackTable cardPacks={cardPacks} />*/}
-          <TableForPacks packsData={cardPacks} />
+          <MyPackTable cardsData={cardsData} />
+          {/*<TableForPacks packsData={cardPacks} />*/}
         </div>
       </div>
       {errorMessage && <Error message={errorMessage} />}
