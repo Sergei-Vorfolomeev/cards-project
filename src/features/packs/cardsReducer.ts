@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { packsAPI, ResponseTypeCards } from './packsAPI'
+import {getCardsDataType, packsAPI, ResponseTypeCards } from './packsAPI'
 import { setLoadingAC } from '../../app/appReducer'
 import { handleError } from '../../common/utils/error-utils'
 import { AppThunk } from '../../app/store'
@@ -48,12 +48,10 @@ export const setCardsSortDownAC = (cardsInfo: ResponseTypeCards) =>
 
 // thunk creators
 
-export const getCardsTC =
-  (cardsPack_id: string): AppThunk =>
-  async dispatch => {
+export const getCardsTC = (cardsInfo: getCardsDataType): AppThunk => async dispatch => {
     dispatch(setLoadingAC(true))
     try {
-      let res = await packsAPI.getCards(cardsPack_id)
+      let res = await packsAPI.getCards(cardsInfo)
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -94,7 +92,7 @@ export const addCardTC =
         },
       }
       await packsAPI.addCard(newCard)
-      let res = await packsAPI.getCards(cardsPack_id)
+      let res = await packsAPI.getCards({cardsPack_id})
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -106,7 +104,7 @@ export const deleteCardTC =
   async dispatch => {
     try {
       await packsAPI.deleteCard(cardId)
-      let res = await packsAPI.getCards(cardsPack_id)
+      let res = await packsAPI.getCards({cardsPack_id})
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -124,7 +122,7 @@ export const updateCardTC =
         },
       }
       await packsAPI.updateCard(updatedCard)
-      let res = await packsAPI.getCards(cardsPack_id)
+      let res = await packsAPI.getCards({cardsPack_id})
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)

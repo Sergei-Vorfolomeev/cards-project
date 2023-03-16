@@ -23,12 +23,23 @@ export const FriendsPackTable = ({ cardsData}: PropsType) => {
     const elementsOnPage = useAppSelector(state => state.packs.pageCount)
     const sortDirection = useAppSelector(state => state.packs.sortDirection)
     const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
-
+    const page = useAppSelector(state => state.packs.page)
+    const pageCount = useAppSelector(state => state.packs.pageCount)
 
     const columnsData = ['Question', 'Answer', 'Last updated', 'Grade']
 
     const setSortDirectionHandler = () => {
-        sortDirection === 'up' ? dispatch(getSortDownPacksTC()) : dispatch(getSortUpPacksTC())
+        sortDirection === 'up' ? dispatch(getSortDownPacksTC({
+            sortPacks: '0updated',
+            page,
+            pageCount,
+        })) : dispatch(getSortUpPacksTC(
+            {
+                sortPacks: '0updated',
+                page,
+                pageCount,
+            }
+        ))
     }
 
     const createData = (question: string, answer: string, lastUpdated: string, grade: number, id: string) => {

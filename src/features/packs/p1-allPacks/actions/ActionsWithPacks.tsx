@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {MouseEvent, useState} from 'react'
 import s from './ActionsWithPacks.module.css'
 import addPack from '../../../../common/assets/pictures/addPack.svg'
 import changePack from '../../../../common/assets/pictures/changePack.svg'
 import deletePack from '../../../../common/assets/pictures/deletePack.svg'
 import { deletePackTC, updatePackTC } from '../../packsReducer'
 import { useAppDispatch, useAppSelector } from '../../../../app/store'
+
 
 type PropsType = {
   isVisible: boolean
@@ -15,6 +16,7 @@ type PropsType = {
 
 export const ActionsWithPacks = ({ isVisible, cardsQuantity, packId, userId }: PropsType) => {
   const isMyPacks = useAppSelector(state => state.packs.isMyPacks)
+  const [isDisabled ,setIsDisabled] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
 
@@ -27,6 +29,7 @@ export const ActionsWithPacks = ({ isVisible, cardsQuantity, packId, userId }: P
   }
 
   const deleteOnClickHandler = () => {
+    setIsDisabled(true)
     if (!isMyPacks) {
       dispatch(deletePackTC(packId))
     } else {
@@ -50,8 +53,9 @@ export const ActionsWithPacks = ({ isVisible, cardsQuantity, packId, userId }: P
         onClick={updateOnClickHandler}
       ></button>
       <button
-        style={{ backgroundImage: `url(${deletePack})` }}
+        style={!isDisabled ? { backgroundImage: `url(${deletePack})` }: { backgroundImage: 'none' }}
         onClick={deleteOnClickHandler}
+        disabled={isDisabled}
       ></button>
     </div>
   )

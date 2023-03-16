@@ -15,16 +15,35 @@ import { ActionsWithCards } from '../actionsWithCards/ActionsWithCards'
 
 type PropsType = {
   cardsData: cardData[]
+  minMaxCardsValue: number[]
 }
 
-export const MyPackTable = ({ cardsData }: PropsType) => {
+export const MyPackTable = ({ cardsData,minMaxCardsValue }: PropsType) => {
   const dispatch = useAppDispatch()
   const sortDirection = useAppSelector(state => state.packs.sortDirection)
+  const page = useAppSelector(state => state.packs.page)
+  const pageCount = useAppSelector(state => state.packs.pageCount)
 
   const columnsData = ['Question', 'Answer', 'Last updated', 'Grade', '']
 
   const setSortDirectionHandler = () => {
-    sortDirection === 'up' ? dispatch(getSortDownPacksTC()) : dispatch(getSortUpPacksTC())
+    sortDirection === 'up' ? dispatch(getSortDownPacksTC(
+        {
+          sortPacks: '0updated',
+          min: minMaxCardsValue[0],
+          max: minMaxCardsValue[1],
+          page,
+          pageCount,
+        }
+    )) : dispatch(getSortUpPacksTC(
+        {
+          sortPacks: '0updated',
+          min: minMaxCardsValue[0],
+          max: minMaxCardsValue[1],
+          page,
+          pageCount,
+        }
+    ))
   }
 
   const createData = (

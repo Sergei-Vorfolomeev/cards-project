@@ -10,24 +10,44 @@ import {
 import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {getCardsTC} from "../cardsReducer";
 import {useParams} from "react-router-dom";
+import {Loader} from "../../../common/components/loader/Loader";
+import {SuperPagination} from "../p5-commonComponents/commonPackComponents/pagination/SuperPagination";
+import {getPacksTC} from "../packsReducer";
+import useDebouncedEffect from "use-debounced-effect";
 
 export const FriendsPack = () => {
 
     const dispatch = useAppDispatch()
     const tableData = useAppSelector(state => state.cards.cards)
+    const loading = useAppSelector(state => state.app.loading)
+    const page = useAppSelector(state => state.cards.page)
+    const pageCount = useAppSelector(state => state.cards.pageCount)
+    const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
+    const min = useAppSelector(state => state.packs.minCardsCount)
+    const max = useAppSelector(state => state.packs.maxCardsCount)
+
     const [inputValue, setInputValue] = useState<string>('')
+
     const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)
+
+    const onChangePagination = (newPage: number, newCount: number) => {
+        dispatch(getPacksTC({page: newPage, pageCount: newCount}))
+    }
 
     let {packId} = useParams()
 
     useEffect(() => {
         packId &&
-        dispatch(getCardsTC(packId))
+        dispatch(getCardsTC({cardsPack_id: packId}))
     }, [packId])
 
+    useDebouncedEffect(() => {
+        dispatch(getCardsTC({cardQuestion: inputValue, cardsPack_id: packId})), 1000
+    }, 1000, [inputValue])
 
     return (
         <div className={s.friendsPack}>
+            {loading && <Loader/>}
             <div className={s.friendsPack_container}>
                 <BackToPackLists/>
                 <div className={s.friendsPack_titleAndButton}>
@@ -37,8 +57,16 @@ export const FriendsPack = () => {
                 </div>
                 <PacksInput id={'friendsPackInput'} text={'Search'} type={'text'} value={inputValue} width={'98%'}
                             onChange={inputOnChaneHandler}/>
-                <div className={s.friendsPack_table}>
-                    <FriendsPackTable cardsData={tableData}/>
+                {tableData.length === 0 ?
+                    <div className={s.friendsPack_noCardsWasFound}>NO PACKS WERE FOUND. TRY AGAIN ;)</div> :
+                    <div className={s.friendsPack_table}>
+                        <FriendsPackTable cardsData={tableData}/>
+                    </div>
+                }
+                <div className={s.friendsPack_pagintion}>
+                    <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount}
+                                     onChange={onChangePagination}/>
+
                 </div>
             </div>
         </div>

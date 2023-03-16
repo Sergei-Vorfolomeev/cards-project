@@ -34,3 +34,9 @@
 allPacks_link:visited {
     text-decoration: underline;
 }
+
+.allPacks_noPacksWasFound {
+    margin-top: 100px;
+    font-weight: 600;
+    font-size: 20px;
+}

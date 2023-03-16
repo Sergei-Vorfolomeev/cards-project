@@ -12,3 +12,9 @@
 .friendsPack_table {
     margin-top: 20px;
 }
+
+.friendsPack_noCardsWasFound {
+    margin-top: 100px;
+    font-weight: 600;
+    font-size: 20px;
+}
