@@ -1,28 +1,58 @@
-import React from 'react';
+import React from 'react'
 import s from './ActionsWithPacks.module.css'
 import addPack from '../../../../common/assets/pictures/addPack.svg'
 import changePack from '../../../../common/assets/pictures/changePack.svg'
 import deletePack from '../../../../common/assets/pictures/deletePack.svg'
+import { deletePackTC, updatePackTC } from '../../packsReducer'
+import { useAppDispatch, useAppSelector } from '../../../../app/store'
 
 type PropsType = {
-    isMyPack: boolean
-    cardsQuantity: number
+  isVisible: boolean
+  cardsQuantity: number
+  packId: string
+  userId: string
 }
 
-export const ActionsWithPacks = ({isMyPack,cardsQuantity}: PropsType) => {
+export const ActionsWithPacks = ({ isVisible, cardsQuantity, packId, userId }: PropsType) => {
+  const isMyPacks = useAppSelector(state => state.packs.isMyPacks)
 
-    if (!isMyPack) {
-        return <div className={s.actionsWithPacks}>
-            <button style={{backgroundImage:`url(${addPack})`}}></button>
-        </div>
-    }
+  const dispatch = useAppDispatch()
 
+  if (!isVisible) {
     return (
-        <div className={s.actionsWithPacks}>
-            <button style={{backgroundImage:`url(${addPack})`}}></button>
-            <button style={{backgroundImage:`url(${changePack})`}}></button>
-            <button style={{backgroundImage:`url(${deletePack})`}}></button>
-        </div>
-    );
-};
+      <div className={s.actionsWithPacks}>
+        <button style={{ backgroundImage: `url(${addPack})` }}></button>
+      </div>
+    )
+  }
 
+  const deleteOnClickHandler = () => {
+    if (!isMyPacks) {
+      dispatch(deletePackTC(packId))
+    } else {
+      dispatch(deletePackTC(packId, userId))
+    }
+  }
+
+  const updateOnClickHandler = () => {
+    if (!isMyPacks) {
+      dispatch(updatePackTC(packId))
+    } else {
+      dispatch(updatePackTC(packId, userId))
+    }
+  }
+
+  return (
+    <div className={s.actionsWithPacks}>
+      <button style={{ backgroundImage: `url(${addPack})` }}></button>
+      <button
+        style={{ backgroundImage: `url(${changePack})` }}
+        onClick={updateOnClickHandler}
+      ></button>
+      <button
+        style={{ backgroundImage: `url(${deletePack})` }}
+        onClick={deleteOnClickHandler}
+      ></button>
+    </div>
+  )
+}

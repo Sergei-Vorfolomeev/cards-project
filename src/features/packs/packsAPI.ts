@@ -11,34 +11,38 @@ export const instance = axios.create({
 
 //packsAPI
 export const packsAPI = {
-    getAllPacks() {
-        let data = {packName: '', min: 0, max: 100, page: 1, pageCount: 10}
-        return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
-    },
-    getSortUpPacks() {
-        let data = {sortPacks: '0updated', page: 1, pageCount: 10}
-        return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
-    },
-    getSortDownPacks() {
-        let data = {sortPacks: '1updated', page: 1, pageCount: 10}
-        return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
-    },
-    getAllCards(cardsPack_id: string) {
-        let data = {page: 1, pageCount: 10, cardsPack_id}
-        return instance.get<ResponseTypeCards>('/cards/card', {params: data}).then(res => res.data)
-    },
-    getSortUpCards(cardsPack_id:string) {
-        let data = {sortPacks: '0updated', page: 1, pageCount: 10, cardsPack_id}
-        return instance.get<ResponseTypeCards>('/cards/card', {params: data}).then(res => res.data)
-    },
-    getSortDownCards(cardsPack_id:string, ) {
-        let data = {sortPacks: '1updated', page: 1, pageCount: 10,cardsPack_id}
-        return instance.get<ResponseTypeCards>('/cards/card', {params: data}).then(res => res.data)
-    },
+  getPacks(userId?: string) {
+    let data = { packName: '', min: 0, max: 100, page: 1, pageCount: 10, user_id: userId }
+    return instance.get<ResponseTypePacks>('/cards/pack', { params: data }).then(res => res.data)
+  },
+  getSortUpPacks() {
+    let data = { sortPacks: '0updated', page: 1, pageCount: 10 }
+    return instance.get<ResponseTypePacks>('/cards/pack', { params: data }).then(res => res.data)
+  },
+  getSortDownPacks() {
+    let data = { sortPacks: '1updated', page: 1, pageCount: 10 }
+    return instance.get<ResponseTypePacks>('/cards/pack', { params: data }).then(res => res.data)
+  },
+  getAllCards(cardsPack_id: string) {
+    let data = { page: 1, pageCount: 10, cardsPack_id }
+    return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
+  },
+  getSortUpCards(cardsPack_id: string) {
+    let data = { sortPacks: '0updated', page: 1, pageCount: 10, cardsPack_id }
+    return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
+  },
+  getSortDownCards(cardsPack_id: string) {
+    let data = { sortPacks: '1updated', page: 1, pageCount: 10, cardsPack_id }
+    return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
+  },
   addPack(newPack: { cardsPack: { name: string } }) {
-    return instance
-        .post<{ newCardsPack: PackType }>('/cards/pack', newPack)
-        .then(res => res.data.newCardsPack)
+    return instance.post('/cards/pack', newPack)
+  },
+  deletePack(packId: string) {
+    return instance.delete(`/cards/pack?id=${packId}`)
+  },
+  updatePack(updatedPack: { cardsPack: { _id: string; name: string } }) {
+    return instance.put('/cards/pack', updatedPack)
   },
 }
 

@@ -9,7 +9,7 @@ import cleanFiltersIcon from '../../../common/assets/pictures/cleanFiletetIcon.s
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../../common/components/routes/RoutesComponent'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { addPackTC, getAllPacksTC } from '../packsReducer'
+import { addPackTC, getPacksTC, toggleIsMyPacksAC } from '../packsReducer'
 import { getIsAuth } from '../../login/loginSelectors'
 import { useSelector } from 'react-redux'
 import { Loader } from '../../../common/components/loader/Loader'
@@ -21,6 +21,8 @@ export const AllPacks = () => {
   const isAuth = useSelector(getIsAuth)
   const isLoading = useAppSelector(state => state.app.loading)
   const errorMessage = useAppSelector(state => state.app.errorMessage)
+  const isMyPacks = useAppSelector(state => state.packs.isMyPacks)
+  const myUserId = useAppSelector(state => state.auth._id)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -30,20 +32,24 @@ export const AllPacks = () => {
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(getAllPacksTC())
+      if (!isMyPacks) {
+        dispatch(getPacksTC())
+      } else {
+        dispatch(getPacksTC(myUserId))
+      }
     } else {
       navigate('/login')
     }
-  }, [isAuth])
+  }, [isAuth, isMyPacks])
 
-  const buttonOnClickHandler = () => {
+  const addPackOnClickHandler = () => {
     dispatch(addPackTC())
   }
   const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value)
   }
   const showPacksCardsOnClickHandler = () => {
-    return navigate(PATH.PACK_MY)
+    dispatch(toggleIsMyPacksAC(!isMyPacks))
   }
   const minMaxCardsValueChangeHandler = (event: Event, newValue: number | number[]) => {
     setMinMaxCardsValue(newValue as number[])
@@ -55,7 +61,7 @@ export const AllPacks = () => {
       <div className={s.allPacks_container}>
         <div className={s.allPacks_titleAndButton}>
           <PacksTitle title={'Packs list'} />
-          <PackButton name={'Add new pack'} onClick={buttonOnClickHandler} />
+          <PackButton name={'Add new pack'} onClick={addPackOnClickHandler} />
         </div>
         <div className={s.allPacks_interface}>
           <PacksInput
@@ -66,7 +72,7 @@ export const AllPacks = () => {
             width={'413px'}
             onChange={inputOnChangeHandler}
           />
-          <ShowPacksCards onClick={showPacksCardsOnClickHandler} />
+          <ShowPacksCards onClick={showPacksCardsOnClickHandler} isMyPacks={isMyPacks} />
           <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue} />
           <img src={cleanFiltersIcon} />
         </div>

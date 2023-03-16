@@ -1,6 +1,6 @@
 import { packsAPI, ResponseTypePacks } from './packsAPI'
 import { AppThunk } from '../../app/store'
-import { setErrorAC, setLoadingAC } from '../../app/appReducer'
+import { setLoadingAC } from '../../app/appReducer'
 import { handleError } from '../../common/utils/error-utils'
 
 const initialState: initialStateType = {
@@ -12,6 +12,7 @@ const initialState: initialStateType = {
   pageCount: 5,
   sortDirection: 'up',
   error: '',
+  isMyPacks: false,
 }
 
 export const packsReducer = (
@@ -25,8 +26,8 @@ export const packsReducer = (
       return { ...state, ...action.packsInfo, sortDirection: 'up' }
     case 'packs/SET-PACKS-SORTED-DOWN':
       return { ...state, ...action.packsInfo, sortDirection: 'down' }
-    case 'packs/ADD-PACK':
-      return { ...state, cardPacks: [action.pack, ...state.cardPacks] }
+    case 'packs/TOGGLE-IS-MY-PACKS':
+      return { ...state, isMyPacks: action.value }
     default:
       return state
   }
@@ -34,34 +35,37 @@ export const packsReducer = (
 
 // action creators
 
-const setAllPacksAC = (packsInfo: ResponseTypePacks) =>
+const setPacksAC = (packsInfo: ResponseTypePacks) =>
   ({ type: 'packs/SET-NEW-PACKS', packsInfo } as const)
 export const setAllPacksSortUpdAC = (packsInfo: ResponseTypePacks) =>
   ({ type: 'packs/SET-PACKS-SORTED-UP', packsInfo } as const)
 export const setAllPacksSortDownAC = (packsInfo: ResponseTypePacks) =>
   ({ type: 'packs/SET-PACKS-SORTED-DOWN', packsInfo } as const)
-export const addPackAC = (pack: PackType) => ({ type: 'packs/ADD-PACK', pack } as const)
+export const toggleIsMyPacksAC = (value: boolean) =>
+  ({ type: 'packs/TOGGLE-IS-MY-PACKS', value } as const)
 
 // thunk creators
 
-export const getAllPacksTC = (): AppThunk => async dispatch => {
-  dispatch(setLoadingAC(true))
-  try {
-    let res = await packsAPI.getAllPacks()
-    dispatch(setAllPacksAC(res))
-  } catch (e: any) {
-    console.log(e)
-    handleError(e, dispatch)
-  } finally {
-    dispatch(setLoadingAC(false))
+export const getPacksTC =
+  (userId?: string): AppThunk =>
+  async dispatch => {
+    dispatch(setLoadingAC(true))
+    try {
+      let res = await packsAPI.getPacks(userId)
+      dispatch(setPacksAC(res))
+    } catch (e) {
+      console.log(e)
+      handleError(e, dispatch)
+    } finally {
+      dispatch(setLoadingAC(false))
+    }
   }
-}
 
 export const getSortUpPacksTC = (): AppThunk => async dispatch => {
   try {
     let res = await packsAPI.getSortUpPacks()
     dispatch(setAllPacksSortUpdAC(res))
-  } catch (e: any) {
+  } catch (e) {
     handleError(e, dispatch)
   }
 }
@@ -70,36 +74,65 @@ export const getSortDownPacksTC = (): AppThunk => async dispatch => {
   try {
     let res = await packsAPI.getSortDownPacks()
     dispatch(setAllPacksSortDownAC(res))
-  } catch (e: any) {
+  } catch (e) {
     handleError(e, dispatch)
   }
 }
 
-export const addPackTC = (): AppThunk => async dispatch => {
-  try {
-    let newPack = {
-      cardsPack: {
-        name: 'New Added Pack',
-        // private: false,
-      },
+export const addPackTC =
+  (userId?: string): AppThunk =>
+  async dispatch => {
+    try {
+      let newPack = {
+        cardsPack: {
+          name: 'New Added Pack',
+        },
+      }
+      await packsAPI.addPack(newPack)
+      let res = await packsAPI.getPacks(userId)
+      dispatch(setPacksAC(res))
+    } catch (e) {
+      handleError(e, dispatch)
     }
-    await packsAPI.addPack(newPack)
-    let res = await packsAPI.getAllPacks()
-    console.log(res)
-    dispatch(setAllPacksAC(res))
-    // console.log(res)
-    // dispatch(addPackAC(res))
-    // dispatch(getAllPacksTC())
-  } catch (e: any) {}
-}
+  }
+
+export const deletePackTC =
+  (packId: string, userId?: string): AppThunk =>
+  async dispatch => {
+    try {
+      await packsAPI.deletePack(packId)
+      let res = await packsAPI.getPacks(userId)
+      dispatch(setPacksAC(res))
+    } catch (e) {
+      handleError(e, dispatch)
+    }
+  }
+
+export const updatePackTC =
+  (packId: string, userId?: string): AppThunk =>
+  async dispatch => {
+    try {
+      let updatedPack = {
+        cardsPack: {
+          _id: packId,
+          name: 'Updated Pack',
+        },
+      }
+      await packsAPI.updatePack(updatedPack)
+      let res = await packsAPI.getPacks(userId)
+      dispatch(setPacksAC(res))
+    } catch (e) {
+      handleError(e, dispatch)
+    }
+  }
 
 //types
 
 export type PacksActionsType =
-  | ReturnType<typeof setAllPacksAC>
+  | ReturnType<typeof setPacksAC>
   | ReturnType<typeof setAllPacksSortUpdAC>
   | ReturnType<typeof setAllPacksSortDownAC>
-  | ReturnType<typeof addPackAC>
+  | ReturnType<typeof toggleIsMyPacksAC>
 
 type initialStateType = {
   cardPacks: PackType[]
@@ -110,9 +143,10 @@ type initialStateType = {
   pageCount: number
   sortDirection: 'up' | 'down'
   error: string
+  isMyPacks: boolean
 }
 
-type PackType = {
+export type PackType = {
   _id: string
   user_id: string
   name: string
