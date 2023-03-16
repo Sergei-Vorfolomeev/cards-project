@@ -13,6 +13,7 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
+      <div className={styles.header_wrapper}>
       <span>IT-Incubator</span>
       {isAuth ? (
         <Button
@@ -30,6 +31,7 @@ export const Header = () => {
           }}
         />
       )}
+      </div>
     </div>
   )
 }

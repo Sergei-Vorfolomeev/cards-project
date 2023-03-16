@@ -3,25 +3,31 @@
 }
 
 .allPacks_container {
-    width: 80%;
+    width: 100%;
     margin: 0px auto;
+    max-width: 1008px;
 }
 
 .allPacks_titleAndButton {
-    margin-top: 39px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 }
 
 .allPacks_interface {
-    margin-top: 34px;
+    margin-top: 12px;
     display: flex;
     justify-content: space-between;
 
     flex-wrap: wrap;
 }
 
-.allPacks_interface img {
-    margin-top: 40px;
+.filter_button{
+    margin-top: auto;
+    border: none;
+    padding: 0;
+    outline: none;
+    background: none;
+    margin-bottom: 4px;
 }

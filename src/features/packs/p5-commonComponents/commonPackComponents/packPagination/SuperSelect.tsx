@@ -48,6 +48,7 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = ({
   const finalSelectClassName = s.select + (className ? ' ' + className : '')
 
   return (
+    <div className={s.pagination_select}>
     <select
       className={finalSelectClassName}
       onChange={onChangeCallback}
@@ -55,5 +56,7 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = ({
     >
       {mappedOptions}
     </select>
+    </div>
+
   )
 }

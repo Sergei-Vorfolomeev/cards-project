@@ -1,10 +1,11 @@
 import { Dispatch } from "redux";
 import { packsAPI } from "./packsAPI";
+import { setLoadingAC } from "../../app/appReducer";
 
 const initialState: initialStateType = {
   cardPacks: [],
   cardPacksTotalCount: 0,
-  maxCardsCount: 100,
+  maxCardsCount: 110,
   minCardsCount: 0,
   page: 1,
   pageCount: 5,
@@ -50,28 +51,30 @@ export const setAllPacksSortDownAC = (packs: PackType[]) => ({ type: "packs/SET-
 
 export const getAllPacksTC = (data: any) => async (dispatch: Dispatch) => {
   try {
+    dispatch(setLoadingAC(true))
     let res = await packsAPI.getAllPacks(data);
     dispatch(setAllPacksAC(res.cardPacks, res.cardPacksTotalCount, res.maxCardsCount, res.minCardsCount, res.page, res.pageCount));
   } catch (e: any) {
 
+  } finally {
+    dispatch(setLoadingAC(false))
   }
 };
 
-export const getSortUpPacksTC = () => async (dispatch: Dispatch) => {
+export const getSortUpPacksTC = (data: any) => async (dispatch: Dispatch) => {
   try {
-    let res = await packsAPI.getSortUpPacks();
+    let res = await packsAPI.getSortUpPacks(data);
     dispatch(setAllPacksSortUpdAC(res.cardPacks));
   } catch (e: any) {
 
   }
 };
 
-export const getSortDownPacksTC = () => async (dispatch: Dispatch) => {
+export const getSortDownPacksTC = (data: any) => async (dispatch: Dispatch) => {
   try {
-    let res = await packsAPI.getSortDownPacks();
+    let res = await packsAPI.getSortDownPacks(data);
     dispatch(setAllPacksSortDownAC(res.cardPacks));
   } catch (e: any) {
-
   }
 };
 

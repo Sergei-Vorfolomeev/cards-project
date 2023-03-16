@@ -16,7 +16,7 @@ import { TableFooter, TablePagination} from "@mui/material";
 
 
 
-export const TableForPacks = ({packsData}: PropsType) => {
+export const TableForPacks = ({packsData, minMaxCardsValue}: PropsType) => {
 
     const dispatch = useAppDispatch()
     const currentPageNumber = useAppSelector(state => state.packs.page)
@@ -24,12 +24,13 @@ export const TableForPacks = ({packsData}: PropsType) => {
     const sortDirection = useAppSelector(state => state.packs.sortDirection)
     const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
 
-
+    const page = useAppSelector(state => state.packs.page)
+    const count = useAppSelector(state => state.packs.pageCount)
 
     const columnsData = ['Name', 'Cards', 'Last updated', 'Created By', 'Actions']
 
     const setSortDirectionHandler = () => {
-        sortDirection === 'up' ? dispatch(getSortDownPacksTC()) : dispatch(getSortUpPacksTC())
+        sortDirection === 'up' ? dispatch(getSortDownPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1],sortPacks: '1updated',  page: page, pageCount: count})) : dispatch(getSortUpPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1] ,sortPacks: '0updated', page: page, pageCount: count}))
     }
     // const onChangePagination = (event: React.ChangeEvent<unknown>, value: number) => {
     //     getPacksPaginationTC(value, elementsOnPage);
@@ -108,5 +109,6 @@ type packsData = {
 
 type PropsType = {
     packsData: packsData[]
+    minMaxCardsValue: number[]
 }
 

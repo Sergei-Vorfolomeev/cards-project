@@ -15,12 +15,12 @@ export const packsAPI = {
         // let data = {packName: 'english', min: 0, max: 100, page: 1, pageCount: 10}
         return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
     },
-    getSortUpPacks() {
-        let data = {sortPacks: '0updated', page: 1, pageCount: 10}
+    getSortUpPacks(data = {}) {
+        // let data = {sortPacks: '0updated', page: 1, pageCount: 10}
         return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
     },
-    getSortDownPacks() {
-        let data = {sortPacks: '1updated', page: 1, pageCount: 10}
+    getSortDownPacks(data = {}) {
+        // let data = {sortPacks: '1updated', page: 1, pageCount: 10}
         return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
     },
     getFriendsPacks(cardsPack_id: string) {

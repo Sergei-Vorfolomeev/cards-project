@@ -12,6 +12,9 @@ import {TableForPacks} from "../p5-commonComponents/commonPackComponents/tables/
 import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {getAllPacksTC} from "../packsReducer";
 import { SuperPagination } from "../p5-commonComponents/commonPackComponents/packPagination/SuperPagination";
+import { Loader } from "../../../common/components/loader/Loader";
+import { useSelector } from "react-redux";
+import { getLoading } from "../../../app/appSelectors";
 
 
 export const AllPacks = () => {
@@ -38,7 +41,7 @@ export const AllPacks = () => {
 
     //for filtration
     const onChangeCardsFilter = () =>{
-        dispatch(getAllPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1], page: 1, pageCount: 10}))
+        dispatch(getAllPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1], page: 1, pageCount: count}))
     }
     //end for filtration
 
@@ -59,40 +62,45 @@ export const AllPacks = () => {
         setMinMaxCardsValue(newValue as number[]);
     };
 
+    const loading = useSelector(getLoading)
+
 
 
     return (
-        <div className={s.allPacks}>
-            <div className={s.allPacks_container}>
-                <div className={s.allPacks_titleAndButton}>
-                    <PacksTitle title={'Packs list'}/>
-                    <PackButton name={'Add new pack'} onClick={buttonOnClickHandler}/>
-                </div>
-                <div className={s.allPacks_interface}>
-                    <PacksInput id={'allPacks'} text={'Provide your text'} type={'text'} value={inputValue}
-                                width={'413px'} onChange={inputOnChangeHandler}/>
-                    <ShowPacksCards onClick={showPacksCardsOnClickHandler}/>
-                    <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue}/>
-                    {/* filtration */}
-                    <button onClick={onChangeCardsFilter}>
-                        <img src={cleanFiltersIcon} alt={"filter-image"}/>
-                    </button>
-                </div>
-                <div className={s.allPacks_table}>
-                    <TableForPacks packsData={packs}/>
-                </div>
-                <div className={s.allPacks_pagination}></div>
+            <div className={s.allPacks}>
+                <div className={s.allPacks_container}>
+                    <div className={s.allPacks_titleAndButton}>
+                        <PacksTitle title={'Packs list'} />
+                        <PackButton name={'Add new pack'} onClick={buttonOnClickHandler} />
+                    </div>
+                    <div className={s.allPacks_interface}>
+                        <PacksInput id={'allPacks'} text={'Provide your text'} type={'text'} value={inputValue}
+                                    width={'413px'} onChange={inputOnChangeHandler} />
+                        <ShowPacksCards onClick={showPacksCardsOnClickHandler} />
+                        <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue} />
+                        {/* filtration */}
+                        <button onClick={onChangeCardsFilter} className={s.filter_button}>
+                            <img src={cleanFiltersIcon} alt={"filter-image"} />
+                        </button>
+                    </div>
 
-                {/* pagination */}
-                <SuperPagination
-                  page={page}
-                  itemsCountForPage={count}
-                  totalCount={totalCount}
-                  onChange={onChangePagination}
-                />
+                          <div className={s.allPacks_table}>
+                              {
+                                  loading ? <Loader /> :
+                              <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue} />
+                              }
+                          </div>
+
+                    {/* pagination */}
+                    <SuperPagination
+                      page={page}
+                      itemsCountForPage={count}
+                      totalCount={totalCount}
+                      onChange={onChangePagination}
+                    />
+                </div>
+
             </div>
-
-        </div>
     );
 };
 
