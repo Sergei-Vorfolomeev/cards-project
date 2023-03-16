@@ -25,7 +25,7 @@ export const AllPacks = () => {
     const dispatch = useAppDispatch()
 
     const [inputValue, setInputValue] = useState<string>('')
-    const [minMaxCardsValue, setMinMaxCardsValue] = React.useState<number[]>([0, 100]);
+    const [minMaxCardsValue, setMinMaxCardsValue] = useState<number[]>([0, 100]);
 
     //for pagination
     const page = useAppSelector(state => state.packs.page)
@@ -40,8 +40,11 @@ export const AllPacks = () => {
     //end for pagination
 
     //for filtration
-    const onChangeCardsFilter = () =>{
-        dispatch(getAllPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1], page: 1, pageCount: count}))
+    const onChangeCardsFilter = (newValue:number[]) =>{
+        dispatch(getAllPacksTC({min: newValue[0], max: newValue[1], page: 1, pageCount: count}))
+    }
+    const resetCardsFilter = () =>{
+        dispatch(getAllPacksTC({page: 1, pageCount: count}))
     }
     //end for filtration
 
@@ -58,8 +61,8 @@ export const AllPacks = () => {
     const showPacksCardsOnClickHandler = () => {
         return navigate(PATH.PACK_MY)
     }
-    const minMaxCardsValueChangeHandler = (event: Event, newValue: number | number[]) => {
-        setMinMaxCardsValue(newValue as number[]);
+    const minMaxCardsValueChangeHandler = ( newValue: number[]) => {
+        setMinMaxCardsValue(newValue);
     };
 
     const loading = useSelector(getLoading)
@@ -77,9 +80,9 @@ export const AllPacks = () => {
                         <PacksInput id={'allPacks'} text={'Provide your text'} type={'text'} value={inputValue}
                                     width={'413px'} onChange={inputOnChangeHandler} />
                         <ShowPacksCards onClick={showPacksCardsOnClickHandler} />
-                        <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue} />
+                        <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue} setMinMaxCardsValue={setMinMaxCardsValue} onChangeCardsFilter={onChangeCardsFilter}/>
                         {/* filtration */}
-                        <button onClick={onChangeCardsFilter} className={s.filter_button}>
+                        <button onClick={resetCardsFilter} className={s.filter_button}>
                             <img src={cleanFiltersIcon} alt={"filter-image"} />
                         </button>
                     </div>
