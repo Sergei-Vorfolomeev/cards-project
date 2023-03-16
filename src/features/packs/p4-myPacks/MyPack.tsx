@@ -56,7 +56,13 @@ export const MyPack = () => {
     }
 
     const onChangePagination = (newPage: number, newCount: number) => {
-        dispatch(getPacksTC({min: minCardsCountValue, max: maxCardsCountValue, page: newPage, pageCount: newCount}))
+        dispatch(getPacksTC({
+            min: minCardsCountValue,
+            max: maxCardsCountValue,
+            page: newPage,
+            pageCount: newCount,
+            packName: myPacksInput
+        }))
     }
 
     useDebouncedEffect(() => {

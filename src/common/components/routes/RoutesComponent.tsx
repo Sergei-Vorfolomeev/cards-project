@@ -40,7 +40,7 @@ export const RoutesComponent = () => {
       <Route path={PATH.SET_NEW_PASSWORD} element={<UpdatePassword />} />
       <Route path={PATH.PACKS_ALL} element={<AllPacks />} />
       <Route path={PATH.PACK_MY} element={<MyPack />} />
-      <Route path={PATH.NO_PACKS} element={<EmptyPack />} />
+      <Route path={PATH.NO_PACKS} element={<EmptyPack/>} />
       <Route path={PATH.PACK_FRIEND} element={<FriendsPack />} />
 
       {/*<Route path={PATH.ERROR_404} element={<Page404 />} />*/}

@@ -31,7 +31,7 @@ export const FriendsPack = () => {
     const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)
 
     const onChangePagination = (newPage: number, newCount: number) => {
-        dispatch(getPacksTC({page: newPage, pageCount: newCount}))
+        dispatch(getPacksTC({page: newPage, pageCount: newCount,packName: inputValue, min, max}))
     }
 
     let {packId} = useParams()

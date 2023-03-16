@@ -79,7 +79,7 @@ export const AllPacks = () => {
 
 
     const onChangePagination = (newPage: number, newCount: number) => {
-        dispatch(getPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1], page: newPage, pageCount: newCount}))
+        dispatch(getPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1], page: newPage, pageCount: newCount,packName: inputValue}))
     }
 
     return (
