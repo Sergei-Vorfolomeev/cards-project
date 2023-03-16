@@ -5,7 +5,7 @@ import { Header } from '../features/header/Header'
 import { useAppDispatch } from './store'
 import { meTC } from '../features/login/authReducer'
 
-function App() {
+export function App() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -20,4 +20,4 @@ function App() {
   )
 }
 
-export default App
+

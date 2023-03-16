@@ -5,25 +5,19 @@
   right: 0;
   bottom: 0;
   left: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  opacity: 0.8;
-  background-color: gray;
+    background: rgba(50, 50, 50, 0.2)
 }
 
 .loader {
   z-index: 1001;
-
   width: 90px;
   height: 90px;
-
   border: 9px solid #f3f3f3;
   border-top: 8px solid #366eff;
   border-radius: 50%;
-
   animation: spin 1s linear infinite;
 }
 

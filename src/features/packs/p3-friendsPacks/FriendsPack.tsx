@@ -6,24 +6,26 @@ import {PackButton} from "../p5-commonComponents/commonPackComponents/packButton
 import {PacksInput} from "../p5-commonComponents/commonPackComponents/packsInput/PacksInput";
 import {
     FriendsPackTable
-} from "../p5-commonComponents/commonPackComponents/tables/tableForPacks/friendsPackTable/FriendsPackTable";
+} from "./friendsPackTable/FriendsPackTable";
 import {useAppDispatch, useAppSelector} from "../../../app/store";
-import {getFriendsCardsTC} from "../cardsReducer";
+import {getCardsTC} from "../cardsReducer";
+import {useParams} from "react-router-dom";
 
 export const FriendsPack = () => {
 
     const dispatch = useAppDispatch()
-    const tableData = useAppSelector(state=> state.cards.cards)
+    const tableData = useAppSelector(state => state.cards.cards)
     const [inputValue, setInputValue] = useState<string>('')
     const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)
 
+    let {packId} = useParams()
 
     useEffect(() => {
-        dispatch(getFriendsCardsTC("6389f1095eac3fed550edac5"))
-    },[])
+        packId &&
+        dispatch(getCardsTC(packId))
+    }, [packId])
 
 
-    console.log(tableData)
     return (
         <div className={s.friendsPack}>
             <div className={s.friendsPack_container}>
@@ -36,7 +38,7 @@ export const FriendsPack = () => {
                 <PacksInput id={'friendsPackInput'} text={'Search'} type={'text'} value={inputValue} width={'98%'}
                             onChange={inputOnChaneHandler}/>
                 <div className={s.friendsPack_table}>
-                    <FriendsPackTable  cardsData={tableData}/>
+                    <FriendsPackTable cardsData={tableData}/>
                 </div>
             </div>
         </div>

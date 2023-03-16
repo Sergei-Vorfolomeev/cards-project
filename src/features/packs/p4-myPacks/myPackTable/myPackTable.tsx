@@ -1,6 +1,6 @@
 import React from 'react';
-import {useAppDispatch, useAppSelector} from "../../../../../../../app/store";
-import {getSortDownPacksTC, getSortUpPacksTC} from "../../../../../packsReducer";
+import {useAppDispatch, useAppSelector} from "../../../../app/store";
+import {getSortDownPacksTC, getSortUpPacksTC} from "../../packsReducer";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -10,22 +10,20 @@ import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import TableBody from "@mui/material/TableBody";
 import {TableFooter} from "@mui/material";
-import Star from '../../../../../../../common/assets/pictures/Star 5.svg'
+import Star from '../../../../common/assets/pictures/Star 5.svg'
+import {ActionsWithCards} from "../actionsWithCards/ActionsWithCards";
 
 type PropsType = {
     cardsData: cardData[]
 }
 
-export const FriendsPackTable = ({ cardsData}: PropsType) => {
+export const MyPackTable = ({cardsData}: PropsType) => {
 
     const dispatch = useAppDispatch()
-    const currentPageNumber = useAppSelector(state => state.packs.page)
-    const elementsOnPage = useAppSelector(state => state.packs.pageCount)
     const sortDirection = useAppSelector(state => state.packs.sortDirection)
-    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
 
 
-    const columnsData = ['Question', 'Answer', 'Last updated', 'Grade']
+    const columnsData = ['Question', 'Answer', 'Last updated', 'Grade', '']
 
     const setSortDirectionHandler = () => {
         sortDirection === 'up' ? dispatch(getSortDownPacksTC()) : dispatch(getSortUpPacksTC())
@@ -61,9 +59,9 @@ export const FriendsPackTable = ({ cardsData}: PropsType) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {rows.map((row, index) => (
                         <TableRow
-                            key={row.id}
+                            key={index}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell align="center">{row.question}</TableCell>
@@ -77,6 +75,9 @@ export const FriendsPackTable = ({ cardsData}: PropsType) => {
                                 <img src={Star}/>
                                 <img src={Star}/>
                                 <img src={Star}/>
+                            </TableCell>
+                            <TableCell align="center">
+                                <ActionsWithCards />
                             </TableCell>
                         </TableRow>
                     ))}

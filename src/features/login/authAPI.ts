@@ -50,16 +50,16 @@ export const instance = axios.create({
 //authAPI
 export const authAPI = {
   login(data: LoginRequestType) {
-    return instance.post<UserResponseType>('/auth/login', data).then(res => res.data)
+    return instance.post<UserResponseType>('auth/login', data).then(res => res.data)
   },
   logout() {
-    return instance.delete<AuthResponseType>('/auth/me').then(res => res)
+    return instance.delete<AuthResponseType>('auth/me').then(res => res)
   },
   me() {
-    return instance.post<UserResponseType>('/auth/me', {}).then(res => res.data)
+    return instance.post<UserResponseType>('auth/me', {}).then(res => res.data)
   },
   register(data: RegisterRequestType) {
-    return instance.post<UserResponseType>('/auth/register', data).then(res => res.data)
+    return instance.post<UserResponseType>('auth/register', data).then(res => res.data)
   },
   forgot(email: string) {
     let data = {

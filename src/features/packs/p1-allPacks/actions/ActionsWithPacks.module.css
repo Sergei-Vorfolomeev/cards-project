@@ -1,0 +1,22 @@
+.actionsWithPacks {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 50px;
+}
+
+.actionsWithPacks button {
+    border: none;
+    outline: none;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+
+.actionsWithPacks button:hover {
+    width: 18px;
+    height: 18px;
+    background-size: 18px 18px;
+}
+
