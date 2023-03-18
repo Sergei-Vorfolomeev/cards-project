@@ -12,6 +12,7 @@ const initialState: initialStateType = {
     pageCount: 5,
     sortDirection: 'up',
     error: '',
+    buttonDisableBecauseProcess: false
 }
 
 export const packsReducer = (
@@ -27,6 +28,8 @@ export const packsReducer = (
             return {...state, ...action.packsInfo, cardPacks: [...action.packsInfo.cardPacks], sortDirection: 'down'}
         case 'packs/SET-MIN-NAX-CARDS-COUNT':
             return {...state, maxCardsCount: action.maxCardsCount, minCardsCount: action.minCardsCount}
+        case 'packs/SET-BUTTON-DISABLE':
+            return {...state, buttonDisableBecauseProcess: action.buttonDisable}
         default:
             return state
     }
@@ -36,6 +39,8 @@ export const packsReducer = (
 
 const setPacksAC = (packsInfo: ResponseTypePacks) =>
     ({type: 'packs/SET-NEW-PACKS', packsInfo} as const)
+const toggleButtonDisableAC = (buttonDisable: boolean) =>
+    ({type: 'packs/SET-BUTTON-DISABLE', buttonDisable} as const)
 export const setAllPacksSortUpdAC = (packsInfo: ResponseTypePacks) =>
     ({type: 'packs/SET-PACKS-SORTED-UP', packsInfo} as const)
 export const setAllPacksSortDownAC = (packsInfo: ResponseTypePacks) =>
@@ -79,6 +84,7 @@ export const getSortDownPacksTC = (data: getPacksDataType): AppThunk => async di
 export const addPackTC = (userId?: string): AppThunk =>
     async dispatch => {
         try {
+            dispatch(toggleButtonDisableAC(true))
             let newPack = {
                 cardsPack: {
                     name: 'New Added Pack',
@@ -89,6 +95,8 @@ export const addPackTC = (userId?: string): AppThunk =>
             dispatch(setPacksAC(res))
         } catch (e) {
             handleError(e, dispatch)
+        } finally {
+            dispatch(toggleButtonDisableAC(false))
         }
     }
 
@@ -127,6 +135,7 @@ export type PacksActionsType =
     | ReturnType<typeof setAllPacksSortUpdAC>
     | ReturnType<typeof setAllPacksSortDownAC>
     | ReturnType<typeof setMinMaxCardValuesAC>
+    | ReturnType<typeof toggleButtonDisableAC>
 
 
 type initialStateType = {
@@ -138,6 +147,7 @@ type initialStateType = {
     pageCount: number
     sortDirection: 'up' | 'down'
     error: string
+    buttonDisableBecauseProcess: boolean
 }
 
 export type PackType = {

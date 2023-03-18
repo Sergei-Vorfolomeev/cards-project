@@ -26,6 +26,7 @@ export const FriendsPack = () => {
     const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
     const min = useAppSelector(state => state.packs.minCardsCount)
     const max = useAppSelector(state => state.packs.maxCardsCount)
+    const buttonDisableBecauseProcess = useAppSelector(state => state.packs.buttonDisableBecauseProcess)
 
     const [inputValue, setInputValue] = useState<string>('')
 
@@ -52,7 +53,7 @@ export const FriendsPack = () => {
                 <BackToPackLists/>
                 <div className={s.friendsPack_titleAndButton}>
                     <PacksTitle title={'Friend’s Pack'}/>
-                    <PackButton name={'Learn to pack'} onClick={() => {
+                    <PackButton disable={buttonDisableBecauseProcess } name={'Learn to pack'} onClick={() => {
                     }}/>
                 </div>
                 <PacksInput id={'friendsPackInput'} text={'Search'} type={'text'} value={inputValue} width={'98%'}

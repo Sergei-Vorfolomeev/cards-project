@@ -12,7 +12,7 @@ export const EmptyPack = () => {
 
     const cardsCount = useAppSelector(state => state.cards.cardsTotalCount)
     const dispatch = useAppDispatch()
-
+    const buttonDisableBecauseProcess = useAppSelector(state => state.packs.buttonDisableBecauseProcess)
 
     const packId = useParams().packId
     const packName = useParams().packName
@@ -34,7 +34,7 @@ export const EmptyPack = () => {
                 <BackToPackLists/>
                 <PacksTitle title={packName!}/>
                 <div className={s.emptyPacks_info}>This pack is empty. Click add new card to fill this pack</div>
-                <PackButton name={'Add new card'} onClick={onClickButtonHandler}/>
+                <PackButton disable={buttonDisableBecauseProcess} name={'Add new card'} onClick={onClickButtonHandler}/>
             </div>
         </div>
     );

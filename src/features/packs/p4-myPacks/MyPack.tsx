@@ -30,6 +30,7 @@ export const MyPack = () => {
     const totalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
     const minCardsCountValue = useAppSelector(state => state.packs.minCardsCount)
     const maxCardsCountValue = useAppSelector(state => state.packs.maxCardsCount)
+    const buttonDisableBecauseProcess = useAppSelector(state => state.packs.buttonDisableBecauseProcess)
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -80,7 +81,7 @@ export const MyPack = () => {
                         <PacksTitle title={`My Pack:  ${packName!}`}/>
                         <img src={myPackMenu}/>
                     </div>
-                    <PackButton name={'Add new card'} onClick={addCardOnClickHandler}/>
+                    <PackButton name={'Add new card'} onClick={addCardOnClickHandler} disable={buttonDisableBecauseProcess}/>
                 </div>
                 <PacksInput
                     id={'myPacksInput'}

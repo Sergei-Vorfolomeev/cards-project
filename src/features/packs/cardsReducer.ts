@@ -13,6 +13,7 @@ const initialState: InitialStateType = {
     pageCount: 10,
     packUserId: '',
     sortDirection: 'up',
+    buttonDisableBecauseProcess: false
 }
 
 export const cardsReducer = (
@@ -49,6 +50,8 @@ export const setCardsSortDownAC = (cardsInfo: ResponseTypeCards) =>
         type: 'packs/SET-CARDS-SORTED-DOWN',
         cardsInfo,
     } as const)
+const toggleButtonDisableAC = (buttonDisable: boolean) =>
+    ({type: 'packs/SET-BUTTON-DISABLE', buttonDisable} as const)
 
 // thunk creators
 
@@ -90,6 +93,7 @@ export const addCardTC =
     (cardsPack_id: string): AppThunk =>
         async dispatch => {
             try {
+                toggleButtonDisableAC(true)
                 let newCard = {
                     card: {
                         cardsPack_id,
@@ -100,6 +104,8 @@ export const addCardTC =
                 dispatch(setCardsAC(res))
             } catch (e) {
                 handleError(e, dispatch)
+            } finally {
+                toggleButtonDisableAC(false)
             }
         }
 
@@ -150,6 +156,7 @@ export type InitialStateType = {
     pageCount: number
     packUserId: string
     sortDirection: 'up' | 'down'
+    buttonDisableBecauseProcess:boolean
 }
 
 type CardType = {

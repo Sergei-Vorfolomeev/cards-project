@@ -5,9 +5,10 @@ import {useAppSelector} from "../../../../../app/store";
 type PropsType = {
     name: string
     onClick: () => void
+    disable: boolean
 }
 
-export const PackButton = ({name, onClick}: PropsType) => {
+export const PackButton = ({name, onClick,disable}: PropsType) => {
 
-    return <button className={s.packButton} onClick={onClick} >{name}</button>
+    return <button disabled={disable} className={s.packButton} onClick={onClick} >{name}</button>
 };

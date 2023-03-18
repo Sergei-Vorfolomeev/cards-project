@@ -27,6 +27,7 @@ export const AllPacks = () => {
     const page = useAppSelector(state => state.packs.page)
     const pageCount = useAppSelector(state => state.packs.pageCount)
     const totalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
+    const buttonDisableBecauseProcess = useAppSelector(state => state.packs.buttonDisableBecauseProcess)
 
     let minLocalStorage = localStorage.getItem('minLocalStorage') ? localStorage.getItem('minLocalStorage') : '0'
     let maxLocalStorage = localStorage.getItem('maxLocalStorage') ? localStorage.getItem('maxLocalStorage') : '110'
@@ -106,7 +107,7 @@ export const AllPacks = () => {
             <div className={s.allPacks_container}>
                 <div className={s.allPacks_titleAndButton}>
                     <PacksTitle title={'Packs list'}/>
-                    <PackButton name={'Add new pack'} onClick={addPackOnClickHandler}/>
+                    <PackButton disable={buttonDisableBecauseProcess} name={'Add new pack'} onClick={addPackOnClickHandler}/>
                 </div>
                 <div className={s.allPacks_interface}>
                     <PacksInput
