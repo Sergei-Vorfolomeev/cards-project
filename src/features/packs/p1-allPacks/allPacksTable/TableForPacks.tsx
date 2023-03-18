@@ -11,10 +11,9 @@ import {useAppDispatch, useAppSelector} from '../../../../app/store'
 import {getPacksTC, getSortDownPacksTC, getSortUpPacksTC} from '../../packsReducer'
 import {TableFooter, TablePagination} from '@mui/material'
 import {ActionsWithPacks} from '../actions/ActionsWithPacks'
-import {NavLink, useNavigate} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import s from '../AllPacks.module.css'
-import {PATH} from '../../../../common/components/routes/RoutesComponent'
-import {SuperPagination} from "../../p5-commonComponents/commonPackComponents/pagination/SuperPagination";
+
 
 export const TableForPacks = ({packsData, minMaxCardsValue}: PropsType) => {
     const dispatch = useAppDispatch()
@@ -22,12 +21,11 @@ export const TableForPacks = ({packsData, minMaxCardsValue}: PropsType) => {
     const userId = useAppSelector(state => state.auth._id)
     const page = useAppSelector(state => state.packs.page)
     const pageCount = useAppSelector(state => state.packs.pageCount)
-
+    const myPackLength = useAppSelector(state => state.cards.cardsTotalCount)
 
     const columnsData = ['Name', 'Cards', 'Last updated', 'Created By', 'Actions']
 
     const setSortDirectionHandler = () => {
-
         sortDirection === 'up' ? dispatch(getSortDownPacksTC({
             sortPacks: '0updated',
             min: minMaxCardsValue[0],
@@ -44,13 +42,13 @@ export const TableForPacks = ({packsData, minMaxCardsValue}: PropsType) => {
 
     const createData = (
         name: string,
-        cards: number,
+        cardsCount: number,
         lastUpdated: string,
         createdBy: string,
         userId: string,
         packId: string
     ) => {
-        return {name, cards, lastUpdated, createdBy, userId, packId}
+        return {name, cardsCount, lastUpdated, createdBy, userId, packId}
     }
 
     let rows = packsData.map(pack =>
@@ -89,16 +87,23 @@ export const TableForPacks = ({packsData, minMaxCardsValue}: PropsType) => {
                         >
                             <TableCell sx={{cursor: 'pointer'}} align="center">
                                 {row.userId === userId ? (
-                                    <NavLink className={s.allPacks_link} to={`/myPack/${row.packId}`}>
-                                        {row.name}{' '}
-                                    </NavLink>
+                                    row.cardsCount == 0 ?
+                                        <NavLink className={s.allPacks_link}
+                                                 to={`/emptyPack/${row.packId}/${row.name}`}>
+                                            {row.name}
+                                        </NavLink> :
+                                        <NavLink className={s.allPacks_link} to={`/myPack/${row.packId}/${row.name}`}>
+                                            {row.name}
+                                        </NavLink>
                                 ) : (
-                                    <NavLink className={s.allPacks_link} to={`/friendsPack/${row.packId}`}>
-                                        {row.name}{' '}
-                                    </NavLink>
+                                    row.cardsCount === 0 ?
+                                        <span style={{opacity: 0.5}}>{row.name}</span> :
+                                        <NavLink className={s.allPacks_link} to={`/friendsPack/${row.packId}`}>
+                                            {row.name}
+                                        </NavLink>
                                 )}
                             </TableCell>
-                            <TableCell align="center">{row.cards}</TableCell>
+                            <TableCell align="center">{row.cardsCount}</TableCell>
                             <TableCell align="center">
                                 {new Date(row.createdBy).toLocaleString('en-US', {
                                     year: 'numeric',
@@ -115,7 +120,6 @@ export const TableForPacks = ({packsData, minMaxCardsValue}: PropsType) => {
                             </TableCell>
                             <TableCell align="center">
                                 <ActionsWithPacks
-                                    cardsQuantity={row.cards}
                                     isVisible={row.userId === userId}
                                     packId={row.packId}
                                     userId={userId}
@@ -124,13 +128,6 @@ export const TableForPacks = ({packsData, minMaxCardsValue}: PropsType) => {
                         </TableRow>
                     ))}
                 </TableBody>
-                <TableFooter>
-                    <TableRow sx={{paddingLeft: '150px'}}>
-                        <TableCell align="right">
-
-                        </TableCell>
-                    </TableRow>
-                </TableFooter>
             </Table>
 
         </TableContainer>

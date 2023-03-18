@@ -7,6 +7,7 @@ type PropsType = {
 }
 
 export const ShowPacksCards = ({ onClick, isMyPacks }: PropsType) => {
+
   return (
     <div className={s.showPacksCards}>
       <h3>Show packs cards</h3>

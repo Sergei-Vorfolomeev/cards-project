@@ -10,21 +10,19 @@ export const instance = axios.create({
 })
 
 
-
-
 //packsAPI
 export const packsAPI = {
     getPacks(info: getPacksDataType = {}) {
-        let data = { packName: '', min: 0, max: 100, page: 1, pageCount: 10, ...info }
-        return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
+        let params = {packName: '', page: 1, min: 0, max: 110, pageCount: 10, ...info}
+        return instance.get<ResponseTypePacks>('/cards/pack', {params}).then(res => res.data)
     },
     getSortUpPacks(info: getPacksDataType = {}) {
-        let data = {sortPacks: '0updated', page: 1, pageCount: 10, ...info}
-        return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
+        let params = {sortPacks: '0updated', page: 1, pageCount: 10, ...info}
+        return instance.get<ResponseTypePacks>('/cards/pack', {params}).then(res => res.data)
     },
     getSortDownPacks(info: getPacksDataType = {}) {
-        let data = {sortPacks: '1updated', page: 1, pageCount: 10,...info}
-        return instance.get<ResponseTypePacks>('/cards/pack', {params: data}).then(res => res.data)
+        let params = {sortPacks: '1updated', page: 1, pageCount: 10, ...info}
+        return instance.get<ResponseTypePacks>('/cards/pack', {params}).then(res => res.data)
     },
     addPack(newPack: { cardsPack: { name: string } }) {
         return instance.post('/cards/pack', newPack)
@@ -36,8 +34,8 @@ export const packsAPI = {
         return instance.put('/cards/pack', updatedPack)
     },
     getCards(info: getCardsDataType = {}) {
-        let data = {page: 1, pageCount: 10, ...info}
-        return instance.get<ResponseTypeCards>('/cards/card', {params: data}).then(res => res.data)
+        let params = {page: 1, pageCount: 10, ...info}
+        return instance.get<ResponseTypeCards>('/cards/card', {params}).then(res => res.data)
     },
     getSortUpCards(cardsPack_id: string) {
         let data = {sortPacks: '0updated', page: 1, pageCount: 10, cardsPack_id}
@@ -102,20 +100,20 @@ export type getPacksDataType = {
     packName?: string
     min?: number
     max?: number
-    sortPacks?: '0updated' |'1updated'
+    sortPacks?: '0updated' | '1updated'
     page?: number
     pageCount?: number
     user_id?: string
-    block?:boolean
+    block?: boolean
 }
 
 export type getCardsDataType = {
-    cardAnswer?:string
-    cardQuestion?:string
-    cardsPack_id?:string
-    min?:number
-    max?:number
-    sortCards?: '0grade' |'1grade'
-    page?:number
-    pageCount?:number
+    cardAnswer?: string
+    cardQuestion?: string
+    cardsPack_id?: string
+    min?: number
+    max?: number
+    sortCards?: '0grade' | '1grade'
+    page?: number
+    pageCount?: number
 }

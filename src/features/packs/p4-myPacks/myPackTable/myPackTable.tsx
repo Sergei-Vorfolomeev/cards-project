@@ -16,10 +16,9 @@ import {NavLink} from "react-router-dom";
 
 type PropsType = {
     cardsData: cardData[]
-    minMaxCardsValue: number[]
 }
 
-export const MyPackTable = ({cardsData, minMaxCardsValue}: PropsType) => {
+export const MyPackTable = ({cardsData}: PropsType) => {
     const dispatch = useAppDispatch()
     const sortDirection = useAppSelector(state => state.packs.sortDirection)
     const page = useAppSelector(state => state.packs.page)
@@ -31,16 +30,12 @@ export const MyPackTable = ({cardsData, minMaxCardsValue}: PropsType) => {
         sortDirection === 'up' ? dispatch(getSortDownPacksTC(
             {
                 sortPacks: '0updated',
-                min: minMaxCardsValue[0],
-                max: minMaxCardsValue[1],
                 page,
                 pageCount,
             }
         )) : dispatch(getSortUpPacksTC(
             {
                 sortPacks: '0updated',
-                min: minMaxCardsValue[0],
-                max: minMaxCardsValue[1],
                 page,
                 pageCount,
             }
@@ -72,11 +67,7 @@ export const MyPackTable = ({cardsData, minMaxCardsValue}: PropsType) => {
                                 <TableSortLabel
                                     active={columnData === 'Last updated'}
                                     direction={sortDirection === 'up' ? 'desc' : 'asc'}
-                                    sx={
-                                        columnData === 'Last updated'
-                                            ? {visibility: 'visible'}
-                                            : {visibility: 'hidden'}
-                                    }
+                                    sx={columnData === 'Last updated' ? {visibility: 'visible'} : {visibility: 'hidden'}}
                                     onClick={() => {
                                         setSortDirectionHandler()
                                     }}
@@ -99,11 +90,7 @@ export const MyPackTable = ({cardsData, minMaxCardsValue}: PropsType) => {
                                 })}
                             </TableCell>
                             <TableCell align="center">
-                                <img src={Star}/>
-                                <img src={Star}/>
-                                <img src={Star}/>
-                                <img src={Star}/>
-                                <img src={Star}/>
+                                <img src={Star}/><img src={Star}/><img src={Star}/><img src={Star}/><img src={Star}/>
                             </TableCell>
                             <TableCell align="center">
                                 <ActionsWithCards cardId={row.cardId}/>
@@ -111,11 +98,6 @@ export const MyPackTable = ({cardsData, minMaxCardsValue}: PropsType) => {
                         </TableRow>
                     ))}
                 </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        {/*<Pagination count={elementsOnPage} page={currentPageNumber} onChange={onChangePagination}/>*/}
-                    </TableRow>
-                </TableFooter>
             </Table>
         </TableContainer>
     )

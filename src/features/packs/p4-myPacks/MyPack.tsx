@@ -10,16 +10,18 @@ import {Loader} from '../../../common/components/loader/Loader'
 import {Error} from '../../../common/components/error/Error'
 import {useSelector} from 'react-redux'
 import {getIsAuth} from '../../login/loginSelectors'
-import {useNavigate, useParams} from 'react-router-dom'
+import {Navigate, useNavigate, useParams} from 'react-router-dom'
 import {addCardTC, getCardsTC} from '../cardsReducer'
 import {MyPackTable} from './myPackTable/myPackTable'
 import {SuperPagination} from "../p5-commonComponents/commonPackComponents/pagination/SuperPagination";
 import {getPacksTC} from "../packsReducer";
 import useDebouncedEffect from "use-debounced-effect";
+import {LocalLoader} from "../p5-commonComponents/usefullComponents/localLoader/LocalLoader";
+
 
 export const MyPack = () => {
     const cardsData = useAppSelector(state => state.cards.cards)
-    const myUserId = useAppSelector(state => state.auth._id)
+
     const isAuth = useSelector(getIsAuth)
     const isLoading = useAppSelector(state => state.app.loading)
     const errorMessage = useAppSelector(state => state.app.errorMessage)
@@ -28,23 +30,19 @@ export const MyPack = () => {
     const totalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
     const minCardsCountValue = useAppSelector(state => state.packs.minCardsCount)
     const maxCardsCountValue = useAppSelector(state => state.packs.maxCardsCount)
-    const min = useAppSelector(state => state.packs.minCardsCount)
-    const max = useAppSelector(state => state.packs.maxCardsCount)
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    let {packId} = useParams()
+    let {packId, packName} = useParams()
 
 
     useEffect(() => {
-
         if (isAuth) {
-            packId && dispatch(getPacksTC({user_id: myUserId}))
-            console.log(packId)
+            dispatch(getCardsTC({cardsPack_id: packId}))
         } else {
             navigate('/login')
         }
-    }, [myUserId, packId, isAuth, dispatch, navigate])
+    }, [packId])
 
     const [myPacksInput, setMyPacksInput] = useState<string>('')
 
@@ -66,18 +64,20 @@ export const MyPack = () => {
     }
 
     useDebouncedEffect(() => {
-        dispatch(getPacksTC({min, max, user_id: myUserId, packName: myPacksInput}))
-    }, 1000, [min, max, myPacksInput])
+            dispatch(getCardsTC({cardsPack_id: packId, cardQuestion: myPacksInput})
+            )
+        },
+        1000,
+        [myPacksInput])
 
 
     return (
         <div className={s.myPacks}>
-            {isLoading && <Loader/>}
             <div className={s.myPacks_container}>
                 <BackToPackLists/>
                 <div className={s.myPacks_titleAndButton}>
                     <div className={s.myPacks_titleMenu}>
-                        <PacksTitle title={'My Pack'}/>
+                        <PacksTitle title={`My Pack:  ${packName!}`}/>
                         <img src={myPackMenu}/>
                     </div>
                     <PackButton name={'Add new card'} onClick={addCardOnClickHandler}/>
@@ -90,10 +90,18 @@ export const MyPack = () => {
                     width={'98%'}
                     onChange={onChangeMyPacksInput}
                 />
-                <div className={s.myPacks_table}>
-                    <MyPackTable cardsData={cardsData} minMaxCardsValue={[minCardsCountValue, maxCardsCountValue]}/>
-                    {/*<TableForPacks packsData={cardPacks} />*/}
-                </div>
+
+                {isLoading ? <LocalLoader/> :
+                    cardsData.length !== 0 ?
+                        <div className={s.myPacks_table}>
+                            <MyPackTable cardsData={cardsData}/>
+                        </div>
+                        :
+                        myPacksInput.length !== 0 ?
+                            <div className={s.myPacks_noPacksWasFound}>NO PACKS WERE FOUND. REVISE YOUR FILTERS
+                                ;)</div> :
+                            <Navigate to={`/emptyPack/${packId}/${packName}`}/>
+                }
                 <div className={s.myPacks_pagination}>
                     <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount}
                                      onChange={onChangePagination}/>

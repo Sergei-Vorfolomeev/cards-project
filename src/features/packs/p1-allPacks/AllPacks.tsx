@@ -7,44 +7,52 @@ import {ShowPacksCards} from '../p5-commonComponents/usefullComponents/showPacks
 import {NumberOfCards} from '../p5-commonComponents/usefullComponents/numberOfCards/NumberOfCards'
 import cleanFiltersIcon from '../../../common/assets/pictures/cleanFiletetIcon.svg'
 import {useNavigate} from 'react-router-dom'
-import {PATH} from '../../../common/components/routes/RoutesComponent'
 import {useAppDispatch, useAppSelector} from '../../../app/store'
-import {addPackTC, getPacksTC, setMinMaxCardValuesAC, toggleIsMyPacksAC} from '../packsReducer'
+import {addPackTC, getPacksTC} from '../packsReducer'
 import {getIsAuth} from '../../login/loginSelectors'
 import {useSelector} from 'react-redux'
-import {Loader} from '../../../common/components/loader/Loader'
 import {Error} from '../../../common/components/error/Error'
 import {TableForPacks} from './allPacksTable/TableForPacks'
 import {SuperPagination} from "../p5-commonComponents/commonPackComponents/pagination/SuperPagination";
-import {debounce} from "@mui/material";
-import {getCardsTC} from "../cardsReducer";
 import useDebouncedEffect from 'use-debounced-effect'
+import {LocalLoader} from "../p5-commonComponents/usefullComponents/localLoader/LocalLoader";
+
 
 export const AllPacks = () => {
     const packs = useAppSelector(state => state.packs.cardPacks)
     const isAuth = useSelector(getIsAuth)
     const isLoading = useAppSelector(state => state.app.loading)
     const errorMessage = useAppSelector(state => state.app.errorMessage)
-    const isMyPacks = useAppSelector(state => state.packs.isMyPacks)
     const user_id = useAppSelector(state => state.auth._id)
     const page = useAppSelector(state => state.packs.page)
     const pageCount = useAppSelector(state => state.packs.pageCount)
     const totalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
-    const min = useAppSelector(state => state.packs.minCardsCount)
-    const max = useAppSelector(state => state.packs.maxCardsCount)
+
+    let minLocalStorage = localStorage.getItem('minLocalStorage') ? localStorage.getItem('minLocalStorage') : '0'
+    let maxLocalStorage = localStorage.getItem('maxLocalStorage') ? localStorage.getItem('maxLocalStorage') : '110'
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
     const [inputValue, setInputValue] = useState<string>('')
-    const [minMaxCardsValue, setMinMaxCardsValue] = React.useState<number[]>([min, max])
+    const [minMaxCardsValue, setMinMaxCardsValue] = React.useState<number[]>([+minLocalStorage!, +maxLocalStorage!])
+
+    let PacksTypeLocalStorage = localStorage.getItem('PackType') ? localStorage.getItem('PackType') : 'AllPacks'
+    let myPacks = PacksTypeLocalStorage === 'AllPacks' ? false : true
+    const [isMyPacks, setIsMyPack] = useState<boolean>(myPacks)
+
+
 
     useEffect(() => {
         if (isAuth) {
-            if (!isMyPacks) {
-                dispatch(getPacksTC({}))
+            if (isMyPacks) {
+                dispatch(getPacksTC({user_id, min: +minLocalStorage! , max:+ minLocalStorage!}))
+                localStorage.setItem('PackType', 'MyPacks')
+                setMinMaxCardsValue([+minLocalStorage!,+maxLocalStorage!])
             } else {
-                dispatch(getPacksTC({user_id}))
+                dispatch(getPacksTC({min: +minLocalStorage! , max:+ minLocalStorage!}))
+                localStorage.setItem('PackType', 'AllPacks')
+                setMinMaxCardsValue([+minLocalStorage!,+maxLocalStorage!])
             }
         } else {
             navigate('/login')
@@ -55,20 +63,25 @@ export const AllPacks = () => {
     const addPackOnClickHandler = () => {
         dispatch(addPackTC())
     }
-    const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.currentTarget.value)
-    }
-    const showPacksCardsOnClickHandler = () => {
-        dispatch(toggleIsMyPacksAC(!isMyPacks))
-    }
+    const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)
+    const showPacksCardsOnClickHandler = () => setIsMyPack(!isMyPacks)
+
     const minMaxCardsValueChangeHandler = (event: Event, newValue: number | number[]) => {
         setMinMaxCardsValue(newValue as number[])
+        let value = newValue as number[]
+        let minValue = value[0].toString()
+        let maxValue = value[1].toString()
+        localStorage.setItem('minLocalStorage', minValue)
+        localStorage.setItem('maxLocalStorage', maxValue)
     }
 
     const noFiltersOnClickHandler = () => {
         dispatch(getPacksTC({min: 0, max: 100, packName: 'english', pageCount: 10, page: 1}))
         setMinMaxCardsValue([0, 110])
         setInputValue('')
+        localStorage.setItem('minLocalStorage', '0')
+        localStorage.setItem('maxLocalStorage', '100')
+
     }
 
     useDebouncedEffect(() => {
@@ -79,12 +92,17 @@ export const AllPacks = () => {
 
 
     const onChangePagination = (newPage: number, newCount: number) => {
-        dispatch(getPacksTC({min: minMaxCardsValue[0], max: minMaxCardsValue[1], page: newPage, pageCount: newCount,packName: inputValue}))
+        dispatch(getPacksTC({
+            min: minMaxCardsValue[0],
+            max: minMaxCardsValue[1],
+            page: newPage,
+            pageCount: newCount,
+            packName: inputValue
+        }))
     }
 
     return (
         <div className={s.allPacks}>
-            {isLoading && <Loader/>}
             <div className={s.allPacks_container}>
                 <div className={s.allPacks_titleAndButton}>
                     <PacksTitle title={'Packs list'}/>
@@ -103,12 +121,15 @@ export const AllPacks = () => {
                     <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue}/>
                     <img onClick={noFiltersOnClickHandler} src={cleanFiltersIcon}/>
                 </div>
-                {packs.length === 0 ?
-                    <div className={s.allPacks_noPacksWasFound}>NO PACKS WERE FOUND. REVISE YOUR FILTERS ;)</div> :
-                    <div className={s.allPacks_table}>
-                        <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue}/>
-                    </div>
+
+                {isLoading ? <LocalLoader/> :
+                    packs.length === 0 ?
+                        <div className={s.allPacks_noPacksWasFound}>NO PACKS WERE FOUND. REVISE YOUR FILTERS ;)</div> :
+                        <div className={s.allPacks_table}>
+                            <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue}/>
+                        </div>
                 }
+
                 <div className={s.allPacks_pagination}>
                     <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount}
                                      onChange={onChangePagination}/>

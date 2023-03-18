@@ -21,3 +21,9 @@
 .myPacks_table {
     margin-top: 24px;
 }
+
+.myPacks_noPacksWasFound {
+    margin-top: 100px;
+    font-weight: 600;
+    font-size: 20px;
+}

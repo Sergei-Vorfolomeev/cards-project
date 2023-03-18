@@ -12,7 +12,6 @@ const initialState: initialStateType = {
     pageCount: 5,
     sortDirection: 'up',
     error: '',
-    isMyPacks: false,
 }
 
 export const packsReducer = (
@@ -26,8 +25,6 @@ export const packsReducer = (
             return {...state, ...action.packsInfo, cardPacks: [...action.packsInfo.cardPacks], sortDirection: 'up'}
         case 'packs/SET-PACKS-SORTED-DOWN':
             return {...state, ...action.packsInfo, cardPacks: [...action.packsInfo.cardPacks], sortDirection: 'down'}
-        case 'packs/TOGGLE-IS-MY-PACKS':
-            return {...state, isMyPacks: action.value}
         case 'packs/SET-MIN-NAX-CARDS-COUNT':
             return {...state, maxCardsCount: action.maxCardsCount, minCardsCount: action.minCardsCount}
         default:
@@ -43,8 +40,6 @@ export const setAllPacksSortUpdAC = (packsInfo: ResponseTypePacks) =>
     ({type: 'packs/SET-PACKS-SORTED-UP', packsInfo} as const)
 export const setAllPacksSortDownAC = (packsInfo: ResponseTypePacks) =>
     ({type: 'packs/SET-PACKS-SORTED-DOWN', packsInfo} as const)
-export const toggleIsMyPacksAC = (value: boolean) =>
-    ({type: 'packs/TOGGLE-IS-MY-PACKS', value} as const)
 export const setMinMaxCardValuesAC = (minMaxValue: number[]) =>
     ({type: 'packs/SET-MIN-NAX-CARDS-COUNT', minCardsCount: minMaxValue[0], maxCardsCount: minMaxValue[1]} as const)
 
@@ -131,7 +126,6 @@ export type PacksActionsType =
     | ReturnType<typeof setPacksAC>
     | ReturnType<typeof setAllPacksSortUpdAC>
     | ReturnType<typeof setAllPacksSortDownAC>
-    | ReturnType<typeof toggleIsMyPacksAC>
     | ReturnType<typeof setMinMaxCardValuesAC>
 
 
@@ -144,7 +138,6 @@ type initialStateType = {
     pageCount: number
     sortDirection: 'up' | 'down'
     error: string
-    isMyPacks: boolean
 }
 
 export type PackType = {

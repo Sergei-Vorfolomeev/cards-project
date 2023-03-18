@@ -22,8 +22,8 @@ export const PATH = {
   SET_NEW_PASSWORD: '/set-new-password/:setNewPasswordToken?',
   ERROR_404: '/error404',
   PACKS_ALL: '/allPacks',
-  PACK_MY: '/myPack/:packId?',
-  NO_PACKS: '/emptyPack',
+  PACK_MY: '/myPack/:packId?/:packName?',
+  NO_PACKS: '/emptyPack/:packId?/:packName?',
   PACK_FRIEND: '/friendsPack/:packId?',
 }
 
@@ -31,7 +31,7 @@ export const RoutesComponent = () => {
   return (
     <Routes>
       {/*add your routes here*/}
-      <Route path={'/'} element={<Profile />} />
+      <Route path={'/'} element={<AllPacks />} />
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.REGISTRATION} element={<Registration />} />
       <Route path={PATH.PROFILE} element={<Profile />} />

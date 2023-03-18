@@ -12,6 +12,7 @@
     background-color: #fff;
     background-repeat: no-repeat;
     padding-left: 20px;
+    cursor: pointer;
 }
 
 .actionsWithPacks button:hover {

@@ -13,9 +13,9 @@
     letter-spacing: 0.01em;
     color: #FFFFFF;
     height: 36px;
-
+    cursor: pointer;
 }
 
-.packButton:disabled{
+.packButton:disabled {
     background-color: red;
 }
