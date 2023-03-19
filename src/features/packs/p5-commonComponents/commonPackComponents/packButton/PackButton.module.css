@@ -1,21 +1,24 @@
 .packButton {
-    padding: 8px 28px;
-    background: #366EFF;
-    box-shadow: 0px 4px 18px rgba(54, 110, 255, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
-    border-radius: 30px;
-    border: none;
-    font-family: 'Montserrat', san-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 20px;
-    text-align: left;
-    letter-spacing: 0.01em;
-    color: #FFFFFF;
-    height: 36px;
-    cursor: pointer;
+  cursor: pointer;
+
+  height: 36px;
+  padding: 8px 28px;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 20px;
+  color: #ffffff;
+  text-align: left;
+  letter-spacing: 0.01em;
+
+  background: #366eff;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0px 4px 18px rgba(54, 110, 255, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 }
 
 .packButton:disabled {
-    background-color: red;
+  opacity: 0.5;
 }

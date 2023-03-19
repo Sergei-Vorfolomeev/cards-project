@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
-import { Button } from '../../common/components/button/Button'
+import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import { PATH } from '../../common/components/routes/RoutesComponent'
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { logoutTC } from '../login/authReducer'
@@ -15,7 +15,7 @@ export const Header = () => {
     <div className={styles.header}>
       <span>IT-Incubator</span>
       {isAuth ? (
-        <Button
+        <ButtonComponent
           name={'Log Out'}
           callBack={() => {
             dispatch(logoutTC())
@@ -23,7 +23,7 @@ export const Header = () => {
           }}
         />
       ) : (
-        <Button
+        <ButtonComponent
           name={'Sign In'}
           callBack={() => {
             navigate(PATH.LOGIN)

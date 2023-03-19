@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import s from './ActionsWithPacks.module.css'
 import addPack from 'common/assets/pictures/addPack.svg'
 import changePack from 'common/assets/pictures/changePack.svg'
-import deletePack from 'common/assets/pictures/deletePack.svg'
 import { useAppDispatch } from 'app/store'
 import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
+import { DeleteModal } from 'features/modals/DeleteModal/DeleteModal'
+import { Navigate, NavLink } from 'react-router-dom'
 
 type PropsType = {
   isVisible: boolean
@@ -31,7 +32,7 @@ export const ActionsWithPacks = ({ isVisible, packId, userId }: PropsType) => {
   }
 
   const deleteOnClickHandler = () => {
-    setIsDisabled(true)
+    // setIsDisabled(true)
     if (!isMyPacks) {
       dispatch(deletePackTC(packId))
     } else {
@@ -54,18 +55,19 @@ export const ActionsWithPacks = ({ isVisible, packId, userId }: PropsType) => {
         style={{ backgroundImage: `url(${changePack})` }}
         onClick={updateOnClickHandler}
       ></button>
-      <button
-        style={
-          !isDisabled
-            ? { backgroundImage: `url(${deletePack})` }
-            : {
-                backgroundImage: `url(${deletePack})`,
-                opacity: 0.5,
-              }
-        }
-        onClick={deleteOnClickHandler}
-        disabled={isDisabled}
-      ></button>
+      <DeleteModal packName={'Hello'} deleteCallBack={deleteOnClickHandler} />
+      {/*<button*/}
+      {/*  style={*/}
+      {/*    !isDisabled*/}
+      {/*      ? { backgroundImage: `url(${deletePack})` }*/}
+      {/*      : {*/}
+      {/*          backgroundImage: `url(${deletePack})`,*/}
+      {/*          opacity: 0.5,*/}
+      {/*        }*/}
+      {/*  }*/}
+      {/*  onClick={}*/}
+      {/*  disabled={isDisabled}*/}
+      {/*></button>*/}
     </div>
   )
 }
