@@ -1,76 +1,101 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import s from './FriendsPack.module.css'
-import {BackToPackLists} from "../p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists";
-import {PacksTitle} from "../p5-commonComponents/commonPackComponents/packTitle/PacksTitle";
-import {PackButton} from "../p5-commonComponents/commonPackComponents/packButton/PackButton";
-import {PacksInput} from "../p5-commonComponents/commonPackComponents/packsInput/PacksInput";
+import { getPacksTC } from 'features/packs/packsReducer'
+import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
+import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
+import { useAppDispatch } from 'app/store'
+import { FriendsPackTable } from 'features/packs/p3-friendsPacks/friendsPackTable/FriendsPackTable'
+import { getCardsTC } from 'features/packs/cardsReducer'
+import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
+import useDebouncedEffect from 'use-debounced-effect'
+import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
+import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
+import { useParams } from 'react-router-dom'
+import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
 import {
-    FriendsPackTable
-} from "./friendsPackTable/FriendsPackTable";
-import {useAppDispatch, useAppSelector} from "../../../app/store";
-import {getCardsTC} from "../cardsReducer";
-import {useParams} from "react-router-dom";
-import {Loader} from "../../../common/components/loader/Loader";
-import {SuperPagination} from "../p5-commonComponents/commonPackComponents/pagination/SuperPagination";
-import {getPacksTC} from "../packsReducer";
-import useDebouncedEffect from "use-debounced-effect";
-import {LocalLoader} from '../p5-commonComponents/usefullComponents/localLoader/LocalLoader';
+  getButtonDisableSelector,
+  getCardPageCountSelector,
+  getCardPageSelector,
+  getCardTotalCountSelector,
+  getMaxCardsCountSelector,
+  getMinCardsCountSelector,
+  getCardsDataSelector,
+} from 'features/packs/selectors/packsSelectors'
+import { useSelector } from 'react-redux'
+import { getLoadingSelector } from 'app/appSelectors'
 
 export const FriendsPack = () => {
+  const dispatch = useAppDispatch()
+  const tableData = useSelector(getCardsDataSelector)
+  const isLoading = useSelector(getLoadingSelector)
+  const page = useSelector(getCardPageSelector)
+  const pageCount = useSelector(getCardPageCountSelector)
+  const totalCount = useSelector(getCardTotalCountSelector)
+  const min = useSelector(getMinCardsCountSelector)
+  const max = useSelector(getMaxCardsCountSelector)
+  const buttonDisableBecauseProcess = useSelector(getButtonDisableSelector)
 
-    const dispatch = useAppDispatch()
-    const tableData = useAppSelector(state => state.cards.cards)
-    const isLoading = useAppSelector(state => state.app.loading)
-    const page = useAppSelector(state => state.cards.page)
-    const pageCount = useAppSelector(state => state.cards.pageCount)
-    const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
-    const min = useAppSelector(state => state.packs.minCardsCount)
-    const max = useAppSelector(state => state.packs.maxCardsCount)
-    const buttonDisableBecauseProcess = useAppSelector(state => state.packs.buttonDisableBecauseProcess)
+  const [inputValue, setInputValue] = useState<string>('')
 
-    const [inputValue, setInputValue] = useState<string>('')
+  const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputValue(e.currentTarget.value)
 
-    const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)
+  const onChangePagination = (newPage: number, newCount: number) => {
+    dispatch(getPacksTC({ page: newPage, pageCount: newCount, packName: inputValue, min, max }))
+  }
 
-    const onChangePagination = (newPage: number, newCount: number) => {
-        dispatch(getPacksTC({page: newPage, pageCount: newCount, packName: inputValue, min, max}))
-    }
+  let { packId } = useParams()
 
-    let {packId} = useParams()
+  useEffect(() => {
+    packId && dispatch(getCardsTC({ cardsPack_id: packId }))
+  }, [packId])
 
-    useEffect(() => {
-        packId &&
-        dispatch(getCardsTC({cardsPack_id: packId}))
-    }, [packId])
+  useDebouncedEffect(
+    () => {
+      dispatch(getCardsTC({ cardQuestion: inputValue, cardsPack_id: packId }))
+    },
+    800,
+    [inputValue]
+  )
 
-    useDebouncedEffect(() => {
-        dispatch(getCardsTC({cardQuestion: inputValue, cardsPack_id: packId}))},
-            1000, [inputValue])
-
-    return (
-        <div className={s.friendsPack}>
-            <div className={s.friendsPack_container}>
-                <BackToPackLists/>
-                <div className={s.friendsPack_titleAndButton}>
-                    <PacksTitle title={'Friend’s Pack'}/>
-                    <PackButton disable={buttonDisableBecauseProcess } name={'Learn to pack'} onClick={() => {
-                    }}/>
-                </div>
-                <PacksInput id={'friendsPackInput'} text={'Search'} type={'text'} value={inputValue} width={'98%'}
-                            onChange={inputOnChaneHandler}/>
-                {isLoading ? <LocalLoader/> :
-                    tableData.length === 0 ?
-                        <div className={s.friendsPack_noCardsWasFound}>NO PACKS WERE FOUND. TRY AGAIN ;)</div> :
-                        <div className={s.friendsPack_table}>
-                            <FriendsPackTable cardsData={tableData}/>
-                        </div>
-                }
-                <div className={s.friendsPack_pagintion}>
-                    <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount}
-                                     onChange={onChangePagination}/>
-
-                </div>
-            </div>
+  return (
+    <div className={s.friendsPack}>
+      <div className={s.friendsPack_container}>
+        <BackToPackLists />
+        <div className={s.friendsPack_titleAndButton}>
+          <PacksTitle title={'Friend’s Pack'} />
+          <PackButton
+            disable={buttonDisableBecauseProcess}
+            name={'Learn to pack'}
+            onClick={() => {}}
+          />
         </div>
-    );
-};
+        <PacksInput
+          id={'friendsPackInput'}
+          text={'Search'}
+          type={'text'}
+          value={inputValue}
+          width={'98%'}
+          onChange={inputOnChaneHandler}
+        />
+        {isLoading ? (
+          <LocalLoader />
+        ) : tableData.length === 0 ? (
+          <div className={s.friendsPack_noCardsWasFound}>NO PACKS WERE FOUND. TRY AGAIN ;)</div>
+        ) : (
+          <div className={s.friendsPack_table}>
+            <FriendsPackTable cardsData={tableData} />
+          </div>
+        )}
+        <div className={s.friendsPack_pagintion}>
+          <SuperPagination
+            page={page}
+            itemsCountForPage={pageCount}
+            totalCount={totalCount}
+            onChange={onChangePagination}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}

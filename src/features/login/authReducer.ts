@@ -1,8 +1,7 @@
-import { Dispatch } from 'redux'
 import { authAPI, ChangeDataResponseType, LoginRequestType, UserResponseType } from './authAPI'
-import { setLoadingAC } from '../../app/appReducer'
-import { handleError } from '../../common/utils/error-utils'
-import { AppThunk } from '../../app/store'
+import { setLoadingAC } from 'app/appReducer'
+import { handleError } from 'common/utils/error-utils'
+import { AppThunk } from 'app/store'
 
 type InitialStateType = typeof initialState
 

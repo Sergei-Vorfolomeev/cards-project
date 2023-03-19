@@ -11,9 +11,9 @@ import { PATH } from '../../common/components/routes/RoutesComponent'
 import { PasswordInput } from './loginInputs/PasswordInput'
 import { EmailInput } from './loginInputs/EmailInput'
 import { CheckBoxInput } from './loginInputs/CheckBoxInput'
-import { getIsAuth } from './loginSelectors'
+import { getIsAuthSelector } from 'features/login/selectors/loginSelectors'
 import { useSelector } from 'react-redux'
-import { getErrorMessage, getLoading } from '../../app/appSelectors'
+import { getErrorMessageSelector, getLoadingSelector } from '../../app/appSelectors'
 
 const SignupSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required field'),
@@ -24,9 +24,9 @@ const SignupSchema = Yup.object({
 })
 
 export const Login = () => {
-  const isAuth = useSelector(getIsAuth)
-  const loading = useSelector(getLoading)
-  const errorMessage = useSelector(getErrorMessage)
+  const isAuth = useSelector(getIsAuthSelector)
+  const loading = useSelector(getLoadingSelector)
+  const errorMessage = useSelector(getErrorMessageSelector)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 

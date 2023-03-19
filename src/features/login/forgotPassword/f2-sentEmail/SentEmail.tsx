@@ -6,10 +6,10 @@ import ForgotButton from '../f4-common/forgotButton/ForgotButton'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../../../common/components/routes/RoutesComponent'
 import { useSelector } from 'react-redux'
-import { getEmail } from '../../loginSelectors'
+import { getEmailSelector } from 'features/login/selectors/loginSelectors'
 
 const SentEmail = () => {
-  const email = useSelector(getEmail)
+  const email = useSelector(getEmailSelector)
   const navigate = useNavigate()
 
   const buttonOnClickHandler = () => {

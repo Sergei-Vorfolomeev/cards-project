@@ -10,11 +10,11 @@ import { changeDataTC, logoutTC } from '../login/authReducer'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { getName } from './profileSelectors'
 import { useSelector } from 'react-redux'
-import { getEmail, getIsAuth } from '../login/loginSelectors'
+import { getEmailSelector, getIsAuthSelector } from 'features/login/selectors/loginSelectors'
 
 export const Profile = () => {
-  const isAuth = useSelector(getIsAuth)
-  const email = useSelector(getEmail)
+  const isAuth = useSelector(getIsAuthSelector)
+  const email = useSelector(getEmailSelector)
   const name = useSelector(getName)
   const loading = useAppSelector(state => state.app.loading)
   const errorMessage = useAppSelector<string>(state => state.app.errorMessage)
@@ -41,7 +41,9 @@ export const Profile = () => {
   ) : (
     <div className={s.profile_container}>
       <div className={s.backbutton_wrapper}>
-        <button className={s.profile_backbutton} onClick={()=>navigate(PATH.PACKS_ALL)}>Back to Packs List</button>
+        <button className={s.profile_backbutton} onClick={() => navigate(PATH.PACKS_ALL)}>
+          Back to Packs List
+        </button>
       </div>
       <div className={s.profile_wrapper}>
         <h2>Personal Information</h2>

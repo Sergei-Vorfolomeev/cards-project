@@ -10,13 +10,13 @@ import { Loader } from '../../../../common/components/loader/Loader'
 import { setErrorAC } from '../../../../app/appReducer'
 import { sentEmailTC } from '../../authReducer'
 import { useSelector } from 'react-redux'
-import { getErrorMessage, getLoading } from '../../../../app/appSelectors'
-import { getLetterWasSent } from '../../loginSelectors'
+import { getErrorMessageSelector, getLoadingSelector } from '../../../../app/appSelectors'
+import { getLetterWasSentSelector } from 'features/login/selectors/loginSelectors'
 
 export const ForgotPassword = () => {
-  const isLoading = useSelector(getLoading)
-  const errorMessage = useSelector(getErrorMessage)
-  const letterWasSent = useSelector(getLetterWasSent)
+  const isLoading = useSelector(getLoadingSelector)
+  const errorMessage = useSelector(getErrorMessageSelector)
+  const letterWasSent = useSelector(getLetterWasSentSelector)
 
   const dispatch = useAppDispatch()
 

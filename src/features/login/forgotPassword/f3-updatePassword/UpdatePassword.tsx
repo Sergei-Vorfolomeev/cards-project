@@ -11,13 +11,13 @@ import { PATH } from '../../../../common/components/routes/RoutesComponent'
 import { setErrorAC } from '../../../../app/appReducer'
 import { updatePasswordTC } from '../../authReducer'
 import { useSelector } from 'react-redux'
-import { getErrorMessage, getLoading } from '../../../../app/appSelectors'
-import { getNewPasswordWasSet } from '../../loginSelectors'
+import { getErrorMessageSelector, getLoadingSelector } from '../../../../app/appSelectors'
+import { getNewPasswordWasSetSelector } from 'features/login/selectors/loginSelectors'
 
 const UpdatePassword = () => {
-  const newPasswordWasSet = useSelector(getNewPasswordWasSet)
-  const isLoading = useSelector(getLoading)
-  const errorMessage = useSelector(getErrorMessage)
+  const newPasswordWasSet = useSelector(getNewPasswordWasSetSelector)
+  const isLoading = useSelector(getLoadingSelector)
+  const errorMessage = useSelector(getErrorMessageSelector)
 
   const dispatch = useAppDispatch()
 
