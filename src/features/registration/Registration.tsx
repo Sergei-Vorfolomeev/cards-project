@@ -9,13 +9,13 @@ import { Error } from '../../common/components/error/Error'
 import { PATH } from '../../common/components/routes/RoutesComponent'
 import { setRegisterTC } from '../login/authReducer'
 import { useSelector } from 'react-redux'
-import { getErrorMessage, getLoading } from '../../app/appSelectors'
-import { getRegister } from '../login/loginSelectors'
+import { getErrorMessageSelector, getLoadingSelector } from '../../app/appSelectors'
+import { getRegisterSelector } from 'features/login/selectors/loginSelectors'
 
 const Registration = () => {
-  const errorMessage = useSelector(getErrorMessage)
-  const loading = useSelector(getLoading)
-  const register = useSelector(getRegister)
+  const errorMessage = useSelector(getErrorMessageSelector)
+  const loading = useSelector(getLoadingSelector)
+  const register = useSelector(getRegisterSelector)
   const dispatch = useAppDispatch()
 
   const [emailValue, setEmailValue] = useState<string>('')

@@ -1,4 +1,4 @@
-import { AppRootStateType } from './store'
+import { AppRootStateType } from 'app/store'
 
-export const getLoading = (state: AppRootStateType) => state.app.loading
-export const getErrorMessage = (state: AppRootStateType) => state.app.errorMessage
+export const getLoadingSelector = (state: AppRootStateType) => state.app.loading
+export const getErrorMessageSelector = (state: AppRootStateType) => state.app.errorMessage
