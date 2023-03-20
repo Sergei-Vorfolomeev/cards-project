@@ -57,16 +57,16 @@ export const ActionsWithPacks = ({ isVisible, packId, userId }: PropsType) => {
       ></button>
       <DeleteModal packName={'Hello'} deleteCallBack={deleteOnClickHandler} />
       {/*<button*/}
-      {/*  style={*/}
-      {/*    !isDisabled*/}
-      {/*      ? { backgroundImage: `url(${deletePack})` }*/}
-      {/*      : {*/}
-      {/*          backgroundImage: `url(${deletePack})`,*/}
-      {/*          opacity: 0.5,*/}
-      {/*        }*/}
-      {/*  }*/}
-      {/*  onClick={}*/}
-      {/*  disabled={isDisabled}*/}
+      {/*style={*/}
+      {/*  !isDisabled*/}
+      {/*    ? { backgroundImage: `url(${deletePack})` }*/}
+      {/*    : {*/}
+      {/*        backgroundImage: `url(${deletePack})`,*/}
+      {/*        opacity: 0.5,*/}
+      {/*      }*/}
+      {/*}*/}
+      {/*onClick={}*/}
+      {/*disabled={isDisabled}*/}
       {/*></button>*/}
     </div>
   )

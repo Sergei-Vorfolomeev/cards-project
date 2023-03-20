@@ -1,11 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
-import { FC, PropsWithChildren } from 'react'
+import { Dispatch, FC, ReactNode, SetStateAction, useState } from 'react'
 
 type BasicModalPropsType = {
-  icon: string
+  childrenCall: (handleOpen: () => void) => ReactNode
+  children: (handleClose: () => void) => ReactNode
 }
 
 const style = {
@@ -15,26 +15,26 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  // border: '2px solid #000',
   boxShadow: 24,
 }
 
-export const BasicModal: FC<PropsWithChildren<BasicModalPropsType>> = ({ children, icon }) => {
-  const [open, setOpen] = React.useState(false)
+export const BasicModal: FC<BasicModalPropsType> = ({ children, childrenCall }) => {
+  const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   return (
-    <div>
-      <img src={icon} alt={'icon'} onClick={handleOpen} />
+    <>
+      {childrenCall(handleOpen)}
+      {/*<img src={icon} alt={'icon'} onClick={handleOpen} />*/}
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>{children}</Box>
+        <Box sx={style}>{children(handleClose)}</Box>
       </Modal>
-    </div>
+    </>
   )
 }
