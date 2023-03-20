@@ -10,7 +10,7 @@ import { PacksInput } from 'features/packs/p5-commonComponents/commonPackCompone
 import useDebouncedEffect from 'use-debounced-effect'
 import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
 import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
-import { useParams } from 'react-router-dom'
+import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
 import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
 import {
   getButtonDisableSelector,
@@ -23,6 +23,7 @@ import {
 } from 'features/packs/selectors/packsSelectors'
 import { useSelector } from 'react-redux'
 import { getLoadingSelector } from 'app/appSelectors'
+import { PATH } from 'common/components/routes/RoutesComponent'
 
 export const FriendsPack = () => {
   const dispatch = useAppDispatch()
@@ -37,11 +38,19 @@ export const FriendsPack = () => {
 
   const [inputValue, setInputValue] = useState<string>('')
 
+  const navigate = useNavigate()
+
   const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.currentTarget.value)
 
   const onChangePagination = (newPage: number, newCount: number) => {
     dispatch(getPacksTC({ page: newPage, pageCount: newCount, packName: inputValue, min, max }))
+  }
+
+  const learnOnClickButtonHandler = () => {
+    // setSearchParams({packName:'newSort',question:'Hi are you&',answer:'Hi are you&'})
+    // navigate(`/learn/${'packName'}/${'question'}/${'answer'}`)
+    navigate(`/learn/packName/question/answer`)
   }
 
   let { packId } = useParams()
@@ -67,7 +76,7 @@ export const FriendsPack = () => {
           <PackButton
             disable={buttonDisableBecauseProcess}
             name={'Learn to pack'}
-            onClick={() => {}}
+            onClick={learnOnClickButtonHandler}
           />
         </div>
         <PacksInput

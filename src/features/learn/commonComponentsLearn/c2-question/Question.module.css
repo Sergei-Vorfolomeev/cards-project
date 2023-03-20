@@ -1,0 +1,28 @@
+.question {
+    text-align: left;
+}
+
+.question_text {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin-bottom: 13px;
+}
+
+.question_text span {
+    font-weight: 500;
+}
+
+.question_attempts {
+    margin-bottom: 29px;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: #000000;
+    opacity: 0.5;
+}
