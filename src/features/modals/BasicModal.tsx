@@ -1,10 +1,10 @@
 import * as React from 'react'
+import { FC, ReactNode, useState } from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
-import { Dispatch, FC, ReactNode, SetStateAction, useState } from 'react'
 
 type BasicModalPropsType = {
-  childrenCall: (handleOpen: () => void) => ReactNode
+  childrenButton: (handleOpen: () => void) => ReactNode
   children: (handleClose: () => void) => ReactNode
 }
 
@@ -18,14 +18,14 @@ const style = {
   boxShadow: 24,
 }
 
-export const BasicModal: FC<BasicModalPropsType> = ({ children, childrenCall }) => {
+export const BasicModal: FC<BasicModalPropsType> = ({ children, childrenButton }) => {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   return (
     <>
-      {childrenCall(handleOpen)}
+      {childrenButton(handleOpen)}
       {/*<img src={icon} alt={'icon'} onClick={handleOpen} />*/}
       <Modal
         open={open}

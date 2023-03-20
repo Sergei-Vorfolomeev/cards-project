@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import s from './AllPacks.module.css'
 import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
-import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
 import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
 import { ShowPacksCards } from 'features/packs/p5-commonComponents/usefullComponents/showPacksCards/ShowPacksCards'
 import { NumberOfCards } from 'features/packs/p5-commonComponents/usefullComponents/numberOfCards/NumberOfCards'
@@ -19,12 +18,12 @@ import { TableForPacks } from 'features/packs/p1-allPacks/allPacksTable/TableFor
 import { getIsAuthSelector, getUserIdSelector } from 'features/login/selectors/loginSelectors'
 import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
 import {
-  getButtonDisableSelector,
-  getPacksSelector,
   getPackPageCountSelector,
   getPackPageSelector,
+  getPacksSelector,
   getPageTotalCountSelector,
 } from 'features/packs/selectors/packsSelectors'
+import { AddPackModal } from 'features/modals/AddPackModal/AddPackModal'
 
 export const AllPacks = () => {
   const packs = useSelector(getPacksSelector)
@@ -35,7 +34,6 @@ export const AllPacks = () => {
   const page = useSelector(getPackPageSelector)
   const pageCount = useSelector(getPackPageCountSelector)
   const totalCount = useSelector(getPageTotalCountSelector)
-  const buttonDisableBecauseProcess = useSelector(getButtonDisableSelector)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -76,8 +74,8 @@ export const AllPacks = () => {
     }
   }, [isAuth, isMyPacks, user_id])
 
-  const addPackOnClickHandler = () => {
-    dispatch(addPackTC())
+  const addPackOnClickHandler = (packName: string, isPrivate: boolean) => {
+    dispatch(addPackTC(packName, isPrivate))
   }
   const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.currentTarget.value)
@@ -136,11 +134,7 @@ export const AllPacks = () => {
       <div className={s.allPacks_container}>
         <div className={s.allPacks_titleAndButton}>
           <PacksTitle title={'Packs list'} />
-          <PackButton
-            disable={buttonDisableBecauseProcess}
-            name={'Add new pack'}
-            onClick={addPackOnClickHandler}
-          />
+          <AddPackModal addPackCallBack={addPackOnClickHandler} />
         </div>
         <div className={s.allPacks_interface}>
           <PacksInput

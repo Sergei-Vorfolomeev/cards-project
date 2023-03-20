@@ -4,16 +4,19 @@ import addPack from 'common/assets/pictures/addPack.svg'
 import changePack from 'common/assets/pictures/changePack.svg'
 import { useAppDispatch } from 'app/store'
 import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
-import { DeleteModal } from 'features/modals/DeleteModal/DeleteModal'
-import { Navigate, NavLink } from 'react-router-dom'
+import { DeletePackModal } from 'features/modals/DeletePackModal/DeletePackModal'
+import { useSelector } from 'react-redux'
 
 type PropsType = {
   isVisible: boolean
   packId: string
   userId: string
+  packName: string
 }
 
-export const ActionsWithPacks = ({ isVisible, packId, userId }: PropsType) => {
+export const ActionsWithPacks = ({ isVisible, packId, userId, packName }: PropsType) => {
+  // const packName = useSelector()
+
   const [isDisabled, setIsDisabled] = useState(false)
 
   const PacksTypeLocalStorage = localStorage.getItem('PackType')
@@ -55,7 +58,7 @@ export const ActionsWithPacks = ({ isVisible, packId, userId }: PropsType) => {
         style={{ backgroundImage: `url(${changePack})` }}
         onClick={updateOnClickHandler}
       ></button>
-      <DeleteModal packName={'Hello'} deleteCallBack={deleteOnClickHandler} />
+      <DeletePackModal packName={packName} deleteCallBack={deleteOnClickHandler} />
       {/*<button*/}
       {/*style={*/}
       {/*  !isDisabled*/}

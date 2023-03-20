@@ -102,13 +102,14 @@ export const getSortDownPacksTC =
   }
 
 export const addPackTC =
-  (userId?: string): AppThunk =>
+  (packName: string, isPrivate: boolean, userId?: string): AppThunk =>
   async dispatch => {
     try {
       dispatch(toggleButtonDisableAC(true))
       let newPack = {
         cardsPack: {
-          name: 'New Added Pack',
+          name: packName,
+          private: isPrivate,
         },
       }
       await packsAPI.addPack(newPack)

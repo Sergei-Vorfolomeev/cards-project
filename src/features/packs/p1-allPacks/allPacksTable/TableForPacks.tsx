@@ -139,6 +139,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: PropsType) => {
                   isVisible={row.userId === userId}
                   packId={row.packId}
                   userId={userId}
+                  packName={row.name}
                 />
               </TableCell>
             </TableRow>

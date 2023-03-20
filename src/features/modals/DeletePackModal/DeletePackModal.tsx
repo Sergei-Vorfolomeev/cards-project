@@ -1,10 +1,10 @@
 import React from 'react'
-import s from './DeleteModal.module.css'
+import s from 'features/modals/DeletePackModal/DeletePackModal.module.css'
 import { BasicModal } from 'features/modals/BasicModal'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import deletePack from 'common/assets/pictures/deletePack.svg'
 
-type DeleteModalPropsType = {
+type DeletePackModalPropsType = {
   packName: string
   deleteCallBack: () => void
 }
@@ -16,10 +16,10 @@ const deleteButtonStyle = {
   backgroundColor: '#d32f2f',
 }
 
-export const DeleteModal = ({ packName, deleteCallBack }: DeleteModalPropsType) => {
+export const DeletePackModal = ({ packName, deleteCallBack }: DeletePackModalPropsType) => {
   return (
     <BasicModal
-      childrenCall={handleOpen => (
+      childrenButton={handleOpen => (
         <img src={deletePack} alt={'icon'} onClick={() => handleOpen()} />
       )}
     >
