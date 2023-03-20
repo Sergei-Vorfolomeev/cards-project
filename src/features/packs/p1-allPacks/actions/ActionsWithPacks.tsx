@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import s from './ActionsWithPacks.module.css'
-import addPack from 'common/assets/pictures/addPack.svg'
-import changePack from 'common/assets/pictures/changePack.svg'
+import learnPack from 'common/assets/pictures/addPack.svg'
 import { useAppDispatch } from 'app/store'
 import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
-import { DeletePackModal } from 'features/modals/DeletePackModal/DeletePackModal'
+import { DeletePackModal } from 'features/modals/deletePackModal/DeletePackModal'
 import { useSelector } from 'react-redux'
+import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
 
 type PropsType = {
   isVisible: boolean
   packId: string
   userId: string
   packName: string
+  isPrivate: boolean
 }
 
-export const ActionsWithPacks = ({ isVisible, packId, userId, packName }: PropsType) => {
+export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivate }: PropsType) => {
   // const packName = useSelector()
 
   const [isDisabled, setIsDisabled] = useState(false)
@@ -29,7 +30,7 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName }: PropsT
   if (!isVisible) {
     return (
       <div className={s.actionsWithPacks}>
-        <button style={{ backgroundImage: `url(${addPack})` }}></button>
+        <img src={learnPack} alt="learnPack" />
       </div>
     )
   }
@@ -43,34 +44,28 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName }: PropsT
     }
   }
 
-  const updateOnClickHandler = () => {
+  const updateOnClickHandler = (packName: string, isPrivate: boolean) => {
     if (!isMyPacks) {
-      dispatch(updatePackTC(packId))
+      dispatch(updatePackTC(packId, packName, isPrivate))
     } else {
-      dispatch(updatePackTC(packId, userId))
+      dispatch(updatePackTC(packId, packName, isPrivate, userId))
     }
   }
 
   return (
     <div className={s.actionsWithPacks}>
-      <button style={{ backgroundImage: `url(${addPack})` }}></button>
-      <button
-        style={{ backgroundImage: `url(${changePack})` }}
-        onClick={updateOnClickHandler}
-      ></button>
-      <DeletePackModal packName={packName} deleteCallBack={deleteOnClickHandler} />
+      <img src={learnPack} alt="learnPack" />
+      {/*<button style={{ backgroundImage: `url(${addPack})` }}></button>*/}
+      <AddUpdatePackModal
+        addPackCallBack={updateOnClickHandler}
+        packName={packName}
+        isPrivate={isPrivate}
+      />
       {/*<button*/}
-      {/*style={*/}
-      {/*  !isDisabled*/}
-      {/*    ? { backgroundImage: `url(${deletePack})` }*/}
-      {/*    : {*/}
-      {/*        backgroundImage: `url(${deletePack})`,*/}
-      {/*        opacity: 0.5,*/}
-      {/*      }*/}
-      {/*}*/}
-      {/*onClick={}*/}
-      {/*disabled={isDisabled}*/}
+      {/*  style={{ backgroundImage: `url(${changePack})` }}*/}
+      {/*  onClick={updateOnClickHandler}*/}
       {/*></button>*/}
+      <DeletePackModal packName={packName} deleteCallBack={deleteOnClickHandler} />
     </div>
   )
 }

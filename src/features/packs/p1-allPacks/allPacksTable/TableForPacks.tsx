@@ -58,13 +58,22 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: PropsType) => {
     lastUpdated: string,
     createdBy: string,
     userId: string,
-    packId: string
+    packId: string,
+    isPrivate: boolean
   ) => {
-    return { name, cardsCount, lastUpdated, createdBy, userId, packId }
+    return { name, cardsCount, lastUpdated, createdBy, userId, packId, isPrivate }
   }
 
   let rows = packsData.map(pack =>
-    createData(pack.name, pack.cardsCount, pack.created, pack.updated, pack.user_id, pack._id)
+    createData(
+      pack.name,
+      pack.cardsCount,
+      pack.created,
+      pack.updated,
+      pack.user_id,
+      pack._id,
+      pack.private
+    )
   )
 
   return (
@@ -99,7 +108,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: PropsType) => {
             >
               <TableCell sx={{ cursor: 'pointer' }} align="center">
                 {row.userId === userId ? (
-                  row.cardsCount == 0 ? (
+                  row.cardsCount === 0 ? (
                     <NavLink
                       className={s.allPacks_link}
                       to={`/emptyPack/${row.packId}/${row.name}`}
@@ -140,6 +149,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: PropsType) => {
                   packId={row.packId}
                   userId={userId}
                   packName={row.name}
+                  isPrivate={row.isPrivate}
                 />
               </TableCell>
             </TableRow>
@@ -159,6 +169,7 @@ type packsData = {
   cardsCount: number
   created: string
   updated: string
+  private: boolean
 }
 
 type PropsType = {

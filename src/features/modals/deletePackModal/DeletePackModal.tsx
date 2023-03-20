@@ -1,5 +1,5 @@
 import React from 'react'
-import s from 'features/modals/DeletePackModal/DeletePackModal.module.css'
+import s from 'features/modals/deletePackModal/DeletePackModal.module.css'
 import { BasicModal } from 'features/modals/BasicModal'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import deletePack from 'common/assets/pictures/deletePack.svg'

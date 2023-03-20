@@ -72,7 +72,6 @@ export const getPacksTC =
       let res = await packsAPI.getPacks(data)
       dispatch(setPacksAC(res))
     } catch (e) {
-      console.log(e)
       handleError(e, dispatch)
     } finally {
       dispatch(setLoadingAC(false))
@@ -135,13 +134,14 @@ export const deletePackTC =
   }
 
 export const updatePackTC =
-  (packId: string, userId?: string): AppThunk =>
+  (packId: string, packName: string, isPrivate: boolean, userId?: string): AppThunk =>
   async dispatch => {
     try {
       let updatedPack = {
         cardsPack: {
           _id: packId,
-          name: 'Updated Pack',
+          name: packName,
+          private: isPrivate,
         },
       }
       await packsAPI.updatePack(updatedPack)
@@ -180,4 +180,5 @@ export type PackType = {
   cardsCount: number
   created: string
   updated: string
+  private: boolean
 }

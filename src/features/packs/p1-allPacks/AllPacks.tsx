@@ -23,7 +23,7 @@ import {
   getPacksSelector,
   getPageTotalCountSelector,
 } from 'features/packs/selectors/packsSelectors'
-import { AddPackModal } from 'features/modals/AddPackModal/AddPackModal'
+import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
 
 export const AllPacks = () => {
   const packs = useSelector(getPacksSelector)
@@ -134,7 +134,7 @@ export const AllPacks = () => {
       <div className={s.allPacks_container}>
         <div className={s.allPacks_titleAndButton}>
           <PacksTitle title={'Packs list'} />
-          <AddPackModal addPackCallBack={addPackOnClickHandler} />
+          <AddUpdatePackModal addPackCallBack={addPackOnClickHandler} />
         </div>
         <div className={s.allPacks_interface}>
           <PacksInput
@@ -147,7 +147,7 @@ export const AllPacks = () => {
           />
           <ShowPacksCards onClick={showPacksCardsOnClickHandler} isMyPacks={isMyPacks} />
           <NumberOfCards onChange={minMaxCardsValueChangeHandler} value={minMaxCardsValue} />
-          <img onClick={noFiltersOnClickHandler} src={cleanFiltersIcon} />
+          <img onClick={noFiltersOnClickHandler} src={cleanFiltersIcon} alt={'filterIcon'} />
         </div>
 
         {isLoading ? (

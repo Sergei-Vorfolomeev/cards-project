@@ -4,7 +4,7 @@ import s from './PackButton.module.css'
 type PropsType = {
   name: string
   onClick: () => void
-  disable: boolean
+  disable?: boolean
 }
 
 export const PackButton = ({ name, onClick, disable }: PropsType) => {

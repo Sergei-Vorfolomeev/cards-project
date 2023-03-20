@@ -26,7 +26,6 @@ export const BasicModal: FC<BasicModalPropsType> = ({ children, childrenButton }
   return (
     <>
       {childrenButton(handleOpen)}
-      {/*<img src={icon} alt={'icon'} onClick={handleOpen} />*/}
       <Modal
         open={open}
         onClose={handleClose}
