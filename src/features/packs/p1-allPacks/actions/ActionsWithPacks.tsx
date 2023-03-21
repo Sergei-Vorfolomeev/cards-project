@@ -57,6 +57,7 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivat
       <img src={learnPack} alt="learnPack" />
       {/*<button style={{ backgroundImage: `url(${addPack})` }}></button>*/}
       <AddUpdatePackModal
+        type={'update'}
         callBack={updateOnClickHandler}
         packName={packName}
         isPrivate={isPrivate}
@@ -65,7 +66,7 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivat
       {/*  style={{ backgroundImage: `url(${changePack})` }}*/}
       {/*  onClick={updateOnClickHandler}*/}
       {/*></button>*/}
-      <DeleteModal title={packName} deleteCallBack={deleteOnClickHandler} />
+      <DeleteModal type={'pack'} title={packName} deleteCallBack={deleteOnClickHandler} />
     </div>
   )
 }

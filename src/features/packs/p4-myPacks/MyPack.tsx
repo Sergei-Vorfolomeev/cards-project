@@ -12,22 +12,21 @@ import { PacksInput } from 'features/packs/p5-commonComponents/commonPackCompone
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
 import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
-import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
 import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
 import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
 import {
   getButtonDisableSelector,
+  getCardsDataSelector,
   getMaxCardsCountSelector,
   getMinCardsCountSelector,
   getPackPageCountSelector,
   getPackPageSelector,
   getPageTotalCountSelector,
-  getCardsDataSelector,
 } from 'features/packs/selectors/packsSelectors'
 import { PATH } from 'common/components/routes/RoutesComponent'
 import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
 import { Error } from 'common/components/error/Error'
-import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/addUpdateCardModal'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
 
 export const MyPack = () => {
   const cardsData = useSelector(getCardsDataSelector)
@@ -91,13 +90,15 @@ export const MyPack = () => {
             <PacksTitle title={`My Pack:  ${packName!}`} />
             <img src={myPackMenu} alt={'myPackMenu'} />
           </div>
-          <AddUpdateCardModal callBack={addCardOnClickHandler} />
-          {/*<PackButton*/}
-          {/*  name={'Add new card'}*/}
-          {/*  onClick={addCardOnClickHandler}*/}
-          {/*  disable={buttonDisableBecauseProcess}*/}
-          {/*/>*/}
+
+          <AddUpdateCardModal
+            type={'add'}
+            callBack={addCardOnClickHandler}
+            cardQuestion={''}
+            cardAnswer={''}
+          />
         </div>
+
         <PacksInput
           id={'myPacksInput'}
           text={'Search'}

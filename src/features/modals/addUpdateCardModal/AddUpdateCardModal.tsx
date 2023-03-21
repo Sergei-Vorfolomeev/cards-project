@@ -2,14 +2,15 @@ import React, { ChangeEvent, useState } from 'react'
 import s from 'features/modals/addUpdatePackModal/AddUpdatePackModal.module.css'
 import { BasicModal } from 'features/modals/BasicModal'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
-import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
-import styles from 'features/login/Login.module.css'
-import changePack from 'common/assets/pictures/changePack.svg'
+import updatePack from 'common/assets/pictures/changePack.svg'
+import { InputComponent } from 'features/modals/commonComponents/input/InputComponent'
+import { Title } from 'features/modals/commonComponents/title/Title'
 
 type AddUpdateCardModalPropsType = {
+  type: 'add' | 'update'
+  cardQuestion: string
+  cardAnswer: string
   callBack: (question: string, answer: string) => void
-  cardQuestion?: string
-  cardAnswer?: string
 }
 const cancelButtonStyle = {
   backgroundColor: '#FCFCFC',
@@ -20,14 +21,13 @@ const saveButtonStyle = {
 }
 
 export const AddUpdateCardModal = ({
-  callBack,
+  type,
   cardQuestion,
   cardAnswer,
+  callBack,
 }: AddUpdateCardModalPropsType) => {
-  const [question, setQuestion] = useState(cardQuestion ? cardQuestion : '')
-  const [answer, setAnswer] = useState(cardAnswer ? cardAnswer : '')
-
-  console.log(question, answer)
+  const [question, setQuestion] = useState(cardQuestion)
+  const [answer, setAnswer] = useState(cardAnswer)
 
   const onChangeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setQuestion(e.currentTarget.value)
@@ -39,45 +39,37 @@ export const AddUpdateCardModal = ({
   return (
     <BasicModal
       childrenButton={handleOpen =>
-        cardQuestion ? (
-          <img src={changePack} alt={'icon'} onClick={() => handleOpen()} />
+        type === 'update' ? (
+          <img src={updatePack} alt={'icon'} onClick={() => handleOpen()} />
         ) : (
-          <PackButton name={'Add new card'} onClick={() => handleOpen()} />
+          <ButtonComponent name={'Add new card'} callBack={() => handleOpen()} />
         )
       }
     >
       {handleClose => (
         <>
-          <div className={s.titleBox}>
-            <h1 className={s.title}>{cardQuestion ? 'Edit card' : 'Add new card'}</h1>
-          </div>
-          <div className={s.contentBox}>
-            <div className={styles.loginInputContainer}>
-              <label htmlFor="question" className={styles.loginInputLabel}>
-                Question
-              </label>
-              <input
-                name="question"
-                type="text"
-                className={styles.loginInput}
-                value={question}
-                onChange={onChangeQuestionHandler}
-                autoFocus
-              />
-            </div>
+          <Title
+            condition={type === 'update'}
+            firstTitle={'Edit card'}
+            secondTitle={'Add new card'}
+          />
 
-            <div className={styles.loginInputContainer}>
-              <label htmlFor="answer" className={styles.loginInputLabel}>
-                Answer
-              </label>
-              <input
-                name="answer"
-                type="text"
-                className={styles.loginInput}
-                value={answer}
-                onChange={onChangeAnswerHandler}
-              />
-            </div>
+          <div className={s.contentBox}>
+            <InputComponent
+              name={'question'}
+              value={question}
+              onChange={onChangeQuestionHandler}
+              autoFocus={true}
+              labelName={'Question'}
+            />
+
+            <InputComponent
+              name={'answer'}
+              value={answer}
+              onChange={onChangeAnswerHandler}
+              autoFocus={false}
+              labelName={'Answer'}
+            />
 
             <div className={s.buttonBox}>
               <ButtonComponent
@@ -88,7 +80,7 @@ export const AddUpdateCardModal = ({
               <ButtonComponent
                 name={'Save'}
                 callBack={() => {
-                  if (cardQuestion && cardAnswer) {
+                  if (type === 'update') {
                     callBack(question, answer)
                     handleClose()
                   } else {

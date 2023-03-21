@@ -10,7 +10,7 @@ import {
   getCardsCountSelector,
 } from 'features/packs/selectors/packsSelectors'
 import { useSelector } from 'react-redux'
-import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/addUpdateCardModal'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
 
 export const EmptyPack = () => {
   const cardsCount = useSelector(getCardsCountSelector)
@@ -37,12 +37,13 @@ export const EmptyPack = () => {
         <div className={s.emptyPacks_info}>
           This pack is empty. Click add new card to fill this pack
         </div>
-        <AddUpdateCardModal callBack={addCardOnClickHandler} />
-        {/*<PackButton*/}
-        {/*  disable={buttonDisableBecauseProcess}*/}
-        {/*  name={'Add new card'}*/}
-        {/*  onClick={onClickButtonHandler}*/}
-        {/*/>*/}
+
+        <AddUpdateCardModal
+          type={'add'}
+          callBack={addCardOnClickHandler}
+          cardQuestion={''}
+          cardAnswer={''}
+        />
       </div>
     </div>
   )

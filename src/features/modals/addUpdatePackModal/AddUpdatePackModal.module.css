@@ -37,11 +37,6 @@
   margin-bottom: 24px;
 }
 
-.checkbox {
-  width: 18px;
-  height: 18px;
-}
-
 .buttonBox {
   display: flex;
   justify-content: space-between;

@@ -5,7 +5,7 @@ import { useAppDispatch } from 'app/store'
 import { useParams } from 'react-router-dom'
 import { deleteCardTC, updateCardTC } from 'features/packs/cardsReducer'
 import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
-import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/addUpdateCardModal'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
 
 type ActionsWithCardsPropsType = {
   cardId: string
@@ -31,6 +31,7 @@ export const ActionsWithCards = ({ cardId, question, answer }: ActionsWithCardsP
   return (
     <div className={s.actionsWithCards}>
       <AddUpdateCardModal
+        type={'update'}
         cardQuestion={question}
         cardAnswer={answer}
         callBack={updateOnClickHandler}
@@ -39,7 +40,7 @@ export const ActionsWithCards = ({ cardId, question, answer }: ActionsWithCardsP
       {/*  style={{ backgroundImage: `url(${changePack})` }}*/}
       {/*  onClick={updateOnClickHandler}*/}
       {/*></button>*/}
-      <DeleteModal title={question} deleteCallBack={deleteOnClickHandler} />
+      <DeleteModal type={'card'} title={question} deleteCallBack={deleteOnClickHandler} />
       {/*<button*/}
       {/*  style={*/}
       {/*    !deleteButtonDisable*/}

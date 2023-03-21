@@ -3,8 +3,10 @@ import s from 'features/modals/deleteModal/DeleteModal.module.css'
 import { BasicModal } from 'features/modals/BasicModal'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import deletePack from 'common/assets/pictures/deletePack.svg'
+import { Title } from 'features/modals/commonComponents/title/Title'
 
 type DeleteModalPropsType = {
+  type: 'pack' | 'card'
   title: string
   deleteCallBack: () => void
 }
@@ -16,7 +18,7 @@ const deleteButtonStyle = {
   backgroundColor: '#d32f2f',
 }
 
-export const DeleteModal = ({ title, deleteCallBack }: DeleteModalPropsType) => {
+export const DeleteModal = ({ type, title, deleteCallBack }: DeleteModalPropsType) => {
   return (
     <BasicModal
       childrenButton={handleOpen => (
@@ -25,14 +27,17 @@ export const DeleteModal = ({ title, deleteCallBack }: DeleteModalPropsType) => 
     >
       {handleClose => (
         <>
-          <div className={s.titleBox}>
-            <h1 className={s.title}>Delete Pack</h1>
-          </div>
+          <Title
+            condition={type === 'pack'}
+            firstTitle={'Delete Pack'}
+            secondTitle={'Delete Card'}
+          />
+
           <div className={s.contentBox}>
             <span>
               Do you really want to remove <b>{title}</b>?
               <br />
-              All cards will be deleted.
+              {type === 'pack' && 'All cards will be deleted.'}
             </span>
             <div className={s.buttonBox}>
               <ButtonComponent

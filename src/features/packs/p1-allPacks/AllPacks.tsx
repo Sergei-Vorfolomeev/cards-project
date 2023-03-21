@@ -138,7 +138,12 @@ export const AllPacks = () => {
       <div className={s.allPacks_container}>
         <div className={s.allPacks_titleAndButton}>
           <PacksTitle title={'Packs list'} />
-          <AddUpdatePackModal callBack={addPackOnClickHandler} />
+          <AddUpdatePackModal
+            type={'add'}
+            packName={''}
+            isPrivate={false}
+            callBack={addPackOnClickHandler}
+          />
         </div>
         <div className={s.allPacks_interface}>
           <PacksInput
