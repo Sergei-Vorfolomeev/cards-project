@@ -108,7 +108,7 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
                 <img src={Star} alt={'star'} />
               </TableCell>
               <TableCell align="center">
-                <ActionsWithCards cardId={row.cardId} />
+                <ActionsWithCards cardId={row.cardId} question={row.question} />
               </TableCell>
             </TableRow>
           ))}

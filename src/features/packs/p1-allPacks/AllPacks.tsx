@@ -75,7 +75,11 @@ export const AllPacks = () => {
   }, [isAuth, isMyPacks, user_id])
 
   const addPackOnClickHandler = (packName: string, isPrivate: boolean) => {
-    dispatch(addPackTC(packName, isPrivate))
+    if (isMyPacks) {
+      dispatch(addPackTC(packName, isPrivate, user_id))
+    } else {
+      dispatch(addPackTC(packName, isPrivate))
+    }
   }
   const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.currentTarget.value)

@@ -3,7 +3,7 @@ import s from './ActionsWithPacks.module.css'
 import learnPack from 'common/assets/pictures/addPack.svg'
 import { useAppDispatch } from 'app/store'
 import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
-import { DeletePackModal } from 'features/modals/deletePackModal/DeletePackModal'
+import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
 import { useSelector } from 'react-redux'
 import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
 
@@ -65,7 +65,7 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivat
       {/*  style={{ backgroundImage: `url(${changePack})` }}*/}
       {/*  onClick={updateOnClickHandler}*/}
       {/*></button>*/}
-      <DeletePackModal packName={packName} deleteCallBack={deleteOnClickHandler} />
+      <DeleteModal title={packName} deleteCallBack={deleteOnClickHandler} />
     </div>
   )
 }

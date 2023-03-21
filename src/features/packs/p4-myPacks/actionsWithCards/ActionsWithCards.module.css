@@ -1,22 +1,24 @@
 .actionsWithCards {
-    display: flex;
-    width: 50px;
+  display: flex;
+
+  width: 50px;
 }
 
+.actionsWithCards img {
+  cursor: pointer;
 
-.actionsWithCards button {
-    border: none;
-    outline: none;
-    width: 16px;
-    height: 16px;
-    background-color: #fff;
-    background-repeat: no-repeat;
-    padding-left: 20px;
-    cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+
+  background-color: #fff;
+  background-repeat: no-repeat;
+  border: none;
+  outline: none;
+
+  transition: all 0.2s;
 }
 
-.actionsWithCards button:hover {
-    width: 18px;
-    height: 18px;
-    background-size: 18px 18px;
+.actionsWithCards img:hover {
+  transform: scale(1.25);
 }
