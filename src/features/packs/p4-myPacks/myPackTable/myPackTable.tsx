@@ -90,7 +90,7 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableRow key={row.cardId} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell align="center">{row.question}</TableCell>
               <TableCell align="center">{row.answer}</TableCell>
               <TableCell align="center">
@@ -108,7 +108,7 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
                 <img src={Star} alt={'star'} />
               </TableCell>
               <TableCell align="center">
-                <ActionsWithCards cardId={row.cardId} question={row.question} />
+                <ActionsWithCards cardId={row.cardId} question={row.question} answer={row.answer} />
               </TableCell>
             </TableRow>
           ))}

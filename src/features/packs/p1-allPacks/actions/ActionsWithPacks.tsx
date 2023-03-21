@@ -57,7 +57,7 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivat
       <img src={learnPack} alt="learnPack" />
       {/*<button style={{ backgroundImage: `url(${addPack})` }}></button>*/}
       <AddUpdatePackModal
-        addPackCallBack={updateOnClickHandler}
+        callBack={updateOnClickHandler}
         packName={packName}
         isPrivate={isPrivate}
       />

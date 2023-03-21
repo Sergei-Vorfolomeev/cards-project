@@ -27,6 +27,7 @@ import {
 import { PATH } from 'common/components/routes/RoutesComponent'
 import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
 import { Error } from 'common/components/error/Error'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/addUpdateCardModal'
 
 export const MyPack = () => {
   const cardsData = useSelector(getCardsDataSelector)
@@ -57,8 +58,8 @@ export const MyPack = () => {
   const onChangeMyPacksInput = (e: ChangeEvent<HTMLInputElement>) =>
     setMyPacksInput(e.currentTarget.value)
 
-  const addCardOnClickHandler = () => {
-    packId && dispatch(addCardTC(packId))
+  const addCardOnClickHandler = (cardQuestion: string, cardAnswer: string) => {
+    packId && dispatch(addCardTC(packId, cardQuestion, cardAnswer))
   }
 
   const onChangePagination = (newPage: number, newCount: number) => {
@@ -90,11 +91,12 @@ export const MyPack = () => {
             <PacksTitle title={`My Pack:  ${packName!}`} />
             <img src={myPackMenu} alt={'myPackMenu'} />
           </div>
-          <PackButton
-            name={'Add new card'}
-            onClick={addCardOnClickHandler}
-            disable={buttonDisableBecauseProcess}
-          />
+          <AddUpdateCardModal callBack={addCardOnClickHandler} />
+          {/*<PackButton*/}
+          {/*  name={'Add new card'}*/}
+          {/*  onClick={addCardOnClickHandler}*/}
+          {/*  disable={buttonDisableBecauseProcess}*/}
+          {/*/>*/}
         </div>
         <PacksInput
           id={'myPacksInput'}

@@ -5,13 +5,15 @@ import { useAppDispatch } from 'app/store'
 import { useParams } from 'react-router-dom'
 import { deleteCardTC, updateCardTC } from 'features/packs/cardsReducer'
 import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/addUpdateCardModal'
 
 type ActionsWithCardsPropsType = {
   cardId: string
   question: string
+  answer: string
 }
 
-export const ActionsWithCards = ({ cardId, question }: ActionsWithCardsPropsType) => {
+export const ActionsWithCards = ({ cardId, question, answer }: ActionsWithCardsPropsType) => {
   const dispatch = useAppDispatch()
   let { packId } = useParams()
 
@@ -22,16 +24,21 @@ export const ActionsWithCards = ({ cardId, question }: ActionsWithCardsPropsType
     // setDeleteButtonDisable(true)
   }
 
-  const updateOnClickHandler = () => {
-    packId && dispatch(updateCardTC(packId, cardId))
+  const updateOnClickHandler = (cardQuestion: string, cardAnswer: string) => {
+    packId && dispatch(updateCardTC(packId, cardId, cardQuestion, cardAnswer))
   }
 
   return (
     <div className={s.actionsWithCards}>
-      <button
-        style={{ backgroundImage: `url(${changePack})` }}
-        onClick={updateOnClickHandler}
-      ></button>
+      <AddUpdateCardModal
+        cardQuestion={question}
+        cardAnswer={answer}
+        callBack={updateOnClickHandler}
+      />
+      {/*<button*/}
+      {/*  style={{ backgroundImage: `url(${changePack})` }}*/}
+      {/*  onClick={updateOnClickHandler}*/}
+      {/*></button>*/}
       <DeleteModal title={question} deleteCallBack={deleteOnClickHandler} />
       {/*<button*/}
       {/*  style={*/}

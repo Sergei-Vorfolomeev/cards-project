@@ -5,12 +5,12 @@ import { useAppDispatch } from 'app/store'
 import { addCardTC } from 'features/packs/cardsReducer'
 import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
 import { Navigate, useParams } from 'react-router-dom'
-import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
 import {
   getButtonDisableSelector,
   getCardsCountSelector,
 } from 'features/packs/selectors/packsSelectors'
 import { useSelector } from 'react-redux'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/addUpdateCardModal'
 
 export const EmptyPack = () => {
   const cardsCount = useSelector(getCardsCountSelector)
@@ -25,8 +25,8 @@ export const EmptyPack = () => {
     return <Navigate to={`/myPack/${packId}/${packName}`} />
   }
 
-  const onClickButtonHandler = () => {
-    dispatch(addCardTC(packId!))
+  const addCardOnClickHandler = (cardQuestion: string, cardAnswer: string) => {
+    packId && dispatch(addCardTC(packId, cardQuestion, cardAnswer))
   }
 
   return (
@@ -37,11 +37,12 @@ export const EmptyPack = () => {
         <div className={s.emptyPacks_info}>
           This pack is empty. Click add new card to fill this pack
         </div>
-        <PackButton
-          disable={buttonDisableBecauseProcess}
-          name={'Add new card'}
-          onClick={onClickButtonHandler}
-        />
+        <AddUpdateCardModal callBack={addCardOnClickHandler} />
+        {/*<PackButton*/}
+        {/*  disable={buttonDisableBecauseProcess}*/}
+        {/*  name={'Add new card'}*/}
+        {/*  onClick={onClickButtonHandler}*/}
+        {/*/>*/}
       </div>
     </div>
   )

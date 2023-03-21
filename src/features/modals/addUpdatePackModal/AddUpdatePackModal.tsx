@@ -7,7 +7,7 @@ import styles from 'features/login/Login.module.css'
 import changePack from 'common/assets/pictures/changePack.svg'
 
 type AddPackModalPropsType = {
-  addPackCallBack: (packName: string, isPrivate: boolean) => void
+  callBack: (packName: string, isPrivate: boolean) => void
   packName?: string
   isPrivate?: boolean
 }
@@ -19,11 +19,7 @@ const saveButtonStyle = {
   backgroundColor: '#366EFF',
 }
 
-export const AddUpdatePackModal = ({
-  addPackCallBack,
-  packName,
-  isPrivate,
-}: AddPackModalPropsType) => {
+export const AddUpdatePackModal = ({ callBack, packName, isPrivate }: AddPackModalPropsType) => {
   const [newPackName, setNewPackName] = useState(packName ? packName : '')
   const [privateField, setPrivateField] = useState(isPrivate ? isPrivate : false)
 
@@ -87,7 +83,7 @@ export const AddUpdatePackModal = ({
               <ButtonComponent
                 name={'Save'}
                 callBack={() => {
-                  addPackCallBack(newPackName, privateField)
+                  callBack(newPackName, privateField)
                   handleClose()
                   setNewPackName('')
                   setPrivateField(false)
