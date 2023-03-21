@@ -3,12 +3,14 @@ import s from './Question.module.css'
 
 type PropsType = {
     question: string
+    shots:number
 }
 
-export const Question = ({question}: PropsType) => {
+export const Question = ({question,shots}: PropsType) => {
     return <div className={s.question}>
-        <div className={s.question_text}>Question: <span>{question}</span></div>
-        <div className={s.question_attempts}>Количество попыток ответов на вопрос: 10</div>
+        <span className={s.question_text}>Question: </span>
+        <span className={s.question_questionText}>{question}</span>
+        <div className={s.question_attempts}>{`Количество попыток ответов на вопрос: ${10-shots}`}</div>
     </div>
 
 };

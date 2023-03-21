@@ -25,8 +25,8 @@ export const PATH = {
     PACKS_ALL: '/allPacks',
     PACK_MY: '/myPack/:packId?/:packName?',
     NO_PACKS: '/emptyPack/:packId?/:packName?',
-    PACK_FRIEND: '/friendsPack/:packId?',
-    LEARN: '/learn/:packName?/:question?/:answer?',
+    PACK_FRIEND: '/friendsPack/:packId?/:packName?',
+    LEARN: '/learn/:cardsPack_id?/:packName?',
 }
 
 export const RoutesComponent = () => {

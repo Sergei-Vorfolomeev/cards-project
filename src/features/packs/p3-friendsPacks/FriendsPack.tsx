@@ -39,6 +39,7 @@ export const FriendsPack = () => {
   const [inputValue, setInputValue] = useState<string>('')
 
   const navigate = useNavigate()
+  let { packId,packName } = useParams()
 
   const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.currentTarget.value)
@@ -48,12 +49,10 @@ export const FriendsPack = () => {
   }
 
   const learnOnClickButtonHandler = () => {
-    // setSearchParams({packName:'newSort',question:'Hi are you&',answer:'Hi are you&'})
-    // navigate(`/learn/${'packName'}/${'question'}/${'answer'}`)
-    navigate(`/learn/packName/question/answer`)
+    navigate(`/learn/${packId}/${packName}`)
   }
 
-  let { packId } = useParams()
+
 
   useEffect(() => {
     packId && dispatch(getCardsTC({ cardsPack_id: packId }))
@@ -72,7 +71,7 @@ export const FriendsPack = () => {
       <div className={s.friendsPack_container}>
         <BackToPackLists />
         <div className={s.friendsPack_titleAndButton}>
-          <PacksTitle title={'Friend’s Pack'} />
+          <PacksTitle title={`Friend’s Pack: ${packName}`} />
           <PackButton
             disable={buttonDisableBecauseProcess}
             name={'Learn to pack'}

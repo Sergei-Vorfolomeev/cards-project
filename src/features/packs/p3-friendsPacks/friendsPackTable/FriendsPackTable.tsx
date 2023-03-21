@@ -69,7 +69,7 @@ export const FriendsPackTable = ({ cardsData }: PropsType) => {
         <TableHead sx={{ background: '#EFEFEF' }}>
           <TableRow>
             {columnsData.map((columnData, index) => (
-              <TableCell sx={{ fontWeight: '700', cursor: 'pointer' }} align="center" key={index}>
+              <TableCell sx={{ fontWeight: '700', cursor: 'pointer',maxWidth:'145px' }} align="center" key={index}>
                 <TableSortLabel
                   active={columnData === 'Last updated'}
                   direction={sortDirection === 'up' ? 'desc' : 'asc'}
@@ -90,16 +90,16 @@ export const FriendsPackTable = ({ cardsData }: PropsType) => {
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell align="center">{row.question}</TableCell>
-              <TableCell align="center">{row.answer}</TableCell>
-              <TableCell align="center">
+              <TableCell sx={{maxWidth: '145px', overflow: 'hidden'}} align="center">{row.question}</TableCell>
+              <TableCell sx={{maxWidth: '145px', overflow: 'hidden'}} align="center">{row.answer}</TableCell>
+              <TableCell sx={{maxWidth: '140px', overflow: 'hidden'}} align="center">
                 {new Date(row.lastUpdated).toLocaleString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
                 })}
               </TableCell>
-              <TableCell align="center">
+              <TableCell sx={{maxWidth: '90px', overflow: 'hidden'}} align="center">
                 <img src={Star} alt={'star'} />
                 <img src={Star} alt={'star'} />
                 <img src={Star} alt={'star'} />

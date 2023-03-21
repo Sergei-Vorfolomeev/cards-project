@@ -28,7 +28,7 @@ export const cardsReducer = (
         case 'packs/SET-CARDS-SORTED-DOWN':
             return {...state, ...action.cardsInfo, sortDirection: 'down'}
         case 'cards/SET-DEFAULT-CARDS':
-            return {...state, cardsTotalCount:0}
+            return {...state, cardsTotalCount: 0}
         default:
             return state
     }
@@ -139,6 +139,16 @@ export const updateCardTC =
             }
         }
 
+export const learnCardTC = (grade: number, card_id: string,cardsPack_id:string): AppThunk => async (dispatch) => {
+    try {
+        await packsAPI.learnCard(grade,card_id)
+        let res = await packsAPI.getCards({cardsPack_id})
+        dispatch(setCardsAC(res))
+    } catch (e) {
+        handleError(e, dispatch)
+    }
+}
+
 //types
 
 export type CardsActionsType =
@@ -156,10 +166,10 @@ export type InitialStateType = {
     pageCount: number
     packUserId: string
     sortDirection: 'up' | 'down'
-    buttonDisableBecauseProcess:boolean
+    buttonDisableBecauseProcess: boolean
 }
 
-type CardType = {
+export type CardType = {
     answer: string
     question: string
     cardsPack_id: string
