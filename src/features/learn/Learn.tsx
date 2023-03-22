@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import s from './Learn.module.css';
 import {LearnTitle} from "./commonComponentsLearn/c1-learnTitle/LearnTitle";
-import {boolean} from "yup";
 import {Question} from "./commonComponentsLearn/c2-question/Question";
-import {useParams, useSearchParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import LearnButton from "./commonComponentsLearn/c4-LearnButton/LearnButton";
 import Answer from "./commonComponentsLearn/c3-answer/Answer";
 import RateYourself from "./commonComponentsLearn/c5-rateYourselft/RateYourself";
 import {BackToPackLists} from "../packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists";
 import {CardType, getCardsTC, learnCardTC} from 'features/packs/cardsReducer';
-import {useAppDispatch, useAppSelector} from "../../app/store";
+import {useAppDispatch, useAppSelector} from "app/store";
+
 
 export const Learn = () => {
 
@@ -44,7 +44,7 @@ export const Learn = () => {
                 , {sum: 0, id: -1});
             return cards[res.id + 1];
         }
-        
+
         useEffect(() => {
             setValue('knew_the_answer')
             setNoMoreQuestion(false)
