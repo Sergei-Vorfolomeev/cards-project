@@ -14,9 +14,10 @@ import {useAppDispatch, useAppSelector} from "../../app/store";
 export const Learn = () => {
 
         const dispatch = useAppDispatch()
-        const cards = useAppSelector(store => store.cards.cards)
+        const cards = useAppSelector(state => state.cards.cards)
 
         const [isQuestionMode, setIsQuestionMode] = useState<boolean>(true)
+        const [noMoreQuestion, setNoMoreQuestion] = useState<boolean>(false)
         const {cardsPack_id, packName} = useParams()
         const [firstDataRequest, setFirstDataRequest] = useState<boolean>(true)
         const [card, setCard] = useState<CardType>({
@@ -43,14 +44,16 @@ export const Learn = () => {
                 , {sum: 0, id: -1});
             return cards[res.id + 1];
         }
-
-
+        
         useEffect(() => {
             setValue('knew_the_answer')
+            setNoMoreQuestion(false)
+
             if (firstDataRequest) {
                 dispatch(getCardsTC({cardsPack_id}))
                 setFirstDataRequest(false)
             }
+
             if (cards.length > 0) {
                 setCard(getCard(cards))
             }
@@ -60,7 +63,6 @@ export const Learn = () => {
 
         const onClickNextButtonHandler = () => {
             setFirstDataRequest(false);
-            setIsQuestionMode(true)
             let cardGrade: number;
 
             value === 'did_not_know' ? cardGrade = 1 :
@@ -69,35 +71,52 @@ export const Learn = () => {
                         value === 'confused' ? cardGrade = 4 :
                             cardGrade = 5
 
-            dispatch(learnCardTC(cardGrade, card._id, card.cardsPack_id))
+            if (value === 'knew_the_answer' && cards.length <= 1) {
+                setNoMoreQuestion(true)
+            } else {
+                dispatch(learnCardTC(cardGrade, card._id))
+                setIsQuestionMode(true)
 
-            if (cards.length > 0) {
-                setCard(getCard(cards));
             }
         }
 
-        return (
-            <div className={s.learn}>
-                <div style={{marginLeft: '10%'}}><BackToPackLists navigation={`/friendsPack/${cardsPack_id}/${packName}`}/>
-                </div>
-                <div className={s.learn_container}>
 
-                    <LearnTitle title={packName!}/>
-                </div>
-                <div className={s.learn_body}>
-                    <Question question={card.question} shots={card.shots}/>
-                    {isQuestionMode ?
-                        <LearnButton title={'Show answer'} onClick={() => setIsQuestionMode(false)}/> :
-                        <div>
-                            <Answer answer={`${card.answer}`}/>
-                            <RateYourself value={value} setValue={setValue}/>
-                            <LearnButton title={'Next'} onClick={onClickNextButtonHandler}/>
-                        </div>
-                    }
+        if (noMoreQuestion) {
+            return (
+                <>
+                    <div style={{marginLeft: '10%'}}><BackToPackLists
+                        navigation={`/friendsPack/${cardsPack_id}/${packName}`}/>
+                    </div>
+                    <div className={s.noMoreCards}>No more cards in this pack. Start again ;)</div>
+                </>)
+        } else {
 
+            return (
+
+                <div className={s.learn}>
+
+                    <div style={{marginLeft: '10%'}}><BackToPackLists
+                        navigation={`/friendsPack/${cardsPack_id}/${packName}`}/>
+                    </div>
+                    <div className={s.learn_container}>
+                        <LearnTitle title={packName!}/>
+                    </div>
+                    <div className={s.learn_body}>
+                        <Question question={card.question} shots={card.shots}/>
+
+                        {isQuestionMode ?
+                            <LearnButton title={'Show answer'} onClick={() => setIsQuestionMode(false)}/> :
+                            <div>
+                                <Answer answer={`${card.answer}`}/>
+                                <RateYourself value={value} setValue={setValue}/>
+                                <LearnButton title={'Next'} onClick={onClickNextButtonHandler}/>
+                            </div>
+                        }
+
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 ;
 

@@ -17,6 +17,7 @@ import {
   getSorDirectionSelector,
 } from 'features/packs/selectors/packsSelectors'
 import { useSelector } from 'react-redux'
+import StarIcon from 'features/packs/p5-commonComponents/usefullComponents/StarIcon/StarIcon'
 
 type PropsType = {
   cardsData: cardData[]
@@ -100,11 +101,7 @@ export const FriendsPackTable = ({ cardsData }: PropsType) => {
                 })}
               </TableCell>
               <TableCell sx={{maxWidth: '90px', overflow: 'hidden'}} align="center">
-                <img src={Star} alt={'star'} />
-                <img src={Star} alt={'star'} />
-                <img src={Star} alt={'star'} />
-                <img src={Star} alt={'star'} />
-                <img src={Star} alt={'star'} />
+                  <StarIcon grade={row.grade}/>
               </TableCell>
             </TableRow>
           ))}

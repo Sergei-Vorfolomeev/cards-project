@@ -1,5 +1,8 @@
+.title {
+    max-width: 600px;
+}
 
-.learnTitle, .learnTitle_text {
+ .learnTitle_text {
     padding-top: 0px;
     font-family: 'Montserrat', sans-serif;
     font-style: normal;
@@ -7,9 +10,12 @@
     font-size: 22px;
     line-height: 27px;
     color: #000000;
-    overflow: auto;
-    width: 100%;
     display: inline;
+}
+
+.learnTitle {
+    max-width: 600px;
+    overflow: auto;
 }
 
 

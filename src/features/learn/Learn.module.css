@@ -17,3 +17,9 @@
     background: #FFFFFF;
     padding: 30px 33px 48px;
 }
+
+.noMoreCards {
+    margin-top: 50px;
+    font-size: 35px;
+    font-weight: 700;
+}

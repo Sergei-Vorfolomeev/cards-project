@@ -29,6 +29,17 @@ export const cardsReducer = (
             return {...state, ...action.cardsInfo, sortDirection: 'down'}
         case 'cards/SET-DEFAULT-CARDS':
             return {...state, cardsTotalCount: 0}
+        case 'packs/SET-lEARN-TYPE-FILTER':
+            return {
+                ...state,
+                cards: state.cards
+                    .map(card => card._id === action.cardId ? {
+                        ...card,
+                        shots: card.shots + 1,
+                        grade: action.grade,
+                    } : {...card})
+                    .filter(card => card.grade !== 5)
+            }
         default:
             return state
     }
@@ -52,6 +63,10 @@ export const setCardsSortDownAC = (cardsInfo: ResponseTypeCards) =>
     } as const)
 const toggleButtonDisableAC = (buttonDisable: boolean) =>
     ({type: 'packs/SET-BUTTON-DISABLE', buttonDisable} as const)
+
+const learnCardFilterAC = (grade: number, cardId: string) =>
+    ({type: 'packs/SET-lEARN-TYPE-FILTER', grade, cardId} as const)
+
 
 // thunk creators
 
@@ -139,11 +154,10 @@ export const updateCardTC =
             }
         }
 
-export const learnCardTC = (grade: number, card_id: string,cardsPack_id:string): AppThunk => async (dispatch) => {
+export const learnCardTC = (grade: number, card_id: string): AppThunk => async (dispatch) => {
     try {
-        await packsAPI.learnCard(grade,card_id)
-        let res = await packsAPI.getCards({cardsPack_id})
-        dispatch(setCardsAC(res))
+        await packsAPI.learnCard(grade, card_id)
+        dispatch(learnCardFilterAC(grade, card_id))
     } catch (e) {
         handleError(e, dispatch)
     }
@@ -156,6 +170,8 @@ export type CardsActionsType =
     | ReturnType<typeof setCardsSortUpdAC>
     | ReturnType<typeof setCardsSortDownAC>
     | ReturnType<typeof setCardDefaultsAC>
+    | ReturnType<typeof learnCardFilterAC>
+
 
 export type InitialStateType = {
     cards: CardType[]

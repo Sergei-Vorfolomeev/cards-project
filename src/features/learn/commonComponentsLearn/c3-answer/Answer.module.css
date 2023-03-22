@@ -1,7 +1,6 @@
 .answer {
     text-align: left;
     margin-top: 10px;
-    overflow: auto;
     width: 100%
 }
 
@@ -13,14 +12,13 @@
     line-height: 24px;
     color: #000000;
     margin-bottom: 13px;
-    display: inline;
 }
 
 .answer_answerText {
     font-weight: 500;
     width: 100%;
-    overflow-x: scroll;
-    display: inline;
+    overflow: auto;
+    display: inline-block;
 }
 
 .answer_answerText::-webkit-scrollbar {
