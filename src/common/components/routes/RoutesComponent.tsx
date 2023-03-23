@@ -23,7 +23,7 @@ export const PATH = {
   SET_NEW_PASSWORD: '/set-new-password/:setNewPasswordToken?',
   ERROR_404: '/error404',
   PACKS_ALL: '/allPacks',
-  PACK_MY: '/myPack/:packId?/:packName?',
+  PACKS_MY: '/myPack/:packId?/:packName?',
   NO_PACKS: '/emptyPack/:packId?/:packName?',
   PACK_FRIEND: '/friendsPack/:packId?/:packName?',
   LEARN: '/learn/:cardsPack_id?/:packName?/:packType?',
@@ -41,7 +41,7 @@ export const RoutesComponent = () => {
       <Route path={PATH.UPDATE_PASSWORD_INFO} element={<SentEmail />} />
       <Route path={PATH.SET_NEW_PASSWORD} element={<UpdatePassword />} />
       <Route path={PATH.PACKS_ALL} element={<AllPacks />} />
-      <Route path={PATH.PACK_MY} element={<MyPack />} />
+      <Route path={PATH.PACKS_MY} element={<MyPack />} />
       <Route path={PATH.NO_PACKS} element={<EmptyPack />} />
       <Route path={PATH.PACK_FRIEND} element={<FriendsPack />} />
       <Route path={PATH.LEARN} element={<Learn />} />

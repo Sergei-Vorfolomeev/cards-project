@@ -8,6 +8,7 @@ import { useAppDispatch } from 'app/store'
 import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
 import { useSelector } from 'react-redux'
 import learnPack from 'common/assets/pictures/addPack.svg'
+import { PATH } from 'common/components/routes/RoutesComponent'
 
 export const Popup = () => {
   const userId = useSelector(getUserIdSelector)
@@ -32,13 +33,13 @@ export const Popup = () => {
     }
   }
 
-  const deleteOnClickHandler = () => {
-    // setIsDisabled(true)
+  const deleteOnClickHandler = (packId: string, userId: string) => {
     if (!isMyPacks) {
       dispatch(deletePackTC(packId!))
     } else {
       dispatch(deletePackTC(packId!, userId))
     }
+    navigate(PATH.PACKS_ALL)
   }
 
   return (
@@ -50,7 +51,7 @@ export const Popup = () => {
           onClick={() => learnOnClickHandler('my')}
           className={s.learn}
         ></img>
-        Learn
+        <span onClick={() => learnOnClickHandler('my')}>Learn</span>
       </div>
       <div className={s.rowItem}>
         <AddUpdatePackModal
@@ -59,11 +60,15 @@ export const Popup = () => {
           packName={packName!}
           isPrivate={true}
         />
-        Edit
+        <span>Edit</span>
       </div>
       <div className={s.rowItem}>
-        <DeleteModal type={'pack'} title={packName!} deleteCallBack={deleteOnClickHandler} />
-        Delete
+        <DeleteModal
+          type={'pack'}
+          title={packName!}
+          deleteCallBack={() => deleteOnClickHandler(packId!, userId)}
+        />
+        <span>Delete</span>
       </div>
     </div>
   )
