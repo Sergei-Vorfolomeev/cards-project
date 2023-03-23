@@ -4,6 +4,7 @@ import { BasicModal } from 'features/modals/BasicModal'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import deletePack from 'common/assets/pictures/deletePack.svg'
 import { Title } from 'features/modals/commonComponents/title/Title'
+import s2 from 'features/packs/p1-allPacks/actions/ActionsWithPacks.module.css'
 
 type DeleteModalPropsType = {
   type: 'pack' | 'card'
@@ -22,7 +23,12 @@ export const DeleteModal = ({ type, title, deleteCallBack }: DeleteModalPropsTyp
   return (
     <BasicModal
       childrenButton={handleOpen => (
-        <img src={deletePack} alt={'icon'} onClick={() => handleOpen()} />
+        <img
+          src={deletePack}
+          alt={'icon'}
+          onClick={() => handleOpen()}
+          className={s2.actionsWithPacks_active}
+        />
       )}
     >
       {handleClose => (

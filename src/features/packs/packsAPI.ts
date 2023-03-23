@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { PackType } from 'features/packs/packsReducer'
 
 export const instance = axios.create({
   baseURL: 'https://neko-back.herokuapp.com/2.0/',
@@ -53,9 +54,9 @@ export const packsAPI = {
   updateCard(newCard: { card: { _id: string; question: string } }) {
     return instance.put(`/cards/card`, newCard)
   },
-  learnCard (grade:number, card_id:string) {
-    return instance.put<ResponseTypeCardLearn>(`/cards/grade`, {grade,card_id})
-  }
+  learnCard(grade: number, card_id: string) {
+    return instance.put<ResponseTypeCardLearn>(`/cards/grade`, { grade, card_id })
+  },
 }
 
 export type ResponseTypePacks = {
@@ -65,15 +66,6 @@ export type ResponseTypePacks = {
   minCardsCount: number
   page: number
   pageCount: number
-}
-
-type PackType = {
-  _id: string
-  user_id: string
-  name: string
-  cardsCount: number
-  created: string
-  updated: string
 }
 
 export type ResponseTypeCards = {
@@ -120,12 +112,11 @@ export type getCardsDataType = {
   pageCount?: number
 }
 
-
 type ResponseTypeCardLearn = {
-        _id: string
-        cardsPack_id: string
-        card_id: string
-        user_id: string
-        grade: number
-        shots: number
+  _id: string
+  cardsPack_id: string
+  card_id: string
+  user_id: string
+  grade: number
+  shots: number
 }

@@ -108,13 +108,15 @@ export const getCardsSortDownTC =
   }
 
 export const addCardTC =
-  (cardsPack_id: string): AppThunk =>
+  (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunk =>
   async dispatch => {
     try {
       toggleButtonDisableAC(true)
       let newCard = {
         card: {
           cardsPack_id,
+          question: cardQuestion,
+          answer: cardAnswer,
         },
       }
       await packsAPI.addCard(newCard)
@@ -140,13 +142,14 @@ export const deleteCardTC =
   }
 
 export const updateCardTC =
-  (cardsPack_id: string, cardId: string): AppThunk =>
+  (cardsPack_id: string, cardId: string, cardQuestion: string, cardAnswer: string): AppThunk =>
   async dispatch => {
     try {
       let updatedCard = {
         card: {
           _id: cardId,
-          question: 'new question',
+          question: cardQuestion,
+          answer: cardAnswer,
         },
       }
       await packsAPI.updateCard(updatedCard)
@@ -163,6 +166,7 @@ export const learnCardTC =
     try {
       await packsAPI.learnCard(grade, card_id)
       dispatch(learnCardFilterAC(grade, card_id))
+      dispatch(setLoadingAC(false))
     } catch (e) {
       handleError(e, dispatch)
     }

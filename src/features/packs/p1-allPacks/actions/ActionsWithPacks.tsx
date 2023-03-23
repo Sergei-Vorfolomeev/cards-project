@@ -34,14 +34,6 @@ export const ActionsWithPacks = ({
     : 'AllPacks'
   const isMyPacks = PacksTypeLocalStorage !== 'AllPacks'
 
-  if (!isVisible) {
-    return (
-      <div className={s.actionsWithPacks}>
-        <img src={learnPack} alt="learnPack" />
-      </div>
-    )
-  }
-
   const deleteOnClickHandler = () => {
     // setIsDisabled(true)
     if (!isMyPacks) {
@@ -65,37 +57,35 @@ export const ActionsWithPacks = ({
 
   if (!isVisible) {
     return (
-        <div className={s.actionsWithPacks}>
-          <button disabled={cardsNumber === 0}
-                  style={cardsNumber !== 0 ? {
-                    backgroundImage: `url(${learnPack})`,
-                    cursor: 'pointer'
-                  } : {backgroundImage: `url(${learnPack})`, cursor: 'pointer', opacity: 0.5}}
-                  onClick={learnOnClickHandler}></button>
-        </div>
+      <div className={s.actionsWithPacks}>
+        <button disabled={cardsNumber === 0} onClick={learnOnClickHandler}>
+          <img
+            src={learnPack}
+            alt={'learnIcon'}
+            className={cardsNumber !== 0 ? s.actionsWithPacks_active : s.actionsWithPacks_inactive}
+          ></img>
+        </button>
+      </div>
     )
   }
 
   return (
     <div className={s.actionsWithPacks}>
-      <button
-        style={
-          cardsNumber !== 0
-            ? {
-                backgroundImage: `url(${learnPack})`,
-                cursor: 'pointer',
-              }
-            : { backgroundImage: `url(${learnPack})`, cursor: 'pointer', opacity: 0.5 }
-        }
-        onClick={learnOnClickHandler}
-        disabled={cardsNumber === 0}
-      ></button>
+      <button disabled={cardsNumber === 0} onClick={learnOnClickHandler}>
+        <img
+          src={learnPack}
+          alt={'learnIcon'}
+          className={cardsNumber !== 0 ? s.actionsWithPacks_active : s.actionsWithPacks_inactive}
+        ></img>
+      </button>
+
       <AddUpdatePackModal
         type={'update'}
         callBack={updateOnClickHandler}
         packName={packName}
         isPrivate={isPrivate}
       />
+
       <DeleteModal type={'pack'} title={packName} deleteCallBack={deleteOnClickHandler} />
     </div>
   )

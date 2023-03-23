@@ -1,7 +1,8 @@
 .learn {
-  background: #f9f9fa;
   width: 100vw;
   height: 100vh;
+
+  background: #f9f9fa;
 }
 
 .learn_container {
@@ -10,16 +11,23 @@
 }
 
 .learn_body {
-  margin: 18px auto auto;
   max-width: 439px;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 2px;
-  background: #ffffff;
+  margin: 18px auto auto;
   padding: 30px 33px 48px;
+
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .noMoreCards {
-  margin-top: 50px;
+  /*margin-top: 20%;*/
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   font-size: 35px;
-  font-weight: 700;
+  font-weight: 500;
+  text-align: center;
 }

@@ -8,11 +8,17 @@ import Answer from './commonComponentsLearn/c3-answer/Answer'
 import RateYourself from './commonComponentsLearn/c5-rateYourselft/RateYourself'
 import { BackToPackLists } from '../packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
 import { CardType, getCardsTC, learnCardTC } from 'features/packs/cardsReducer'
-import { useAppDispatch, useAppSelector } from 'app/store'
+import { useAppDispatch } from 'app/store'
+import { getCardsDataSelector } from 'features/packs/selectors/packsSelectors'
+import { useSelector } from 'react-redux'
+import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
+import { getLoadingSelector } from 'app/appSelectors'
+import { setLoadingAC } from 'app/appReducer'
 
 export const Learn = () => {
+  const cards = useSelector(getCardsDataSelector)
+  const isLoading = useSelector(getLoadingSelector)
   const dispatch = useAppDispatch()
-  const cards = useAppSelector(state => state.cards.cards)
 
   const [isQuestionMode, setIsQuestionMode] = useState<boolean>(true)
   const [noMoreQuestion, setNoMoreQuestion] = useState<boolean>(false)
@@ -30,7 +36,7 @@ export const Learn = () => {
     updated: '',
   })
 
-  const [value, setValue] = React.useState('knew_the_answer')
+  const [value, setValue] = useState('knew_the_answer')
 
   const getCard = (cards: CardType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0)
@@ -60,6 +66,7 @@ export const Learn = () => {
   }, [cardsPack_id, cards, firstDataRequest])
 
   const onClickNextButtonHandler = () => {
+    dispatch(setLoadingAC(true))
     setFirstDataRequest(false)
     let cardGrade: number
 
@@ -85,9 +92,11 @@ export const Learn = () => {
     return (
       <>
         <div style={{ marginLeft: '10%' }}>
-          <BackToPackLists navigation={`/friendsPack/${cardsPack_id}/${packName}`} />
+          <BackToPackLists />
         </div>
-        <div className={s.noMoreCards}>No more cards in this pack. Start again ;)</div>
+        <div className={s.noMoreCards}>
+          Congratulations! You have learned all cards! Choose another pack :)
+        </div>
       </>
     )
   } else {
@@ -99,19 +108,25 @@ export const Learn = () => {
         <div className={s.learn_container}>
           <LearnTitle title={packName!} />
         </div>
-        <div className={s.learn_body}>
-          <Question question={card.question} shots={card.shots} />
 
-          {isQuestionMode ? (
-            <LearnButton title={'Show answer'} onClick={() => setIsQuestionMode(false)} />
-          ) : (
-            <div>
-              <Answer answer={`${card.answer}`} />
-              <RateYourself value={value} setValue={setValue} />
-              <LearnButton title={'Next'} onClick={onClickNextButtonHandler} />
-            </div>
-          )}
-        </div>
+        {/*Loader*/}
+        {isLoading ? (
+          <LocalLoader />
+        ) : (
+          <div className={s.learn_body}>
+            <Question question={card.question} shots={card.shots} />
+
+            {isQuestionMode ? (
+              <LearnButton title={'Show answer'} onClick={() => setIsQuestionMode(false)} />
+            ) : (
+              <div>
+                <Answer answer={`${card.answer}`} />
+                <RateYourself value={value} setValue={setValue} />
+                <LearnButton title={'Next'} onClick={onClickNextButtonHandler} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     )
   }

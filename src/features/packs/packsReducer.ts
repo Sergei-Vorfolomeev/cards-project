@@ -3,7 +3,7 @@ import { setLoadingAC } from 'app/appReducer'
 import { handleError } from 'common/utils/error-utils'
 import { getPacksDataType, packsAPI, ResponseTypePacks } from 'features/packs/packsAPI'
 
-const initialState: initialStateType = {
+const initialState: InitialStateType = {
   cardPacks: [],
   cardPacksTotalCount: 0,
   maxCardsCount: 100,
@@ -16,9 +16,9 @@ const initialState: initialStateType = {
 }
 
 export const packsReducer = (
-  state: initialStateType = initialState,
+  state: InitialStateType = initialState,
   action: PacksActionsType
-): initialStateType => {
+): InitialStateType => {
   switch (action.type) {
     case 'packs/SET-NEW-PACKS':
       return { ...state, ...action.packsInfo, cardPacks: [...action.packsInfo.cardPacks] }
@@ -70,6 +70,7 @@ export const getPacksTC =
     dispatch(setLoadingAC(true))
     try {
       let res = await packsAPI.getPacks(data)
+      console.log(res)
       dispatch(setPacksAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -161,7 +162,7 @@ export type PacksActionsType =
   | ReturnType<typeof setMinMaxCardValuesAC>
   | ReturnType<typeof toggleButtonDisableAC>
 
-type initialStateType = {
+type InitialStateType = {
   cardPacks: PackType[]
   cardPacksTotalCount: number
   maxCardsCount: number

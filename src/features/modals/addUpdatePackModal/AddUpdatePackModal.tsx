@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react'
 import s from 'features/modals/addUpdatePackModal/AddUpdatePackModal.module.css'
+import s2 from 'features/packs/p1-allPacks/actions/ActionsWithPacks.module.css'
 import { BasicModal } from 'features/modals/BasicModal'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
-import styles from 'features/login/Login.module.css'
 import updatePack from 'common/assets/pictures/changePack.svg'
 import { InputComponent } from 'features/modals/commonComponents/input/InputComponent'
 import { CheckBoxComponent } from 'features/modals/commonComponents/checkbox/CheckBoxComponent'
@@ -42,7 +42,12 @@ export const AddUpdatePackModal = ({
     <BasicModal
       childrenButton={handleOpen =>
         type === 'update' ? (
-          <img src={updatePack} alt={'icon'} onClick={() => handleOpen()} />
+          <img
+            src={updatePack}
+            alt={'icon'}
+            onClick={() => handleOpen()}
+            className={s2.actionsWithPacks_active}
+          />
         ) : (
           <ButtonComponent name={'Add new pack'} callBack={() => handleOpen()} />
         )
