@@ -10,7 +10,7 @@ import { PacksInput } from 'features/packs/p5-commonComponents/commonPackCompone
 import useDebouncedEffect from 'use-debounced-effect'
 import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
 import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
-import { useParams } from 'react-router-dom'
+import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
 import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
 import {
   getButtonDisableSelector,
@@ -23,6 +23,7 @@ import {
 } from 'features/packs/selectors/packsSelectors'
 import { useSelector } from 'react-redux'
 import { getLoadingSelector } from 'app/appSelectors'
+import { PATH } from 'common/components/routes/RoutesComponent'
 
 export const FriendsPack = () => {
   const dispatch = useAppDispatch()
@@ -37,6 +38,9 @@ export const FriendsPack = () => {
 
   const [inputValue, setInputValue] = useState<string>('')
 
+  const navigate = useNavigate()
+  let { packId,packName } = useParams()
+
   const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.currentTarget.value)
 
@@ -44,7 +48,11 @@ export const FriendsPack = () => {
     dispatch(getPacksTC({ page: newPage, pageCount: newCount, packName: inputValue, min, max }))
   }
 
-  let { packId } = useParams()
+  const learnOnClickButtonHandler = () => {
+    navigate(`/learn/${packId}/${packName}`)
+  }
+
+
 
   useEffect(() => {
     packId && dispatch(getCardsTC({ cardsPack_id: packId }))
@@ -63,11 +71,11 @@ export const FriendsPack = () => {
       <div className={s.friendsPack_container}>
         <BackToPackLists />
         <div className={s.friendsPack_titleAndButton}>
-          <PacksTitle title={'Friend’s Pack'} />
+          <PacksTitle title={`Friend’s Pack: ${packName}`} />
           <PackButton
             disable={buttonDisableBecauseProcess}
             name={'Learn to pack'}
-            onClick={() => {}}
+            onClick={learnOnClickButtonHandler}
           />
         </div>
         <PacksInput

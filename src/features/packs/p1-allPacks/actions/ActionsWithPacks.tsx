@@ -3,20 +3,29 @@ import s from './ActionsWithPacks.module.css'
 import learnPack from 'common/assets/pictures/addPack.svg'
 import { useAppDispatch } from 'app/store'
 import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
-import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
-import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
+import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
 
 type PropsType = {
   isVisible: boolean
   packId: string
   userId: string
   packName: string
+  cardsNumber: number
   isPrivate: boolean
 }
 
-export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivate }: PropsType) => {
-  // const packName = useSelector()
+export const ActionsWithPacks = ({
+  isVisible,
+  packId,
+  userId,
+  packName,
+  isPrivate,
+  cardsNumber,
+}: PropsType) => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const [isDisabled, setIsDisabled] = useState(false)
 
@@ -24,8 +33,6 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivat
     ? localStorage.getItem('PackType')
     : 'AllPacks'
   const isMyPacks = PacksTypeLocalStorage !== 'AllPacks'
-
-  const dispatch = useAppDispatch()
 
   if (!isVisible) {
     return (
@@ -52,20 +59,43 @@ export const ActionsWithPacks = ({ isVisible, packId, userId, packName, isPrivat
     }
   }
 
+  const learnOnClickHandler = () => {
+    navigate(`/learn/${packId}/${packName}`)
+  }
+
+  if (!isVisible) {
+    return (
+        <div className={s.actionsWithPacks}>
+          <button disabled={cardsNumber === 0}
+                  style={cardsNumber !== 0 ? {
+                    backgroundImage: `url(${learnPack})`,
+                    cursor: 'pointer'
+                  } : {backgroundImage: `url(${learnPack})`, cursor: 'pointer', opacity: 0.5}}
+                  onClick={learnOnClickHandler}></button>
+        </div>
+    )
+  }
+
   return (
     <div className={s.actionsWithPacks}>
-      <img src={learnPack} alt="learnPack" />
-      {/*<button style={{ backgroundImage: `url(${addPack})` }}></button>*/}
+      <button
+        style={
+          cardsNumber !== 0
+            ? {
+                backgroundImage: `url(${learnPack})`,
+                cursor: 'pointer',
+              }
+            : { backgroundImage: `url(${learnPack})`, cursor: 'pointer', opacity: 0.5 }
+        }
+        onClick={learnOnClickHandler}
+        disabled={cardsNumber === 0}
+      ></button>
       <AddUpdatePackModal
         type={'update'}
         callBack={updateOnClickHandler}
         packName={packName}
         isPrivate={isPrivate}
       />
-      {/*<button*/}
-      {/*  style={{ backgroundImage: `url(${changePack})` }}*/}
-      {/*  onClick={updateOnClickHandler}*/}
-      {/*></button>*/}
       <DeleteModal type={'pack'} title={packName} deleteCallBack={deleteOnClickHandler} />
     </div>
   )

@@ -50,6 +50,11 @@ export const MyPack = () => {
     } else {
       navigate(PATH.LOGIN)
     }
+
+    return ()=>{
+
+    }
+
   }, [packId, isAuth])
 
   const [myPacksInput, setMyPacksInput] = useState('')

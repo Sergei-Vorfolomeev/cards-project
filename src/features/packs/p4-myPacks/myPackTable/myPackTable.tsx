@@ -17,6 +17,7 @@ import {
   getSorDirectionSelector,
 } from 'features/packs/selectors/packsSelectors'
 import { useSelector } from 'react-redux'
+import StarIcon from '../../p5-commonComponents/usefullComponents/StarIcon/StarIcon'
 
 type PropsType = {
   cardsData: cardData[]
@@ -89,7 +90,7 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
+          {rows.map((row) => (
             <TableRow key={row.cardId} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell align="center">{row.question}</TableCell>
               <TableCell align="center">{row.answer}</TableCell>

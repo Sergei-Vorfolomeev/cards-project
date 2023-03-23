@@ -106,7 +106,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: PropsType) => {
               key={row.createdBy}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell sx={{ cursor: 'pointer' }} align="center">
+              <TableCell sx={{cursor: 'pointer', maxWidth: '80px', overflow: 'hidden'}} align="center">
                 {row.userId === userId ? (
                   row.cardsCount === 0 ? (
                     <NavLink
@@ -128,15 +128,15 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: PropsType) => {
                   </NavLink>
                 )}
               </TableCell>
-              <TableCell align="center">{row.cardsCount}</TableCell>
-              <TableCell align="center">
+              <TableCell sx={{maxWidth: '80px', overflow: 'hidden'}} align="center">{row.cardsCount}</TableCell>
+              <TableCell sx={{maxWidth: '145px', overflow: 'hidden'}} align="center">
                 {new Date(row.createdBy).toLocaleString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
                 })}
               </TableCell>
-              <TableCell align="center">
+              <TableCell sx={{maxWidth: '145px', overflow: 'hidden'}} align="center">
                 {new Date(row.lastUpdated).toLocaleString('en-US', {
                   year: 'numeric',
                   month: 'long',
