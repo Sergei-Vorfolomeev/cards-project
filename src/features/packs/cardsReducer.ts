@@ -1,7 +1,7 @@
 import { getCardsDataType, packsAPI, ResponseTypeCards } from './packsAPI'
-import { setLoadingAC } from '../../app/appReducer'
-import { handleError } from '../../common/utils/error-utils'
-import { AppThunk } from '../../app/store'
+import { setLoadingAC } from 'app/appReducer'
+import { handleError } from 'common/utils/error-utils'
+import { AppThunk } from 'app/store'
 
 const initialState: InitialStateType = {
   cards: [],
@@ -41,7 +41,7 @@ export const cardsReducer = (
                 }
               : { ...card }
           )
-          .filter(card => card.grade !== 5),
+          .filter(card => (card._id === action.cardId ? card.grade !== 5 : card.grade <= 5)),
       }
     default:
       return state
