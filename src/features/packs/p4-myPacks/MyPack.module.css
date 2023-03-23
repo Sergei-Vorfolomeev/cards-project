@@ -1,29 +1,32 @@
 .myPacks_container {
-    width: 80%;
-    margin: auto;
+  width: 80%;
+  margin: auto;
 }
 
 .myPacks_titleAndButton {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+
+  margin-bottom: 8px;
 }
 
 .myPacks_titleMenu {
-    display: flex;
+  display: flex;
+  position: relative;
 }
 
-.myPacks_titleMenu  img {
-    margin-left: 9px;
+.myPacks_titleMenu img {
+  margin-left: 9px;
 }
 
 .myPacks_table {
-    margin-top: 24px;
+  margin-top: 24px;
 }
 
 .myPacks_noPacksWasFound {
-    margin-top: 100px;
-    font-weight: 600;
-    font-size: 20px;
+  margin-top: 100px;
+
+  font-size: 20px;
+  font-weight: 600;
 }

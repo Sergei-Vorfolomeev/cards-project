@@ -27,6 +27,7 @@ import { PATH } from 'common/components/routes/RoutesComponent'
 import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
 import { Error } from 'common/components/error/Error'
 import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
+import { Popup } from 'features/packs/p4-myPacks/popup/Popup'
 
 export const MyPack = () => {
   const cardsData = useSelector(getCardsDataSelector)
@@ -44,6 +45,9 @@ export const MyPack = () => {
   const navigate = useNavigate()
   let { packId, packName } = useParams()
 
+  const [myPacksInput, setMyPacksInput] = useState('')
+  const [openPopup, setOpenPopup] = useState(false)
+
   useEffect(() => {
     if (isAuth) {
       dispatch(getCardsTC({ cardsPack_id: packId }))
@@ -51,13 +55,8 @@ export const MyPack = () => {
       navigate(PATH.LOGIN)
     }
 
-    return ()=>{
-
-    }
-
+    return () => {}
   }, [packId, isAuth])
-
-  const [myPacksInput, setMyPacksInput] = useState('')
 
   const onChangeMyPacksInput = (e: ChangeEvent<HTMLInputElement>) =>
     setMyPacksInput(e.currentTarget.value)
@@ -93,7 +92,14 @@ export const MyPack = () => {
         <div className={s.myPacks_titleAndButton}>
           <div className={s.myPacks_titleMenu}>
             <PacksTitle title={`My Pack:  ${packName!}`} />
-            <img src={myPackMenu} alt={'myPackMenu'} />
+            <img
+              src={myPackMenu}
+              alt={'myPackMenu'}
+              onClick={() => {
+                setOpenPopup(!openPopup)
+              }}
+            />
+            {openPopup && <Popup />}
           </div>
 
           <AddUpdateCardModal
