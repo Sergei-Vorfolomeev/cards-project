@@ -99,7 +99,7 @@ export const MyPack = () => {
                 setOpenPopup(!openPopup)
               }}
             />
-            {openPopup && <Popup />}
+            {/*{openPopup && <Popup />}*/}
           </div>
 
           <AddUpdateCardModal
