@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
+
 import s from './PacksTitle.module.css'
 
 type PropsType = {
-    title: string
+  title: string
 }
 
-export const PacksTitle = ({title}: PropsType) => {
-    return <h2 className={s.packsTitle}>{title}</h2>
-
-};
+export const PacksTitle = ({ title }: PropsType) => {
+  return <h2 className={s.packsTitle}>{title}</h2>
+}

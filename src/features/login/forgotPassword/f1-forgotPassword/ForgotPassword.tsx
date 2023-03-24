@@ -1,16 +1,20 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
-import s from './ForgotPassword.module.css'
+
+import { useSelector } from 'react-redux'
 import { Navigate, NavLink } from 'react-router-dom'
-import { PATH } from '../../../../common/components/routes/RoutesComponent'
+
+import { sentEmailTC } from '../../authReducer'
 import ForgotButton from '../f4-common/forgotButton/ForgotButton'
 import ForgotTitle from '../f4-common/forgotTitle/ForgotTitle'
-import { Error } from '../../../../common/components/error/Error'
-import { useAppDispatch, useAppSelector } from '../../../../app/store'
-import { Loader } from '../../../../common/components/loader/Loader'
-import { setErrorAC } from '../../../../app/appReducer'
-import { sentEmailTC } from '../../authReducer'
-import { useSelector } from 'react-redux'
-import { getErrorMessageSelector, getLoadingSelector } from '../../../../app/appSelectors'
+
+import s from './ForgotPassword.module.css'
+
+import { setErrorAC } from 'app/appReducer'
+import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import { useAppDispatch } from 'app/store'
+import { Error } from 'common/components/error/Error'
+import { Loader } from 'common/components/loader/Loader'
+import { PATH } from 'common/components/routes/RoutesComponent'
 import { getLetterWasSentSelector } from 'features/login/selectors/loginSelectors'
 
 export const ForgotPassword = () => {
@@ -28,6 +32,7 @@ export const ForgotPassword = () => {
   const buttonOnClickHandler = () => {
     const EMAIL_REGEXP =
       /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+
     if (EMAIL_REGEXP.test(email)) {
       dispatch(sentEmailTC(email))
     } else {

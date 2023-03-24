@@ -1,11 +1,15 @@
 import React from 'react'
-import s from './SentEmail.module.css'
-import ForgotTitle from '../f4-common/forgotTitle/ForgotTitle'
-import checkEmailImg from '../../../../common/assets/pictures/checkEmail.svg'
-import ForgotButton from '../f4-common/forgotButton/ForgotButton'
-import { useNavigate } from 'react-router-dom'
-import { PATH } from '../../../../common/components/routes/RoutesComponent'
+
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
+import ForgotTitle from '../f4-common/forgotTitle/ForgotTitle'
+
+import s from './SentEmail.module.css'
+
+import checkEmailImg from 'common/assets/pictures/checkEmail.svg'
+import { PATH } from 'common/components/routes/RoutesComponent'
+import ForgotButton from 'features/login/forgotPassword/f4-common/forgotButton/ForgotButton'
 import { getEmailSelector } from 'features/login/selectors/loginSelectors'
 
 const SentEmail = () => {

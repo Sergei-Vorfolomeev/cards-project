@@ -1,5 +1,7 @@
 import React, { ChangeEvent } from 'react'
+
 import s from './PacksInput.module.css'
+
 import searchIcon from 'common/assets/pictures/searchIcon.svg'
 
 type PropsType = {
