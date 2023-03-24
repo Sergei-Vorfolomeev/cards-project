@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import s from './ActionsWithCards.module.css'
-import changePack from 'common/assets/pictures/changePack.svg'
-import { useAppDispatch } from 'app/store'
+import React from 'react'
+
 import { useParams } from 'react-router-dom'
-import { deleteCardTC, updateCardTC } from 'features/packs/cardsReducer'
-import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
+
+import s from './ActionsWithCards.module.css'
+
+import { useAppDispatch } from 'app/store'
 import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
+import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
+import { deleteCardTC, updateCardTC } from 'features/packs/cardsReducer'
 
 type ActionsWithCardsPropsType = {
   cardId: string
@@ -17,11 +19,8 @@ export const ActionsWithCards = ({ cardId, question, answer }: ActionsWithCardsP
   const dispatch = useAppDispatch()
   let { packId } = useParams()
 
-  const [deleteButtonDisable, setDeleteButtonDisable] = useState<boolean>(false)
-
   const deleteOnClickHandler = () => {
     packId && dispatch(deleteCardTC(packId, cardId))
-    // setDeleteButtonDisable(true)
   }
 
   const updateOnClickHandler = (cardQuestion: string, cardAnswer: string) => {
@@ -36,23 +35,7 @@ export const ActionsWithCards = ({ cardId, question, answer }: ActionsWithCardsP
         cardAnswer={answer}
         callBack={updateOnClickHandler}
       />
-      {/*<button*/}
-      {/*  style={{ backgroundImage: `url(${changePack})` }}*/}
-      {/*  onClick={updateOnClickHandler}*/}
-      {/*></button>*/}
       <DeleteModal type={'card'} title={question} deleteCallBack={deleteOnClickHandler} />
-      {/*<button*/}
-      {/*  style={*/}
-      {/*    !deleteButtonDisable*/}
-      {/*      ? { backgroundImage: `url(${deletePack})` }*/}
-      {/*      : {*/}
-      {/*          backgroundImage: `url(${deletePack})`,*/}
-      {/*          opacity: 0.5,*/}
-      {/*        }*/}
-      {/*  }*/}
-      {/*  onClick={deleteOnClickHandler}*/}
-      {/*  disabled={deleteButtonDisable}*/}
-      {/*></button>*/}
     </div>
   )
 }

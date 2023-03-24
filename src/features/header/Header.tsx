@@ -1,10 +1,14 @@
 import React from 'react'
+
 import { useNavigate } from 'react-router-dom'
-import styles from './Header.module.css'
-import { ButtonComponent } from 'common/components/button/ButtonComponent'
-import { PATH } from '../../common/components/routes/RoutesComponent'
-import { useAppDispatch, useAppSelector } from '../../app/store'
+
 import { logoutTC } from '../login/authReducer'
+
+import styles from './Header.module.css'
+
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { ButtonComponent } from 'common/components/button/ButtonComponent'
+import { PATH } from 'common/components/routes/RoutesComponent'
 
 export const Header = () => {
   const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)

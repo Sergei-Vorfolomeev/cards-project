@@ -1,7 +1,8 @@
 import { getCardsDataType, packsAPI, ResponseTypeCards } from './packsAPI'
+
 import { setLoadingAC } from 'app/appReducer'
-import { handleError } from 'common/utils/error-utils'
 import { AppThunk } from 'app/store'
+import { handleError } from 'common/utils/error-utils'
 
 const initialState: InitialStateType = {
   cards: [],
@@ -77,6 +78,7 @@ export const getCardsTC =
     dispatch(setLoadingAC(true))
     try {
       let res = await packsAPI.getCards(cardsInfo)
+
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -90,6 +92,7 @@ export const getCardsSortUpTC =
   async dispatch => {
     try {
       let res = await packsAPI.getSortUpCards(cardsPack_id)
+
       dispatch(setCardsSortUpdAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -101,6 +104,7 @@ export const getCardsSortDownTC =
   async dispatch => {
     try {
       let res = await packsAPI.getSortDownCards(cardsPack_id)
+
       dispatch(setCardsSortDownAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -119,8 +123,10 @@ export const addCardTC =
           answer: cardAnswer,
         },
       }
+
       await packsAPI.addCard(newCard)
       let res = await packsAPI.getCards({ cardsPack_id })
+
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -135,6 +141,7 @@ export const deleteCardTC =
     try {
       await packsAPI.deleteCard(cardId)
       let res = await packsAPI.getCards({ cardsPack_id })
+
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -152,8 +159,10 @@ export const updateCardTC =
           answer: cardAnswer,
         },
       }
+
       await packsAPI.updateCard(updatedCard)
       let res = await packsAPI.getCards({ cardsPack_id })
+
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)

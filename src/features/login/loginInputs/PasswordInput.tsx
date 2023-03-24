@@ -1,8 +1,10 @@
-import React, { ChangeEvent, useState } from 'react'
-import styles from '../Login.module.css'
+import React from 'react'
+
 import { ErrorMessage, Field } from 'formik'
-import passwordEye from '../../../common/assets/pictures/eye.svg'
+
 import passwordEyeHide from '../../../common/assets/pictures/eye-off.svg'
+import passwordEye from '../../../common/assets/pictures/eye.svg'
+import styles from '../Login.module.css'
 
 type PropsType = {
   isHidden: boolean

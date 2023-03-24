@@ -69,10 +69,12 @@ export const authAPI = {
                 <a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
                 </div>`,
     }
+
     return instance.post<UserResponseType>('/auth/forgot', data).then(res => res.data)
   },
   setNewPasswordRequest(password: string, resetPasswordToken: string) {
     let data = { password, resetPasswordToken }
+
     return instance.post<UserResponseType>('/auth/set-new-password', data).then(res => res.data)
   },
   changeData(data: ChangeDataResponseType) {

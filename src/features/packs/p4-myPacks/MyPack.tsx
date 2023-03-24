@@ -1,21 +1,27 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import s from './MyPack.module.css'
-import { getPacksTC } from 'features/packs/packsReducer'
-import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
+
 import { useSelector } from 'react-redux'
-import { getIsAuthSelector } from 'features/login/selectors/loginSelectors'
-import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
-import { MyPackTable } from 'features/packs/p4-myPacks/myPackTable/myPackTable'
-import { useAppDispatch } from 'app/store'
-import { addCardTC, getCardsTC } from 'features/packs/cardsReducer'
-import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
+
+import s from './MyPack.module.css'
+
+import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import { useAppDispatch } from 'app/store'
+import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
+import { Error } from 'common/components/error/Error'
+import { PATH } from 'common/components/routes/RoutesComponent'
+import { getIsAuthSelector } from 'features/login/selectors/loginSelectors'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
+import { addCardTC, getCardsTC } from 'features/packs/cardsReducer'
+import { MyPackTable } from 'features/packs/p4-myPacks/myPackTable/myPackTable'
+import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
+import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
+import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
 import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
 import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
-import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import { getPacksTC } from 'features/packs/packsReducer'
 import {
-  getButtonDisableSelector,
   getCardsDataSelector,
   getMaxCardsCountSelector,
   getMinCardsCountSelector,
@@ -23,11 +29,6 @@ import {
   getPackPageSelector,
   getPageTotalCountSelector,
 } from 'features/packs/selectors/packsSelectors'
-import { PATH } from 'common/components/routes/RoutesComponent'
-import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
-import { Error } from 'common/components/error/Error'
-import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
-import { Popup } from 'features/packs/p4-myPacks/popup/Popup'
 
 export const MyPack = () => {
   const cardsData = useSelector(getCardsDataSelector)
@@ -39,7 +40,6 @@ export const MyPack = () => {
   const totalCount = useSelector(getPageTotalCountSelector)
   const minCardsCountValue = useSelector(getMinCardsCountSelector)
   const maxCardsCountValue = useSelector(getMaxCardsCountSelector)
-  const buttonDisableBecauseProcess = useSelector(getButtonDisableSelector)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -119,19 +119,24 @@ export const MyPack = () => {
           onChange={onChangeMyPacksInput}
         />
 
-        {isLoading ? (
-          <LocalLoader />
-        ) : cardsData.length !== 0 ? (
+        {isLoading && <LocalLoader />}
+
+        {!isLoading && cardsData.length !== 0 && (
           <div className={s.myPacks_table}>
             <MyPackTable cardsData={cardsData} />
           </div>
-        ) : myPacksInput.length !== 0 ? (
+        )}
+
+        {!isLoading && cardsData.length === 0 && myPacksInput.length !== 0 && (
           <div className={s.myPacks_noPacksWasFound}>
             NO PACKS WERE FOUND. REVISE YOUR FILTERS ;)
           </div>
-        ) : (
+        )}
+
+        {!isLoading && cardsData.length === 0 && myPacksInput.length === 0 && (
           <Navigate to={`/emptyPack/${packId}/${packName}`} />
         )}
+
         <div className={s.myPacks_pagination}>
           <SuperPagination
             page={page}

@@ -1,6 +1,8 @@
 import React from 'react'
-import styles from '../Login.module.css'
+
 import { ErrorMessage, Field } from 'formik'
+
+import styles from '../Login.module.css'
 
 export const EmailInput = () => {
   return (

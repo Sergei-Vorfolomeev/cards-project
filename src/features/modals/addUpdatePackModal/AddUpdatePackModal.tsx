@@ -1,12 +1,13 @@
 import React, { ChangeEvent, useState } from 'react'
-import s from 'features/modals/addUpdatePackModal/AddUpdatePackModal.module.css'
-import s2 from 'features/packs/p1-allPacks/actions/ActionsWithPacks.module.css'
-import { BasicModal } from 'features/modals/BasicModal'
-import { ButtonComponent } from 'common/components/button/ButtonComponent'
+
 import updatePack from 'common/assets/pictures/changePack.svg'
-import { InputComponent } from 'features/modals/commonComponents/input/InputComponent'
+import { ButtonComponent } from 'common/components/button/ButtonComponent'
+import s from 'features/modals/addUpdatePackModal/AddUpdatePackModal.module.css'
+import { BasicModal } from 'features/modals/BasicModal'
 import { CheckBoxComponent } from 'features/modals/commonComponents/checkbox/CheckBoxComponent'
+import { InputComponent } from 'features/modals/commonComponents/input/InputComponent'
 import { Title } from 'features/modals/commonComponents/title/Title'
+import s2 from 'features/packs/p1-allPacks/actions/ActionsWithPacks.module.css'
 
 type AddPackModalPropsType = {
   type: 'add' | 'update'

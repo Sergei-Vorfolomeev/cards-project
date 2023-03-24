@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react'
+
 import styles from 'features/modals/commonComponents/input/InputComponent.module.css'
 
 type InputComponentPropsType = {

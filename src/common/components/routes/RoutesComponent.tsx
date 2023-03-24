@@ -1,17 +1,19 @@
 import React from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { Login } from '../../../features/login/Login'
-import { Profile } from '../../../features/profile/Profile'
-import Registration from '../../../features/registration/Registration'
-import { ForgotPassword } from '../../../features/login/forgotPassword/f1-forgotPassword/ForgotPassword'
-import SentEmail from '../../../features/login/forgotPassword/f2-sentEmail/SentEmail'
+
+import { Route, Routes } from 'react-router-dom'
+
 import UpdatePassword from '../../../features/login/forgotPassword/f3-updatePassword/UpdatePassword'
-import Page404 from './page404/Page404'
-import { AllPacks } from '../../../features/packs/p1-allPacks/AllPacks'
-import { MyPack } from '../../../features/packs/p4-myPacks/MyPack'
-import { EmptyPack } from '../../../features/packs/p2-emptyPack/EmptyPack'
-import { FriendsPack } from '../../../features/packs/p3-friendsPacks/FriendsPack'
-import { Learn } from '../../../features/learn/Learn'
+import Registration from '../../../features/registration/Registration'
+
+import { Learn } from 'features/learn/Learn'
+import { ForgotPassword } from 'features/login/forgotPassword/f1-forgotPassword/ForgotPassword'
+import SentEmail from 'features/login/forgotPassword/f2-sentEmail/SentEmail'
+import { Login } from 'features/login/Login'
+import { AllPacks } from 'features/packs/p1-allPacks/AllPacks'
+import { EmptyPack } from 'features/packs/p2-emptyPack/EmptyPack'
+import { FriendsPack } from 'features/packs/p3-friendsPacks/FriendsPack'
+import { MyPack } from 'features/packs/p4-myPacks/MyPack'
+import { Profile } from 'features/profile/Profile'
 
 export const PATH = {
   LOGIN: '/login',

@@ -1,29 +1,32 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import s from './AllPacks.module.css'
-import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
-import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
-import { ShowPacksCards } from 'features/packs/p5-commonComponents/usefullComponents/showPacksCards/ShowPacksCards'
-import { NumberOfCards } from 'features/packs/p5-commonComponents/usefullComponents/numberOfCards/NumberOfCards'
-import cleanFiltersIcon from 'common/assets/pictures/cleanFiletetIcon.svg'
-import { useNavigate } from 'react-router-dom'
-import { useAppDispatch } from 'app/store'
-import { addPackTC, getPacksTC } from 'features/packs/packsReducer'
+
 import { useSelector } from 'react-redux'
-import { Error } from 'common/components/error/Error'
-import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
+import { useNavigate } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
-import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
-import { PATH } from 'common/components/routes/RoutesComponent'
-import { TableForPacks } from 'features/packs/p1-allPacks/allPacksTable/TableForPacks'
-import { getIsAuthSelector, getUserIdSelector } from 'features/login/selectors/loginSelectors'
+
+import s from './AllPacks.module.css'
+
 import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import { useAppDispatch } from 'app/store'
+import cleanFiltersIcon from 'common/assets/pictures/cleanFiletetIcon.svg'
+import { Error } from 'common/components/error/Error'
+import { PATH } from 'common/components/routes/RoutesComponent'
+import { getIsAuthSelector, getUserIdSelector } from 'features/login/selectors/loginSelectors'
+import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
+import { TableForPacks } from 'features/packs/p1-allPacks/allPacksTable/TableForPacks'
+import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
+import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
+import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
+import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
+import { NumberOfCards } from 'features/packs/p5-commonComponents/usefullComponents/numberOfCards/NumberOfCards'
+import { ShowPacksCards } from 'features/packs/p5-commonComponents/usefullComponents/showPacksCards/ShowPacksCards'
+import { addPackTC, getPacksTC } from 'features/packs/packsReducer'
 import {
   getPackPageCountSelector,
   getPackPageSelector,
   getPacksSelector,
   getPageTotalCountSelector,
 } from 'features/packs/selectors/packsSelectors'
-import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
 
 export const AllPacks = () => {
   const packs = useSelector(getPacksSelector)
@@ -90,6 +93,7 @@ export const AllPacks = () => {
     let value = newValue as number[]
     let minValue = value[0].toString()
     let maxValue = value[1].toString()
+
     localStorage.setItem('minLocalStorage', minValue)
     localStorage.setItem('maxLocalStorage', maxValue)
   }
@@ -159,17 +163,29 @@ export const AllPacks = () => {
           <img onClick={noFiltersOnClickHandler} src={cleanFiltersIcon} alt={'filterIcon'} />
         </div>
 
-        {isLoading ? (
-          <LocalLoader />
-        ) : packs.length === 0 ? (
+        {isLoading && <LocalLoader />}
+
+        {!isLoading && packs.length === 0 && (
           <div className={s.allPacks_noPacksWasFound}>
             NO PACKS WERE FOUND. REVISE YOUR FILTERS ;)
           </div>
-        ) : (
+        )}
+
+        {!isLoading && packs.length !== 0 && (
           <div className={s.allPacks_table}>
             <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue} />
           </div>
         )}
+
+        {/*    : packs.length === 0 ? (*/}
+        {/*  <div className={s.allPacks_noPacksWasFound}>*/}
+        {/*    NO PACKS WERE FOUND. REVISE YOUR FILTERS ;)*/}
+        {/*  </div>*/}
+        {/*) : (*/}
+        {/*  <div className={s.allPacks_table}>*/}
+        {/*    <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue} />*/}
+        {/*  </div>*/}
+        {/*)}*/}
 
         <div className={s.allPacks_pagination}>
           <SuperPagination

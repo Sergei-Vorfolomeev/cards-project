@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useState } from 'react'
+
+import updatePack from 'common/assets/pictures/changePack.svg'
+import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import s from 'features/modals/addUpdatePackModal/AddUpdatePackModal.module.css'
 import { BasicModal } from 'features/modals/BasicModal'
-import { ButtonComponent } from 'common/components/button/ButtonComponent'
-import updatePack from 'common/assets/pictures/changePack.svg'
 import { InputComponent } from 'features/modals/commonComponents/input/InputComponent'
 import { Title } from 'features/modals/commonComponents/title/Title'
 

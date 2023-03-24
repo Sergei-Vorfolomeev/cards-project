@@ -1,18 +1,21 @@
 import React, { ChangeEvent, useState } from 'react'
-import s from './UpdatePassword.module.css'
-import ForgotTitle from '../f4-common/forgotTitle/ForgotTitle'
-import RegistrationInput from '../../../registration/registrationInput/RegistrationInput'
-import ForgotButton from '../f4-common/forgotButton/ForgotButton'
-import { Error } from '../../../../common/components/error/Error'
-import { useAppDispatch } from '../../../../app/store'
-import { Loader } from '../../../../common/components/loader/Loader'
-import { Navigate, useParams } from 'react-router-dom'
-import { PATH } from '../../../../common/components/routes/RoutesComponent'
-import { setErrorAC } from '../../../../app/appReducer'
-import { updatePasswordTC } from '../../authReducer'
+
 import { useSelector } from 'react-redux'
-import { getErrorMessageSelector, getLoadingSelector } from '../../../../app/appSelectors'
+import { Navigate, useParams } from 'react-router-dom'
+
+import s from './UpdatePassword.module.css'
+
+import { setErrorAC } from 'app/appReducer'
+import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import { useAppDispatch } from 'app/store'
+import { Error } from 'common/components/error/Error'
+import { Loader } from 'common/components/loader/Loader'
+import { PATH } from 'common/components/routes/RoutesComponent'
+import { updatePasswordTC } from 'features/login/authReducer'
+import ForgotButton from 'features/login/forgotPassword/f4-common/forgotButton/ForgotButton'
+import ForgotTitle from 'features/login/forgotPassword/f4-common/forgotTitle/ForgotTitle'
 import { getNewPasswordWasSetSelector } from 'features/login/selectors/loginSelectors'
+import RegistrationInput from 'features/registration/registrationInput/RegistrationInput'
 
 const UpdatePassword = () => {
   const newPasswordWasSet = useSelector(getNewPasswordWasSetSelector)

@@ -1,14 +1,16 @@
 import React from 'react'
-import s from 'features/packs/p4-myPacks/popup/Popup.module.css'
-import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
-import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
-import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useAppDispatch } from 'app/store'
-import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
+
 import { useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+
+import { useAppDispatch } from 'app/store'
 import learnPack from 'common/assets/pictures/addPack.svg'
 import { PATH } from 'common/components/routes/RoutesComponent'
+import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
+import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
+import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
+import s from 'features/packs/p4-myPacks/popup/Popup.module.css'
+import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
 
 export const Popup = () => {
   const userId = useSelector(getUserIdSelector)

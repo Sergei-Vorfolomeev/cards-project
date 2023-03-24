@@ -1,9 +1,10 @@
 import React from 'react'
-import s from 'features/modals/deleteModal/DeleteModal.module.css'
-import { BasicModal } from 'features/modals/BasicModal'
-import { ButtonComponent } from 'common/components/button/ButtonComponent'
+
 import deletePack from 'common/assets/pictures/deletePack.svg'
+import { ButtonComponent } from 'common/components/button/ButtonComponent'
+import { BasicModal } from 'features/modals/BasicModal'
 import { Title } from 'features/modals/commonComponents/title/Title'
+import s from 'features/modals/deleteModal/DeleteModal.module.css'
 import s2 from 'features/packs/p1-allPacks/actions/ActionsWithPacks.module.css'
 
 type DeleteModalPropsType = {

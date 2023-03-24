@@ -1,4 +1,5 @@
 import React from 'react'
+
 import s from './Question.module.css'
 
 type PropsType = {

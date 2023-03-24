@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react'
+
 import { Form, Formik } from 'formik'
-import * as Yup from 'yup'
-import { useAppDispatch } from '../../app/store'
-import { loginTC } from './authReducer'
-import { NavLink, useNavigate } from 'react-router-dom'
-import styles from './Login.module.css'
-import { Loader } from '../../common/components/loader/Loader'
-import { Error } from '../../common/components/error/Error'
-import { PATH } from '../../common/components/routes/RoutesComponent'
-import { PasswordInput } from './loginInputs/PasswordInput'
-import { EmailInput } from './loginInputs/EmailInput'
-import { CheckBoxInput } from './loginInputs/CheckBoxInput'
-import { getIsAuthSelector } from 'features/login/selectors/loginSelectors'
 import { useSelector } from 'react-redux'
-import { getErrorMessageSelector, getLoadingSelector } from '../../app/appSelectors'
+import { NavLink, useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
+
+import { loginTC } from './authReducer'
+import styles from './Login.module.css'
+import { CheckBoxInput } from './loginInputs/CheckBoxInput'
+import { EmailInput } from './loginInputs/EmailInput'
+import { PasswordInput } from './loginInputs/PasswordInput'
+
+import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import { useAppDispatch } from 'app/store'
+import { Error } from 'common/components/error/Error'
+import { Loader } from 'common/components/loader/Loader'
+import { PATH } from 'common/components/routes/RoutesComponent'
+import { getIsAuthSelector } from 'features/login/selectors/loginSelectors'
 
 const SignupSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required field'),

@@ -1,15 +1,19 @@
 import React, { ChangeEvent, useState } from 'react'
-import s from './Registration.module.css'
-import { Navigate, NavLink } from 'react-router-dom'
-import { Loader } from '../../common/components/loader/Loader'
-import { useAppDispatch } from '../../app/store'
-import RegistrationInput from './registrationInput/RegistrationInput'
-import { setErrorAC } from '../../app/appReducer'
-import { Error } from '../../common/components/error/Error'
-import { PATH } from '../../common/components/routes/RoutesComponent'
-import { setRegisterTC } from '../login/authReducer'
+
 import { useSelector } from 'react-redux'
-import { getErrorMessageSelector, getLoadingSelector } from '../../app/appSelectors'
+import { Navigate, NavLink } from 'react-router-dom'
+
+import { setRegisterTC } from '../login/authReducer'
+
+import s from './Registration.module.css'
+import RegistrationInput from './registrationInput/RegistrationInput'
+
+import { setErrorAC } from 'app/appReducer'
+import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import { useAppDispatch } from 'app/store'
+import { Error } from 'common/components/error/Error'
+import { Loader } from 'common/components/loader/Loader'
+import { PATH } from 'common/components/routes/RoutesComponent'
 import { getRegisterSelector } from 'features/login/selectors/loginSelectors'
 
 const Registration = () => {
@@ -46,6 +50,7 @@ const Registration = () => {
   const emailOnBlurHandler = () => {
     const EMAIL_REGEXP =
       /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+
     !EMAIL_REGEXP.test(emailValue) && dispatch(setErrorAC('Add correct email'))
   }
 

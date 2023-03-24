@@ -1,5 +1,5 @@
-import { AppThunk } from 'app/store'
 import { setLoadingAC } from 'app/appReducer'
+import { AppThunk } from 'app/store'
 import { handleError } from 'common/utils/error-utils'
 import { getPacksDataType, packsAPI, ResponseTypePacks } from 'features/packs/packsAPI'
 
@@ -51,6 +51,7 @@ const setPacksAC = (packsInfo: ResponseTypePacks) =>
   ({ type: 'packs/SET-NEW-PACKS', packsInfo } as const)
 const toggleButtonDisableAC = (buttonDisable: boolean) =>
   ({ type: 'packs/SET-BUTTON-DISABLE', buttonDisable } as const)
+
 export const setAllPacksSortUpdAC = (packsInfo: ResponseTypePacks) =>
   ({ type: 'packs/SET-PACKS-SORTED-UP', packsInfo } as const)
 export const setAllPacksSortDownAC = (packsInfo: ResponseTypePacks) =>
@@ -70,6 +71,7 @@ export const getPacksTC =
     dispatch(setLoadingAC(true))
     try {
       let res = await packsAPI.getPacks(data)
+
       console.log(res)
       dispatch(setPacksAC(res))
     } catch (e) {
@@ -84,6 +86,7 @@ export const getSortUpPacksTC =
   async dispatch => {
     try {
       let res = await packsAPI.getSortUpPacks(data)
+
       dispatch(setAllPacksSortUpdAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -95,6 +98,7 @@ export const getSortDownPacksTC =
   async dispatch => {
     try {
       let res = await packsAPI.getSortDownPacks(data)
+
       dispatch(setAllPacksSortDownAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -112,8 +116,10 @@ export const addPackTC =
           private: isPrivate,
         },
       }
+
       await packsAPI.addPack(newPack)
       let res = await packsAPI.getPacks({ user_id: userId })
+
       dispatch(setPacksAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -128,6 +134,7 @@ export const deletePackTC =
     try {
       await packsAPI.deletePack(packId)
       let res = await packsAPI.getPacks({ user_id: userId })
+
       dispatch(setPacksAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -145,8 +152,10 @@ export const updatePackTC =
           private: isPrivate,
         },
       }
+
       await packsAPI.updatePack(updatedPack)
       let res = await packsAPI.getPacks({ user_id: userId })
+
       dispatch(setPacksAC(res))
     } catch (e) {
       handleError(e, dispatch)

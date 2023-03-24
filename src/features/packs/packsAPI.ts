@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { PackType } from 'features/packs/packsReducer'
 
 export const instance = axios.create({
@@ -14,14 +15,17 @@ export const instance = axios.create({
 export const packsAPI = {
   getPacks(info: getPacksDataType = {}) {
     let params = { packName: '', page: 1, min: 0, max: 110, pageCount: 10, ...info }
+
     return instance.get<ResponseTypePacks>('/cards/pack', { params }).then(res => res.data)
   },
   getSortUpPacks(info: getPacksDataType = {}) {
     let params = { sortPacks: '0updated', page: 1, pageCount: 10, ...info }
+
     return instance.get<ResponseTypePacks>('/cards/pack', { params }).then(res => res.data)
   },
   getSortDownPacks(info: getPacksDataType = {}) {
     let params = { sortPacks: '1updated', page: 1, pageCount: 10, ...info }
+
     return instance.get<ResponseTypePacks>('/cards/pack', { params }).then(res => res.data)
   },
   addPack(newPack: { cardsPack: { name: string } }) {
@@ -35,14 +39,17 @@ export const packsAPI = {
   },
   getCards(info: getCardsDataType = {}) {
     let params = { page: 1, pageCount: 10, ...info }
+
     return instance.get<ResponseTypeCards>('/cards/card', { params }).then(res => res.data)
   },
   getSortUpCards(cardsPack_id: string) {
     let data = { sortPacks: '0updated', page: 1, pageCount: 10, cardsPack_id }
+
     return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
   },
   getSortDownCards(cardsPack_id: string) {
     let data = { sortPacks: '1updated', page: 1, pageCount: 10, cardsPack_id }
+
     return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
   },
   addCard(newCard: { card: { cardsPack_id: string } }) {

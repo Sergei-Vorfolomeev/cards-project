@@ -1,15 +1,19 @@
 import React from 'react'
-import s from './Profile.module.css'
-import { useAppDispatch, useAppSelector } from '../../app/store'
-import { PATH } from '../../common/components/routes/RoutesComponent'
-import { Error } from '../../common/components/error/Error'
-import { Loader } from '../../common/components/loader/Loader'
-import avatar from './img/avatar.jpg'
-import { EditableSpan } from './editable-span/EditableSpan'
-import { changeDataTC, logoutTC } from '../login/authReducer'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { getName } from './profileSelectors'
+
 import { useSelector } from 'react-redux'
+import { Navigate, useNavigate } from 'react-router-dom'
+
+import { changeDataTC, logoutTC } from '../login/authReducer'
+
+import { EditableSpan } from './editable-span/EditableSpan'
+import avatar from './img/avatar.jpg'
+import s from './Profile.module.css'
+import { getName } from './profileSelectors'
+
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { Error } from 'common/components/error/Error'
+import { Loader } from 'common/components/loader/Loader'
+import { PATH } from 'common/components/routes/RoutesComponent'
 import { getEmailSelector, getIsAuthSelector } from 'features/login/selectors/loginSelectors'
 
 export const Profile = () => {
@@ -36,6 +40,7 @@ export const Profile = () => {
   if (!isAuth) {
     return <Navigate to={PATH.LOGIN} />
   }
+
   return loading ? (
     <Loader />
   ) : (

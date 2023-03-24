@@ -1,7 +1,8 @@
 import { authAPI, ChangeDataResponseType, LoginRequestType, UserResponseType } from './authAPI'
+
 import { setLoadingAC } from 'app/appReducer'
-import { handleError } from 'common/utils/error-utils'
 import { AppThunk } from 'app/store'
+import { handleError } from 'common/utils/error-utils'
 
 type InitialStateType = typeof initialState
 
@@ -114,6 +115,7 @@ export const loginTC =
     dispatch(setLoadingAC(true))
     try {
       const res: UserResponseType = await authAPI.login(data)
+
       dispatch(loginAC(res, true))
     } catch (e) {
       handleError(e, dispatch)
@@ -126,6 +128,7 @@ export const logoutTC = (): AppThunk => async dispatch => {
   dispatch(setLoadingAC(true))
   try {
     const res = await authAPI.logout()
+
     if (res.statusText === 'OK') {
       dispatch(loginAC(initialState, false))
     }
@@ -140,6 +143,7 @@ export const meTC = (): AppThunk => async dispatch => {
   dispatch(setLoadingAC(true))
   try {
     const res = await authAPI.me()
+
     dispatch(loginAC(res, true))
     dispatch(setRegisterAC(true))
   } catch (e) {
@@ -154,6 +158,7 @@ export const setRegisterTC =
   dispatch => {
     dispatch(setLoadingAC(true))
     let data = { email, password }
+
     authAPI
       .register(data)
       .then(() => {
@@ -170,8 +175,10 @@ export const changeDataTC =
   async dispatch => {
     try {
       const res = await authAPI.changeData(data)
+
       if (res.statusText === 'OK') {
         const { data } = res
+
         dispatch(
           changeDataAC({
             name: data.updatedUser.name,
@@ -192,6 +199,7 @@ export const sentEmailTC =
     dispatch(sentSentLetterAC(false))
     dispatch(setNewPasswordAC(false))
     dispatch(setEmailAC(''))
+
     return authAPI
       .forgot(email)
       .then(() => {
@@ -208,6 +216,7 @@ export const updatePasswordTC =
   (password: string, resetPasswordToken: string): AppThunk =>
   dispatch => {
     dispatch(setLoadingAC(true))
+
     return authAPI
       .setNewPasswordRequest(password, resetPasswordToken)
       .then(() => {

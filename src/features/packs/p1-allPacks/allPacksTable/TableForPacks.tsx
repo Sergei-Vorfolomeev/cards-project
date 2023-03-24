@@ -1,24 +1,27 @@
 import React from 'react'
+
+import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import TableSortLabel from '@mui/material/TableSortLabel'
-import { useAppDispatch } from 'app/store'
-import { NavLink } from 'react-router-dom'
-import s from '../AllPacks.module.css'
-import { getSortDownPacksTC, getSortUpPacksTC } from 'features/packs/packsReducer'
-import { ActionsWithPacks } from 'features/packs/p1-allPacks/actions/ActionsWithPacks'
 import { useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+
+import s from '../AllPacks.module.css'
+
+import { useAppDispatch } from 'app/store'
+import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
+import { ActionsWithPacks } from 'features/packs/p1-allPacks/actions/ActionsWithPacks'
+import { getSortDownPacksTC, getSortUpPacksTC } from 'features/packs/packsReducer'
 import {
   getPackPageCountSelector,
   getPackPageSelector,
   getSorDirectionSelector,
 } from 'features/packs/selectors/packsSelectors'
-import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
 
 // types
 
@@ -127,6 +130,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
                 sx={{ cursor: 'pointer', maxWidth: '80px', overflow: 'hidden' }}
                 align="center"
               >
+                {/* eslint-disable-next-line no-nested-ternary */}
                 {row.userId === userId ? (
                   row.cardsCount === 0 ? (
                     <NavLink

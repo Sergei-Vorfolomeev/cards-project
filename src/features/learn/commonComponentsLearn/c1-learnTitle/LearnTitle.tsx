@@ -1,4 +1,5 @@
 import React from 'react'
+
 import s from './LearnTitle.module.css'
 
 type PropsType = {

@@ -1,4 +1,5 @@
 import React from 'react'
+
 import s from './ShowPacksCards.module.css'
 
 type PropsType = {
@@ -7,7 +8,6 @@ type PropsType = {
 }
 
 export const ShowPacksCards = ({ onClick, isMyPacks }: PropsType) => {
-
   return (
     <div className={s.showPacksCards}>
       <h3>Show packs cards</h3>

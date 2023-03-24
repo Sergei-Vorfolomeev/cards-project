@@ -1,29 +1,30 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import s from './FriendsPack.module.css'
-import { getPacksTC } from 'features/packs/packsReducer'
-import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
-import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
-import { useAppDispatch } from 'app/store'
-import { FriendsPackTable } from 'features/packs/p3-friendsPacks/friendsPackTable/FriendsPackTable'
-import { getCardsTC } from 'features/packs/cardsReducer'
-import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
+
+import { useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
-import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
+
+import s from './FriendsPack.module.css'
+
+import { getLoadingSelector } from 'app/appSelectors'
+import { useAppDispatch } from 'app/store'
+import { getCardsTC } from 'features/packs/cardsReducer'
+import { FriendsPackTable } from 'features/packs/p3-friendsPacks/friendsPackTable/FriendsPackTable'
+import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
 import { PackButton } from 'features/packs/p5-commonComponents/commonPackComponents/packButton/PackButton'
-import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
-import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
+import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
+import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
+import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
+import { getPacksTC } from 'features/packs/packsReducer'
 import {
   getButtonDisableSelector,
   getCardPageCountSelector,
   getCardPageSelector,
+  getCardsDataSelector,
   getCardTotalCountSelector,
   getMaxCardsCountSelector,
   getMinCardsCountSelector,
-  getCardsDataSelector,
 } from 'features/packs/selectors/packsSelectors'
-import { useSelector } from 'react-redux'
-import { getLoadingSelector } from 'app/appSelectors'
-import { PATH } from 'common/components/routes/RoutesComponent'
 
 export const FriendsPack = () => {
   const dispatch = useAppDispatch()
@@ -39,7 +40,7 @@ export const FriendsPack = () => {
   const [inputValue, setInputValue] = useState<string>('')
 
   const navigate = useNavigate()
-  let { packId,packName } = useParams()
+  let { packId, packName } = useParams()
 
   const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.currentTarget.value)
@@ -51,8 +52,6 @@ export const FriendsPack = () => {
   const learnOnClickButtonHandler = () => {
     navigate(`/learn/${packId}/${packName}`)
   }
-
-
 
   useEffect(() => {
     packId && dispatch(getCardsTC({ cardsPack_id: packId }))
@@ -86,15 +85,15 @@ export const FriendsPack = () => {
           width={'98%'}
           onChange={inputOnChaneHandler}
         />
-        {isLoading ? (
-          <LocalLoader />
-        ) : tableData.length === 0 ? (
+        {isLoading && tableData.length === 0 && (
           <div className={s.friendsPack_noCardsWasFound}>NO PACKS WERE FOUND. TRY AGAIN ;)</div>
-        ) : (
+        )}
+        {isLoading && tableData.length !== 0 && (
           <div className={s.friendsPack_table}>
             <FriendsPackTable cardsData={tableData} />
           </div>
         )}
+
         <div className={s.friendsPack_pagintion}>
           <SuperPagination
             page={page}

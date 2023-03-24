@@ -1,4 +1,5 @@
 import React from 'react'
+
 import s from './Answer.module.css'
 
 const Answer = ({ answer }: { answer: string }) => {

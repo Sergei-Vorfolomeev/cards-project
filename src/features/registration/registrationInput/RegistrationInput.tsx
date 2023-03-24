@@ -1,7 +1,9 @@
 import React, { ChangeEvent, useState } from 'react'
-import s from './RegistrationInput.module.css'
-import passwordEye from '../../../common/assets/pictures/eye.svg'
+
 import passwordEyeHide from '../../../common/assets/pictures/eye-off.svg'
+import passwordEye from '../../../common/assets/pictures/eye.svg'
+
+import s from './RegistrationInput.module.css'
 
 type PropsType = {
   type: string
@@ -25,7 +27,7 @@ const RegistrationInput = (props: PropsType) => {
         {props.text}
       </label>
       <input
-        type={props.type === 'email' ? 'email' : isHidden ? 'password' : 'text'}
+        type={(props.type === 'email' && 'email') || isHidden ? 'password' : 'text'}
         id={props.id}
         value={props.value}
         onChange={props.onChange}

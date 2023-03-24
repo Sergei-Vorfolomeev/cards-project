@@ -1,23 +1,24 @@
 import React from 'react'
-import { useAppDispatch } from 'app/store'
-import TableContainer from '@mui/material/TableContainer'
+
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
 import TableSortLabel from '@mui/material/TableSortLabel'
-import TableBody from '@mui/material/TableBody'
-import Star from 'common/assets/pictures/Star 5.svg'
+import { useSelector } from 'react-redux'
+
+import { useAppDispatch } from 'app/store'
 import { ActionsWithCards } from 'features/packs/p4-myPacks/actionsWithCards/ActionsWithCards'
+import StarIcon from 'features/packs/p5-commonComponents/usefullComponents/StarIcon/StarIcon'
 import { getSortDownPacksTC, getSortUpPacksTC } from 'features/packs/packsReducer'
 import {
   getPackPageCountSelector,
   getPackPageSelector,
   getSorDirectionSelector,
 } from 'features/packs/selectors/packsSelectors'
-import { useSelector } from 'react-redux'
-import StarIcon from '../../p5-commonComponents/usefullComponents/StarIcon/StarIcon'
 
 type PropsType = {
   cardsData: cardData[]

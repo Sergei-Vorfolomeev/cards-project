@@ -1,7 +1,8 @@
 import React, { ChangeEvent } from 'react'
 
-import s from './SuperPagination.module.css'
 import { Pagination } from '@mui/material'
+
+import s from './SuperPagination.module.css'
 import { SuperSelect } from './SuperSelect'
 
 export type SuperPaginationPropsType = {

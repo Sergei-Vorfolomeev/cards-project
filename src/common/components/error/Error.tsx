@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import styles from './Error.module.css'
+
 import closeIcon from '../../assets/pictures/icons8-macos-close-30.png'
-import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { setErrorAC } from '../../../app/appReducer'
+
+import styles from './Error.module.css'
+
+import { setErrorAC } from 'app/appReducer'
+import { useAppDispatch, useAppSelector } from 'app/store'
 
 type ErrorPropsType = {
   message: string
@@ -26,6 +29,7 @@ export const Error = ({ message }: ErrorPropsType) => {
   }, [closeError, errorMessage])
 
   if (!visible) return null
+
   return (
     <div className={styles.errorBox}>
       <span className={styles.errorMessage}>{message}</span>

@@ -1,10 +1,12 @@
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from 'redux'
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { AuthActionsType, authReducer } from '../features/login/authReducer'
+
 import { AppActionsType, appReducer } from './appReducer'
-import { PacksActionsType, packsReducer } from '../features/packs/packsReducer'
-import { CardsActionsType, cardsReducer } from '../features/packs/cardsReducer'
+
+import { AuthActionsType, authReducer } from 'features/login/authReducer'
+import { CardsActionsType, cardsReducer } from 'features/packs/cardsReducer'
+import { PacksActionsType, packsReducer } from 'features/packs/packsReducer'
 
 // store
 const rootReducer = combineReducers({
@@ -13,6 +15,7 @@ const rootReducer = combineReducers({
   packs: packsReducer,
   cards: cardsReducer,
 })
+
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
 
 //custom hooks

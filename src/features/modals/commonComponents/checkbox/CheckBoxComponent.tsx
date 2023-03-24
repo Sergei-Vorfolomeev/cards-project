@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react'
+
 import styles from 'features/modals/commonComponents/checkbox/CheckBoxComponent.module.css'
 
 type CheckBoxComponentPropsType = {

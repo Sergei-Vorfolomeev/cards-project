@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { ReactComponent as Star } from 'common/assets/pictures/Star 5.svg'
 
 type PropsType = {

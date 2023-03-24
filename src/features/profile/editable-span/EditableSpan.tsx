@@ -1,5 +1,7 @@
-import React, { ChangeEvent, useState, KeyboardEvent } from 'react'
+import React, { ChangeEvent, useState, KeyboardEvent, memo } from 'react'
+
 import TextField from '@mui/material/TextField'
+
 import editIcon from './../img/edit.svg'
 import s from './../Profile.module.css'
 
@@ -8,7 +10,7 @@ type EditableSpanPropsType = {
   onChange: (newValue: string) => void
 }
 
-export const EditableSpan = React.memo(function (props: EditableSpanPropsType) {
+export const EditableSpan = memo(function (props: EditableSpanPropsType) {
   let [editMode, setEditMode] = useState(false)
   let [title, setTitle] = useState(props.value)
 

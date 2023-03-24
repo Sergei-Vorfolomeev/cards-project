@@ -1,23 +1,25 @@
 import React from 'react'
-import { useAppDispatch } from 'app/store'
-import { getSortDownPacksTC, getSortUpPacksTC } from '../../packsReducer'
-import TableContainer from '@mui/material/TableContainer'
+
+import { TableFooter } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
 import TableSortLabel from '@mui/material/TableSortLabel'
-import TableBody from '@mui/material/TableBody'
-import { TableFooter } from '@mui/material'
-import Star from 'common/assets/pictures/Star 5.svg'
+import { useSelector } from 'react-redux'
+
+import { getSortDownPacksTC, getSortUpPacksTC } from '../../packsReducer'
+
+import { useAppDispatch } from 'app/store'
+import StarIcon from 'features/packs/p5-commonComponents/usefullComponents/StarIcon/StarIcon'
 import {
   getPackPageCountSelector,
   getPackPageSelector,
   getSorDirectionSelector,
 } from 'features/packs/selectors/packsSelectors'
-import { useSelector } from 'react-redux'
-import StarIcon from 'features/packs/p5-commonComponents/usefullComponents/StarIcon/StarIcon'
 
 type PropsType = {
   cardsData: cardData[]
@@ -70,7 +72,11 @@ export const FriendsPackTable = ({ cardsData }: PropsType) => {
         <TableHead sx={{ background: '#EFEFEF' }}>
           <TableRow>
             {columnsData.map((columnData, index) => (
-              <TableCell sx={{ fontWeight: '700', cursor: 'pointer',maxWidth:'145px' }} align="center" key={index}>
+              <TableCell
+                sx={{ fontWeight: '700', cursor: 'pointer', maxWidth: '145px' }}
+                align="center"
+                key={index}
+              >
                 <TableSortLabel
                   active={columnData === 'Last updated'}
                   direction={sortDirection === 'up' ? 'desc' : 'asc'}
@@ -91,17 +97,21 @@ export const FriendsPackTable = ({ cardsData }: PropsType) => {
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell sx={{maxWidth: '145px', overflow: 'hidden'}} align="center">{row.question}</TableCell>
-              <TableCell sx={{maxWidth: '145px', overflow: 'hidden'}} align="center">{row.answer}</TableCell>
-              <TableCell sx={{maxWidth: '140px', overflow: 'hidden'}} align="center">
+              <TableCell sx={{ maxWidth: '145px', overflow: 'hidden' }} align="center">
+                {row.question}
+              </TableCell>
+              <TableCell sx={{ maxWidth: '145px', overflow: 'hidden' }} align="center">
+                {row.answer}
+              </TableCell>
+              <TableCell sx={{ maxWidth: '140px', overflow: 'hidden' }} align="center">
                 {new Date(row.lastUpdated).toLocaleString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
                 })}
               </TableCell>
-              <TableCell sx={{maxWidth: '90px', overflow: 'hidden'}} align="center">
-                  <StarIcon grade={row.grade}/>
+              <TableCell sx={{ maxWidth: '90px', overflow: 'hidden' }} align="center">
+                <StarIcon grade={row.grade} />
               </TableCell>
             </TableRow>
           ))}

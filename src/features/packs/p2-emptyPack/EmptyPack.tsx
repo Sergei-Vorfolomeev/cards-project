@@ -1,20 +1,19 @@
 import React from 'react'
+
+import { useSelector } from 'react-redux'
+import { Navigate, useParams } from 'react-router-dom'
+
 import s from './EmptyPack.module.css'
-import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
+
 import { useAppDispatch } from 'app/store'
+import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
 import { addCardTC } from 'features/packs/cardsReducer'
 import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
-import { Navigate, useParams } from 'react-router-dom'
-import {
-  getButtonDisableSelector,
-  getCardsCountSelector,
-} from 'features/packs/selectors/packsSelectors'
-import { useSelector } from 'react-redux'
-import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
+import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
+import { getCardsCountSelector } from 'features/packs/selectors/packsSelectors'
 
 export const EmptyPack = () => {
   const cardsCount = useSelector(getCardsCountSelector)
-  const buttonDisableBecauseProcess = useSelector(getButtonDisableSelector)
 
   const dispatch = useAppDispatch()
 

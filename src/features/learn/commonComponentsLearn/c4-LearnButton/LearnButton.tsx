@@ -1,4 +1,5 @@
 import React from 'react'
+
 import s from './LearnButton.module.css'
 
 type PropsType = {

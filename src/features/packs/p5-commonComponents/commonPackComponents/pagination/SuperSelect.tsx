@@ -1,4 +1,5 @@
 import React, { SelectHTMLAttributes, DetailedHTMLProps, ChangeEvent } from 'react'
+
 import s from './SuperPagination.module.css'
 
 type DefaultSelectPropsType = DetailedHTMLProps<

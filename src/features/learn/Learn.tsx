@@ -71,20 +71,38 @@ export const Learn = () => {
     }
   }, [cardsPack_id, cards, firstDataRequest])
 
+  let cardGrade: number
   const onClickNextButtonHandler = () => {
     dispatch(setLoadingAC(true))
     setFirstDataRequest(false)
-    let cardGrade: number
 
-    value === 'did_not_know'
-      ? (cardGrade = 1)
-      : value === 'forgot'
-      ? (cardGrade = 2)
-      : value === 'a_lot_of_thought'
-      ? (cardGrade = 3)
-      : value === 'confused'
-      ? (cardGrade = 4)
-      : (cardGrade = 5)
+    switch (value) {
+      case 'did_not_know':
+        cardGrade = 1
+        break
+      case 'forgot':
+        cardGrade = 2
+        break
+      case 'a_lot_of_thought':
+        cardGrade = 3
+        break
+      case 'confused':
+        cardGrade = 4
+        break
+      case 'knew_the_answer':
+        cardGrade = 5
+        break
+    }
+
+    // value === 'did_not_know'
+    //   ? (cardGrade = 1)
+    //   : value === 'forgot'
+    //   ? (cardGrade = 2)
+    //   : value === 'a_lot_of_thought'
+    //   ? (cardGrade = 3)
+    //   : value === 'confused'
+    //   ? (cardGrade = 4)
+    //   : (cardGrade = 5)
 
     if (value === 'knew_the_answer' && cards.length <= 1) {
       setNoMoreQuestion(true)
@@ -132,7 +150,6 @@ export const Learn = () => {
           <LearnTitle title={packName!} />
         </div>
 
-        {/*Loader*/}
         {isLoading ? (
           <LocalLoader />
         ) : (
