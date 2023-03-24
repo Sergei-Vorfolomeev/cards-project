@@ -72,7 +72,6 @@ export const getPacksTC =
     try {
       let res = await packsAPI.getPacks(data)
 
-      console.log(res)
       dispatch(setPacksAC(res))
     } catch (e) {
       handleError(e, dispatch)
