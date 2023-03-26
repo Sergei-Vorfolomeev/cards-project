@@ -1,11 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
 
 import s from './AllPacks.module.css'
 
+import { setLoadingAC } from 'app/appReducer'
 import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
 import { useAppDispatch } from 'app/store'
 import cleanFiltersIcon from 'common/assets/pictures/cleanFiletetIcon.svg'
@@ -38,7 +39,6 @@ export const AllPacks = () => {
   const pageCount = useSelector(getPackPageCountSelector)
   const totalCount = useSelector(getPageTotalCountSelector)
 
-  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   let minLocalStorage = localStorage.getItem('minLocalStorage')
@@ -62,20 +62,18 @@ export const AllPacks = () => {
   const [isMyPacks, setIsMyPacks] = useState(myPacks)
 
   useEffect(() => {
-    if (isAuth) {
-      if (isMyPacks) {
-        dispatch(getPacksTC({ user_id, min: +minLocalStorage!, max: +minLocalStorage! }))
-        localStorage.setItem('PackType', 'MyPacks')
-        setMinMaxCardsValue([+minLocalStorage!, +maxLocalStorage!])
-      } else {
-        dispatch(getPacksTC({ min: +minLocalStorage!, max: +minLocalStorage! }))
-        localStorage.setItem('PackType', 'AllPacks')
-        setMinMaxCardsValue([+minLocalStorage!, +maxLocalStorage!])
-      }
+    if (isMyPacks) {
+      dispatch(setLoadingAC(true))
+      dispatch(getPacksTC({ user_id, min: +minLocalStorage!, max: +minLocalStorage! }))
+      localStorage.setItem('PackType', 'MyPacks')
+      setMinMaxCardsValue([+minLocalStorage!, +maxLocalStorage!])
     } else {
-      navigate(PATH.LOGIN)
+      dispatch(setLoadingAC(true))
+      dispatch(getPacksTC({ min: +minLocalStorage!, max: +minLocalStorage! }))
+      localStorage.setItem('PackType', 'AllPacks')
+      setMinMaxCardsValue([+minLocalStorage!, +maxLocalStorage!])
     }
-  }, [isAuth, isMyPacks, user_id])
+  }, [isMyPacks, user_id])
 
   const addPackOnClickHandler = (packName: string, isPrivate: boolean) => {
     if (isMyPacks) {
@@ -137,6 +135,8 @@ export const AllPacks = () => {
     )
   }
 
+  if (!isAuth) return <Navigate to={PATH.LOGIN} />
+
   return (
     <div className={s.allPacks}>
       <div className={s.allPacks_container}>
@@ -176,16 +176,6 @@ export const AllPacks = () => {
             <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue} />
           </div>
         )}
-
-        {/*    : packs.length === 0 ? (*/}
-        {/*  <div className={s.allPacks_noPacksWasFound}>*/}
-        {/*    NO PACKS WERE FOUND. REVISE YOUR FILTERS ;)*/}
-        {/*  </div>*/}
-        {/*) : (*/}
-        {/*  <div className={s.allPacks_table}>*/}
-        {/*    <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue} />*/}
-        {/*  </div>*/}
-        {/*)}*/}
 
         <div className={s.allPacks_pagination}>
           <SuperPagination

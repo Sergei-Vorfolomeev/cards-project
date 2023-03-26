@@ -5,6 +5,7 @@ import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import s from 'features/modals/addUpdatePackModal/AddUpdatePackModal.module.css'
 import { BasicModal } from 'features/modals/BasicModal'
 import { InputComponent } from 'features/modals/commonComponents/input/InputComponent'
+import styles from 'features/modals/commonComponents/input/InputComponent.module.css'
 import { Title } from 'features/modals/commonComponents/title/Title'
 
 type AddUpdateCardModalPropsType = {
@@ -31,10 +32,10 @@ export const AddUpdateCardModal = ({
   const [answer, setAnswer] = useState(cardAnswer)
 
   const onChangeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuestion(e.currentTarget.value)
+    setQuestion(e.currentTarget.value.trim())
   }
   const onChangeAnswerHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.currentTarget.value)
+    setAnswer(e.currentTarget.value.trim())
   }
 
   return (
@@ -75,7 +76,9 @@ export const AddUpdateCardModal = ({
             <div className={s.buttonBox}>
               <ButtonComponent
                 name={'Cancel'}
-                callBack={() => handleClose()}
+                callBack={() => {
+                  handleClose()
+                }}
                 style={cancelButtonStyle}
               />
               <ButtonComponent
@@ -92,6 +95,7 @@ export const AddUpdateCardModal = ({
                   }
                 }}
                 style={saveButtonStyle}
+                disabled={question === '' || answer === ''}
               />
             </div>
           </div>

@@ -1,47 +1,45 @@
 import React from 'react'
 
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from 'app/store'
 import learnPack from 'common/assets/pictures/addPack.svg'
 import { PATH } from 'common/components/routes/RoutesComponent'
-import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
 import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
 import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
 import s from 'features/packs/p4-myPacks/popup/Popup.module.css'
 import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
+import { getPacksSelector } from 'features/packs/selectors/packsSelectors'
 
-export const Popup = () => {
-  const userId = useSelector(getUserIdSelector)
+type Props = {
+  packId: string | undefined
+  packName: string
+  isPrivate: boolean
+  setOpenPopup: (openPopup: boolean) => void
+}
+
+export const Popup = ({ packId, packName, isPrivate, setOpenPopup }: Props) => {
+  const packs = useSelector(getPacksSelector)
+
   const dispatch = useAppDispatch()
-  const { packId, packName } = useParams()
   const navigate = useNavigate()
-
-  const PacksTypeLocalStorage = localStorage.getItem('PackType')
-    ? localStorage.getItem('PackType')
-    : 'AllPacks'
-  const isMyPacks = PacksTypeLocalStorage !== 'AllPacks'
 
   const learnOnClickHandler = (packType: 'my' | 'friend') => {
     navigate(`/learn/${packId}/${packName}/${packType}`)
   }
 
-  const updateOnClickHandler = (packName: string, isPrivate: boolean) => {
-    if (!isMyPacks) {
-      dispatch(updatePackTC(packId!, packName, isPrivate))
-    } else {
-      dispatch(updatePackTC(packId!, packName, isPrivate, userId))
-    }
+  const updateOnClickHandler = (newPackName: string, isPrivate: boolean) => {
+    packId && dispatch(updatePackTC(packId, newPackName, isPrivate))
+    setOpenPopup(false)
   }
 
-  const deleteOnClickHandler = (packId: string, userId: string) => {
-    if (!isMyPacks) {
-      dispatch(deletePackTC(packId!))
-    } else {
-      dispatch(deletePackTC(packId!, userId))
-    }
-    navigate(PATH.PACKS_ALL)
+  const deleteOnClickHandler = (packId: string) => {
+    const promise = dispatch(deletePackTC(packId!))
+
+    promise.then(() => {
+      navigate(PATH.PACKS_ALL)
+    })
   }
 
   return (
@@ -59,16 +57,16 @@ export const Popup = () => {
         <AddUpdatePackModal
           type={'update'}
           callBack={updateOnClickHandler}
-          packName={packName!}
-          isPrivate={true}
+          packName={packName}
+          isPrivate={isPrivate}
         />
         <span>Edit</span>
       </div>
       <div className={s.rowItem}>
         <DeleteModal
           type={'pack'}
-          title={packName!}
-          deleteCallBack={() => deleteOnClickHandler(packId!, userId)}
+          title={packName}
+          deleteCallBack={() => deleteOnClickHandler(packId!)}
         />
         <span>Delete</span>
       </div>

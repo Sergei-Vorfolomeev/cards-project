@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import updatePack from 'common/assets/pictures/changePack.svg'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
@@ -83,7 +83,9 @@ export const AddUpdatePackModal = ({
             <div className={s.buttonBox}>
               <ButtonComponent
                 name={'Cancel'}
-                callBack={() => handleClose()}
+                callBack={() => {
+                  handleClose()
+                }}
                 style={cancelButtonStyle}
               />
 
@@ -96,6 +98,7 @@ export const AddUpdatePackModal = ({
                   setPrivateField(false)
                 }}
                 style={saveButtonStyle}
+                disabled={newPackName === ''}
               />
             </div>
           </div>

@@ -15,7 +15,7 @@
   border-radius: 3px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
 
-  /*animation: popupAnimation 0.3s;*/
+  animation: popupAnimation 0.3s;
 }
 
 .rowItem {
@@ -26,6 +26,7 @@
 .rowItem:not(:last-child) {
   margin-bottom: 18px;
 }
+
 .learn {
   cursor: pointer;
 
@@ -40,13 +41,11 @@
   transform: scale(1.25);
 }
 
-/*@keyframes popupAnimation {*/
-/*  0% {*/
-/*    width: 0;*/
-/*    height: 0;*/
-/*  }*/
-/*  100% {*/
-/*    width: 116px;*/
-/*    height: 136px;*/
-/*  }*/
-/*}*/
+@keyframes popupAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -35,7 +35,7 @@ export const packsAPI = {
     return instance.delete(`/cards/pack?id=${packId}`)
   },
   updatePack(updatedPack: { cardsPack: { _id: string; name: string } }) {
-    return instance.put('/cards/pack', updatedPack)
+    return instance.put<{ updatedCardsPack: PackType }>('/cards/pack', updatedPack)
   },
   getCards(info: getCardsDataType = {}) {
     let params = { page: 1, pageCount: 10, ...info }

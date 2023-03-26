@@ -46,6 +46,7 @@ export const DeleteModal = ({ type, title, deleteCallBack }: DeleteModalPropsTyp
               <br />
               {type === 'pack' && 'All cards will be deleted.'}
             </span>
+
             <div className={s.buttonBox}>
               <ButtonComponent
                 name={'Cancel'}

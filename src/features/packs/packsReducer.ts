@@ -40,6 +40,20 @@ export const packsReducer = (
       return { ...state, maxCardsCount: action.maxCardsCount, minCardsCount: action.minCardsCount }
     case 'packs/SET-BUTTON-DISABLE':
       return { ...state, buttonDisableBecauseProcess: action.buttonDisable }
+    case 'packs/UPDATE_PACK':
+      return {
+        ...state,
+        cardPacks: state.cardPacks.map(el =>
+          el._id === action.payload.packId
+            ? {
+                ...el,
+                name: action.payload.newPackName,
+                private: action.payload.isPrivate,
+                updated: action.payload.updated,
+              }
+            : el
+        ),
+      }
     default:
       return state
   }
@@ -62,13 +76,27 @@ export const setMinMaxCardValuesAC = (minMaxValue: number[]) =>
     minCardsCount: minMaxValue[0],
     maxCardsCount: minMaxValue[1],
   } as const)
+export const updatePackAC = (
+  packId: string,
+  newPackName: string,
+  isPrivate: boolean,
+  updated: string
+) =>
+  ({
+    type: 'packs/UPDATE_PACK',
+    payload: {
+      packId,
+      newPackName,
+      isPrivate,
+      updated,
+    },
+  } as const)
 
 // thunk creators
 
 export const getPacksTC =
-  (data: getPacksDataType): AppThunk =>
+  (data: getPacksDataType): AppThunk<Promise<void>> =>
   async dispatch => {
-    dispatch(setLoadingAC(true))
     try {
       let res = await packsAPI.getPacks(data)
 
@@ -128,20 +156,17 @@ export const addPackTC =
   }
 
 export const deletePackTC =
-  (packId: string, userId?: string): AppThunk =>
+  (packId: string): AppThunk<Promise<void>> =>
   async dispatch => {
     try {
       await packsAPI.deletePack(packId)
-      let res = await packsAPI.getPacks({ user_id: userId })
-
-      dispatch(setPacksAC(res))
     } catch (e) {
       handleError(e, dispatch)
     }
   }
 
 export const updatePackTC =
-  (packId: string, packName: string, isPrivate: boolean, userId?: string): AppThunk =>
+  (packId: string, packName: string, isPrivate: boolean): AppThunk =>
   async dispatch => {
     try {
       let updatedPack = {
@@ -151,11 +176,9 @@ export const updatePackTC =
           private: isPrivate,
         },
       }
+      const res = await packsAPI.updatePack(updatedPack)
 
-      await packsAPI.updatePack(updatedPack)
-      let res = await packsAPI.getPacks({ user_id: userId })
-
-      dispatch(setPacksAC(res))
+      dispatch(updatePackAC(packId, packName, isPrivate, res.data.updatedCardsPack.updated))
     } catch (e) {
       handleError(e, dispatch)
     }
@@ -169,6 +192,7 @@ export type PacksActionsType =
   | ReturnType<typeof setAllPacksSortDownAC>
   | ReturnType<typeof setMinMaxCardValuesAC>
   | ReturnType<typeof toggleButtonDisableAC>
+  | ReturnType<typeof updatePackAC>
 
 type InitialStateType = {
   cardPacks: PackType[]

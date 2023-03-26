@@ -6,6 +6,7 @@ import s from './ActionsWithPacks.module.css'
 
 import { useAppDispatch } from 'app/store'
 import learnPack from 'common/assets/pictures/addPack.svg'
+import { getPacksUtils } from 'common/utils/getPacks-utils'
 import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
 import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
 import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
@@ -36,20 +37,13 @@ export const ActionsWithPacks = ({
   const isMyPacks = PacksTypeLocalStorage !== 'AllPacks'
 
   const deleteOnClickHandler = () => {
-    // setIsDisabled(true)
-    if (!isMyPacks) {
-      dispatch(deletePackTC(packId))
-    } else {
-      dispatch(deletePackTC(packId, userId))
-    }
+    let promise = dispatch(deletePackTC(packId))
+
+    getPacksUtils(isMyPacks, dispatch, promise, userId)
   }
 
   const updateOnClickHandler = (packName: string, isPrivate: boolean) => {
-    if (!isMyPacks) {
-      dispatch(updatePackTC(packId, packName, isPrivate))
-    } else {
-      dispatch(updatePackTC(packId, packName, isPrivate, userId))
-    }
+    dispatch(updatePackTC(packId, packName, isPrivate))
   }
 
   const learnOnClickHandler = (packType: 'my' | 'friend') => {

@@ -6,15 +6,22 @@ type ButtonPropsType = {
   name: string
   callBack: () => void
   style?: {}
+  disabled?: boolean
 }
-export const ButtonComponent = ({ name, callBack, style }: ButtonPropsType) => {
+export const ButtonComponent = ({ name, callBack, style, disabled }: ButtonPropsType) => {
   const onClickHandler = () => {
     callBack()
   }
 
   return (
     <div>
-      <button onClick={onClickHandler} type={'button'} className={styles.btn} style={style}>
+      <button
+        onClick={onClickHandler}
+        type={'button'}
+        className={styles.btn}
+        style={style}
+        disabled={disabled}
+      >
         {name}
       </button>
     </div>

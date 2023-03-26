@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import { useSelector } from 'react-redux'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
 
 import s from './MyPack.module.css'
@@ -11,10 +11,11 @@ import { useAppDispatch } from 'app/store'
 import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
 import { Error } from 'common/components/error/Error'
 import { PATH } from 'common/components/routes/RoutesComponent'
-import { getIsAuthSelector } from 'features/login/selectors/loginSelectors'
+import { getIsAuthSelector, getUserIdSelector } from 'features/login/selectors/loginSelectors'
 import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
 import { addCardTC, getCardsTC } from 'features/packs/cardsReducer'
 import { MyPackTable } from 'features/packs/p4-myPacks/myPackTable/myPackTable'
+import { Popup } from 'features/packs/p4-myPacks/popup/Popup'
 import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
 import { PacksInput } from 'features/packs/p5-commonComponents/commonPackComponents/packsInput/PacksInput'
 import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
@@ -27,10 +28,13 @@ import {
   getMinCardsCountSelector,
   getPackPageCountSelector,
   getPackPageSelector,
+  getPacksSelector,
   getPageTotalCountSelector,
 } from 'features/packs/selectors/packsSelectors'
 
 export const MyPack = () => {
+  const userId = useSelector(getUserIdSelector)
+  const packs = useSelector(getPacksSelector)
   const cardsData = useSelector(getCardsDataSelector)
   const isAuth = useSelector(getIsAuthSelector)
   const isLoading = useSelector(getLoadingSelector)
@@ -42,21 +46,16 @@ export const MyPack = () => {
   const maxCardsCountValue = useSelector(getMaxCardsCountSelector)
 
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  let { packId, packName } = useParams()
+  let { packId } = useParams()
 
   const [myPacksInput, setMyPacksInput] = useState('')
   const [openPopup, setOpenPopup] = useState(false)
 
-  useEffect(() => {
-    if (isAuth) {
-      dispatch(getCardsTC({ cardsPack_id: packId }))
-    } else {
-      navigate(PATH.LOGIN)
-    }
+  const pack = packs.filter(el => (el._id === packId ? el : ''))
 
-    return () => {}
-  }, [packId, isAuth])
+  useEffect(() => {
+    packId && dispatch(getCardsTC({ cardsPack_id: packId }))
+  }, [packId])
 
   const onChangeMyPacksInput = (e: ChangeEvent<HTMLInputElement>) =>
     setMyPacksInput(e.currentTarget.value)
@@ -84,6 +83,7 @@ export const MyPack = () => {
     800,
     [myPacksInput]
   )
+  if (!isAuth) return <Navigate to={PATH.LOGIN} />
 
   return (
     <div className={s.myPacks}>
@@ -91,7 +91,7 @@ export const MyPack = () => {
         <BackToPackLists />
         <div className={s.myPacks_titleAndButton}>
           <div className={s.myPacks_titleMenu}>
-            <PacksTitle title={`My Pack:  ${packName!}`} />
+            <PacksTitle title={`My Pack:  ${pack && pack[0].name}`} />
             <img
               src={myPackMenu}
               alt={'myPackMenu'}
@@ -99,7 +99,14 @@ export const MyPack = () => {
                 setOpenPopup(!openPopup)
               }}
             />
-            {/*{openPopup && <Popup />}*/}
+            {openPopup && (
+              <Popup
+                packId={packId}
+                packName={pack && pack[0].name}
+                isPrivate={pack && pack[0].private}
+                setOpenPopup={setOpenPopup}
+              />
+            )}
           </div>
 
           <AddUpdateCardModal
@@ -134,7 +141,7 @@ export const MyPack = () => {
         )}
 
         {!isLoading && cardsData.length === 0 && myPacksInput.length === 0 && (
-          <Navigate to={`/emptyPack/${packId}/${packName}`} />
+          <Navigate to={`/emptyPack/${packId}/${pack && pack[0].name}`} />
         )}
 
         <div className={s.myPacks_pagination}>
