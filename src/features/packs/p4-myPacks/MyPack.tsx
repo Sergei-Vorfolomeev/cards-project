@@ -6,10 +6,15 @@ import useDebouncedEffect from 'use-debounced-effect'
 
 import s from './MyPack.module.css'
 
-import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
+import {
+  getErrorMessageSelector,
+  getIsInitializeSelector,
+  getLoadingSelector,
+} from 'app/appSelectors'
 import { useAppDispatch } from 'app/store'
 import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
 import { Error } from 'common/components/error/Error'
+import { Loader } from 'common/components/loader/Loader'
 import { PATH } from 'common/components/routes/RoutesComponent'
 import { getIsAuthSelector, getUserIdSelector } from 'features/login/selectors/loginSelectors'
 import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
@@ -33,7 +38,7 @@ import {
 } from 'features/packs/selectors/packsSelectors'
 
 export const MyPack = () => {
-  const userId = useSelector(getUserIdSelector)
+  const isInitialize = useSelector(getIsInitializeSelector)
   const packs = useSelector(getPacksSelector)
   const cardsData = useSelector(getCardsDataSelector)
   const isAuth = useSelector(getIsAuthSelector)
@@ -83,6 +88,7 @@ export const MyPack = () => {
     800,
     [myPacksInput]
   )
+  if (!isInitialize) return <Loader />
   if (!isAuth) return <Navigate to={PATH.LOGIN} />
 
   return (
