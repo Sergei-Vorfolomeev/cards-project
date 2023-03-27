@@ -3,15 +3,19 @@ import { getCardsDataType, packsAPI, ResponseTypeCards } from './packsAPI'
 import { setLoadingAC } from 'app/appReducer'
 import { AppThunk } from 'app/store'
 import { handleError } from 'common/utils/error-utils'
+import { updatePackAC } from 'features/packs/packsReducer'
 
 const initialState: InitialStateType = {
   cards: [],
   cardsTotalCount: 0,
   maxGrade: 5,
   minGrade: 1,
+  packName: '',
+  packPrivate: false,
+  packUpdated: '',
+  packUserId: '',
   page: 1,
   pageCount: 10,
-  packUserId: '',
   sortDirection: 'up',
   buttonDisableBecauseProcess: false,
 }
@@ -43,6 +47,13 @@ export const cardsReducer = (
               : { ...card }
           )
           .filter(card => (card._id === action.cardId ? card.grade !== 5 : card.grade <= 5)),
+      }
+    case 'packs/UPDATE_PACK':
+      return {
+        ...state,
+        packName: action.payload.newPackName,
+        packPrivate: action.payload.isPrivate,
+        packUpdated: action.payload.updated,
       }
     default:
       return state
@@ -189,10 +200,14 @@ export type CardsActionsType =
   | ReturnType<typeof setCardsSortDownAC>
   | ReturnType<typeof setCardDefaultsAC>
   | ReturnType<typeof learnCardFilterAC>
+  | ReturnType<typeof updatePackAC>
 
 export type InitialStateType = {
   cards: CardType[]
   cardsTotalCount: number
+  packName: string
+  packPrivate: boolean
+  packUpdated: string
   maxGrade: number
   minGrade: number
   page: number

@@ -16,7 +16,7 @@ import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
 import { Error } from 'common/components/error/Error'
 import { Loader } from 'common/components/loader/Loader'
 import { PATH } from 'common/components/routes/RoutesComponent'
-import { getIsAuthSelector, getUserIdSelector } from 'features/login/selectors/loginSelectors'
+import { getIsAuthSelector } from 'features/login/selectors/loginSelectors'
 import { AddUpdateCardModal } from 'features/modals/addUpdateCardModal/AddUpdateCardModal'
 import { addCardTC, getCardsTC } from 'features/packs/cardsReducer'
 import { MyPackTable } from 'features/packs/p4-myPacks/myPackTable/myPackTable'
@@ -31,15 +31,17 @@ import {
   getCardsDataSelector,
   getMaxCardsCountSelector,
   getMinCardsCountSelector,
+  getPackNameSelector,
   getPackPageCountSelector,
   getPackPageSelector,
-  getPacksSelector,
+  getPackPrivateSelector,
   getPageTotalCountSelector,
 } from 'features/packs/selectors/packsSelectors'
 
 export const MyPack = () => {
   const isInitialize = useSelector(getIsInitializeSelector)
-  const packs = useSelector(getPacksSelector)
+  const packName = useSelector(getPackNameSelector)
+  const isPrivate = useSelector(getPackPrivateSelector)
   const cardsData = useSelector(getCardsDataSelector)
   const isAuth = useSelector(getIsAuthSelector)
   const isLoading = useSelector(getLoadingSelector)
@@ -55,8 +57,6 @@ export const MyPack = () => {
 
   const [myPacksInput, setMyPacksInput] = useState('')
   const [openPopup, setOpenPopup] = useState(false)
-
-  const pack = packs.filter(el => (el._id === packId ? el : ''))
 
   useEffect(() => {
     packId && dispatch(getCardsTC({ cardsPack_id: packId }))
@@ -97,7 +97,7 @@ export const MyPack = () => {
         <BackToPackLists />
         <div className={s.myPacks_titleAndButton}>
           <div className={s.myPacks_titleMenu}>
-            <PacksTitle title={`My Pack:  ${pack && pack[0].name}`} />
+            <PacksTitle title={`My Pack:  ${packName}`} />
             <img
               src={myPackMenu}
               alt={'myPackMenu'}
@@ -108,8 +108,8 @@ export const MyPack = () => {
             {openPopup && (
               <Popup
                 packId={packId}
-                packName={pack && pack[0].name}
-                isPrivate={pack && pack[0].private}
+                packName={packName}
+                isPrivate={isPrivate}
                 setOpenPopup={setOpenPopup}
               />
             )}
@@ -147,7 +147,7 @@ export const MyPack = () => {
         )}
 
         {!isLoading && cardsData.length === 0 && myPacksInput.length === 0 && (
-          <Navigate to={`/emptyPack/${packId}/${pack && pack[0].name}`} />
+          <Navigate to={`/emptyPack/${packId}/${packName}`} />
         )}
 
         <div className={s.myPacks_pagination}>

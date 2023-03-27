@@ -13,6 +13,9 @@ export const getButtonDisableSelector = (state: AppRootStateType) =>
   state.packs.buttonDisableBecauseProcess
 
 //cards
+export const getPackNameSelector = (state: AppRootStateType) => state.cards.packName
+export const getPackPrivateSelector = (state: AppRootStateType) => state.cards.packPrivate
+export const getPackIdSelector = (state: AppRootStateType) => state.cards.packUserId
 export const getCardsCountSelector = (state: AppRootStateType) => state.cards.cardsTotalCount
 export const getCardsDataSelector = (state: AppRootStateType) => state.cards.cards
 export const getCardPageSelector = (state: AppRootStateType) => state.cards.page
