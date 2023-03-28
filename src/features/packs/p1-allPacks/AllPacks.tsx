@@ -75,11 +75,15 @@ export const AllPacks = () => {
     }
   }, [isMyPacks, user_id])
 
-  const addPackOnClickHandler = (packName: string, isPrivate: boolean) => {
+  const addPackOnClickHandler = (packName: string, isPrivate: boolean, deckCover?: string) => {
     if (isMyPacks) {
-      dispatch(addPackTC(packName, isPrivate, user_id))
+      deckCover
+        ? dispatch(addPackTC(packName, isPrivate, deckCover, user_id))
+        : dispatch(addPackTC(packName, isPrivate, user_id))
     } else {
-      dispatch(addPackTC(packName, isPrivate))
+      deckCover
+        ? dispatch(addPackTC(packName, isPrivate, deckCover))
+        : dispatch(addPackTC(packName, isPrivate))
     }
   }
   const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -147,6 +151,7 @@ export const AllPacks = () => {
             packName={''}
             isPrivate={false}
             callBack={addPackOnClickHandler}
+            deckCover={undefined}
           />
         </div>
         <div className={s.allPacks_interface}>

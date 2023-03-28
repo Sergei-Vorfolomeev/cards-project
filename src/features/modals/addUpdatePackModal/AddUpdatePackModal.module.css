@@ -18,6 +18,19 @@
   padding: 24px 24px;
 }
 
+.inputUploadButton {
+  position: relative;
+}
+
+.coverBox {
+  display: flex;
+  justify-content: center;
+}
+
+.cover {
+  width: 350px;
+}
+
 .error {
   color: #da0606;
 }

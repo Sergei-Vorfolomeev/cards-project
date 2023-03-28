@@ -36,21 +36,6 @@
   outline: none;
 }
 
-/*.checkBoxContainer {*/
-/*  margin: 24px 0 28px;*/
-/*}*/
-
-/*.loginCheckbox {*/
-/*  display: inline-block;*/
-/*}*/
-
-/*.rememberMeLabel {*/
-/*  cursor: pointer;*/
-
-/*  margin-left: 12px;*/
-
-/*  font-size: 14px;*/
-/*  font-weight: 500;*/
-/*  line-height: 24px;*/
-/*  color: black;*/
-/*}*/
+.uploadButton {
+  position: absolute;
+}

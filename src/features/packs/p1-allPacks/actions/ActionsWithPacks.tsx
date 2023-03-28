@@ -18,6 +18,7 @@ type PropsType = {
   packName: string
   cardsNumber: number
   isPrivate: boolean
+  deckCover?: string | undefined
 }
 
 export const ActionsWithPacks = ({
@@ -27,6 +28,7 @@ export const ActionsWithPacks = ({
   packName,
   isPrivate,
   cardsNumber,
+  deckCover,
 }: PropsType) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -79,6 +81,7 @@ export const ActionsWithPacks = ({
         callBack={updateOnClickHandler}
         packName={packName}
         isPrivate={isPrivate}
+        deckCover={deckCover}
       />
 
       <DeleteModal type={'pack'} title={packName} deleteCallBack={deleteOnClickHandler} />

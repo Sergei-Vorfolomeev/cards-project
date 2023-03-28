@@ -3,8 +3,8 @@ import { AppThunk } from 'app/store'
 import { handleError } from 'common/utils/error-utils'
 import { getPacksDataType, packsAPI, ResponseTypePacks } from 'features/packs/packsAPI'
 
-const initialState: InitialStateType = {
-  cardPacks: [],
+const initialState = {
+  cardPacks: [] as PackType[],
   cardPacksTotalCount: 0,
   maxCardsCount: 100,
   minCardsCount: 0,
@@ -133,7 +133,7 @@ export const getSortDownPacksTC =
   }
 
 export const addPackTC =
-  (packName: string, isPrivate: boolean, userId?: string): AppThunk =>
+  (packName: string, isPrivate: boolean, deckCover?: string, userId?: string): AppThunk =>
   async dispatch => {
     try {
       dispatch(toggleButtonDisableAC(true))
@@ -141,6 +141,7 @@ export const addPackTC =
         cardsPack: {
           name: packName,
           private: isPrivate,
+          deckCover: deckCover,
         },
       }
 
@@ -185,6 +186,7 @@ export const updatePackTC =
   }
 
 //types
+type InitialStateType = typeof initialState
 
 export type PacksActionsType =
   | ReturnType<typeof setPacksAC>
@@ -194,18 +196,6 @@ export type PacksActionsType =
   | ReturnType<typeof toggleButtonDisableAC>
   | ReturnType<typeof updatePackAC>
 
-type InitialStateType = {
-  cardPacks: PackType[]
-  cardPacksTotalCount: number
-  maxCardsCount: number
-  minCardsCount: number
-  page: number
-  pageCount: number
-  sortDirection: 'up' | 'down'
-  error: string
-  buttonDisableBecauseProcess: boolean
-}
-
 export type PackType = {
   _id: string
   user_id: string
@@ -214,4 +204,5 @@ export type PackType = {
   created: string
   updated: string
   private: boolean
+  deckCover: string | undefined
 }

@@ -43,7 +43,6 @@ export const initializeAppTC = (): AppThunk => async dispatch => {
   dispatch(setLoadingAC(true))
   try {
     await dispatch(meTC())
-    // await dispatch(getPacksTC({}))
   } catch (e) {
     handleError(e, dispatch)
   } finally {

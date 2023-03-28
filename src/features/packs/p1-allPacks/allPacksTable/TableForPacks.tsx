@@ -14,6 +14,7 @@ import { NavLink } from 'react-router-dom'
 import s from '../AllPacks.module.css'
 
 import { useAppDispatch } from 'app/store'
+import defaultCover from 'common/assets/pictures/noCoverImg-resized.jpeg'
 import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
 import { ActionsWithPacks } from 'features/packs/p1-allPacks/actions/ActionsWithPacks'
 import { getSortDownPacksTC, getSortUpPacksTC } from 'features/packs/packsReducer'
@@ -33,6 +34,7 @@ type packsData = {
   created: string
   updated: string
   private: boolean
+  deckCover: string | undefined
 }
 
 type TableForPacksPropsType = {
@@ -48,7 +50,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
 
   const dispatch = useAppDispatch()
 
-  const columnsData = ['Name', 'Cards', 'Last updated', 'Created By', 'Actions']
+  const columnsData = ['Cover', 'Name', 'Cards', 'Last updated', 'Created By', 'Actions']
 
   const setSortDirectionHandler = () => {
     sortDirection === 'up'
@@ -73,6 +75,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
   }
 
   const createData = (
+    deckCover: string | undefined,
     name: string,
     cardsCount: number,
     lastUpdated: string,
@@ -81,11 +84,12 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
     packId: string,
     isPrivate: boolean
   ) => {
-    return { name, cardsCount, lastUpdated, createdBy, userId, packId, isPrivate }
+    return { name, cardsCount, lastUpdated, createdBy, userId, packId, isPrivate, deckCover }
   }
 
   let rows = packsData.map(pack =>
     createData(
+      pack.deckCover,
       pack.name,
       pack.cardsCount,
       pack.created,
@@ -126,6 +130,13 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
               key={row.createdBy}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
+              <TableCell sx={{ maxWidth: '80px', overflow: 'hidden' }} align="center">
+                {row.deckCover ? (
+                  <img style={{ height: '50px', width: '50px' }} src={row.deckCover} alt="cover" />
+                ) : (
+                  <img style={{ height: '50px', width: '50px' }} src={defaultCover} alt="cover" />
+                )}
+              </TableCell>
               <TableCell
                 sx={{ cursor: 'pointer', maxWidth: '80px', overflow: 'hidden' }}
                 align="center"
@@ -177,6 +188,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
                   packName={row.name}
                   isPrivate={row.isPrivate}
                   cardsNumber={row.cardsCount}
+                  deckCover={row.deckCover}
                 />
               </TableCell>
             </TableRow>

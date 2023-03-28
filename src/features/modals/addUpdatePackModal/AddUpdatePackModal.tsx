@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 
 import updatePack from 'common/assets/pictures/changePack.svg'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
@@ -7,13 +7,15 @@ import { BasicModal } from 'features/modals/BasicModal'
 import { CheckBoxComponent } from 'features/modals/commonComponents/checkbox/CheckBoxComponent'
 import { InputComponent } from 'features/modals/commonComponents/input/InputComponent'
 import { Title } from 'features/modals/commonComponents/title/Title'
+import { UploadButton } from 'features/modals/commonComponents/uploadButton/uploadButton'
 import s2 from 'features/packs/p1-allPacks/actions/ActionsWithPacks.module.css'
 
 type AddPackModalPropsType = {
   type: 'add' | 'update'
-  callBack: (packName: string, isPrivate: boolean) => void
+  callBack: (packName: string, isPrivate: boolean, deckCover?: string) => void
   packName: string
   isPrivate: boolean
+  deckCover?: string | undefined
 }
 const cancelButtonStyle = {
   backgroundColor: '#FCFCFC',
@@ -28,9 +30,11 @@ export const AddUpdatePackModal = ({
   callBack,
   packName,
   isPrivate,
+  deckCover,
 }: AddPackModalPropsType) => {
   const [newPackName, setNewPackName] = useState(packName)
   const [privateField, setPrivateField] = useState(isPrivate)
+  const [cover, setCover] = useState<string | undefined>(deckCover)
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewPackName(e.currentTarget.value)
@@ -63,13 +67,20 @@ export const AddUpdatePackModal = ({
           />
 
           <div className={s.contentBox}>
-            <InputComponent
-              labelName={'Pack Name'}
-              name={'packName'}
-              value={newPackName}
-              onChange={onChangeHandler}
-              autoFocus={true}
-            />
+            <div className={s.inputUploadButton}>
+              <InputComponent
+                labelName={'Pack Name'}
+                name={'packName'}
+                value={newPackName}
+                onChange={onChangeHandler}
+                autoFocus={true}
+              />
+              <UploadButton setCover={setCover} />
+            </div>
+
+            <div className={s.coverBox}>
+              {cover && <img src={cover} alt="cover" className={s.cover} />}
+            </div>
 
             <CheckBoxComponent
               checked={privateField}
@@ -92,7 +103,9 @@ export const AddUpdatePackModal = ({
               <ButtonComponent
                 name={'Save'}
                 callBack={() => {
-                  callBack(newPackName, privateField)
+                  cover
+                    ? callBack(newPackName, privateField, cover)
+                    : callBack(newPackName, privateField)
                   handleClose()
                   setNewPackName('')
                   setPrivateField(false)

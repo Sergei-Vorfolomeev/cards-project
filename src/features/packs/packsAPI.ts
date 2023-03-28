@@ -28,7 +28,7 @@ export const packsAPI = {
 
     return instance.get<ResponseTypePacks>('/cards/pack', { params }).then(res => res.data)
   },
-  addPack(newPack: { cardsPack: { name: string } }) {
+  addPack(newPack: { cardsPack: { name: string; private: boolean; deckCover?: string } }) {
     return instance.post('/cards/pack', newPack)
   },
   deletePack(packId: string) {
