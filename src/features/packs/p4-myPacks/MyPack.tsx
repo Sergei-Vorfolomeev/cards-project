@@ -55,6 +55,8 @@ export const MyPack = () => {
   const dispatch = useAppDispatch()
   let { packId } = useParams()
 
+  console.log(cardsData)
+
   const [myPacksInput, setMyPacksInput] = useState('')
   const [openPopup, setOpenPopup] = useState(false)
 
@@ -65,8 +67,12 @@ export const MyPack = () => {
   const onChangeMyPacksInput = (e: ChangeEvent<HTMLInputElement>) =>
     setMyPacksInput(e.currentTarget.value)
 
-  const addCardOnClickHandler = (cardQuestion: string, cardAnswer: string) => {
-    packId && dispatch(addCardTC(packId, cardQuestion, cardAnswer))
+  const addCardOnClickHandler = (
+    cardQuestion: string,
+    cardAnswer: string,
+    questionImg?: string
+  ) => {
+    packId && dispatch(addCardTC(packId, cardQuestion, cardAnswer, questionImg))
   }
 
   const onChangePagination = (newPage: number, newCount: number) => {
@@ -120,6 +126,8 @@ export const MyPack = () => {
             callBack={addCardOnClickHandler}
             cardQuestion={''}
             cardAnswer={''}
+            questionFormatValue={'text'}
+            questionImg={''}
           />
         </div>
 

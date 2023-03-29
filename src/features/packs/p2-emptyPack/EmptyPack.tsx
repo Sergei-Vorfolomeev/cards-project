@@ -24,8 +24,12 @@ export const EmptyPack = () => {
     return <Navigate to={`/myPack/${packId}/${packName}`} />
   }
 
-  const addCardOnClickHandler = (cardQuestion: string, cardAnswer: string) => {
-    packId && dispatch(addCardTC(packId, cardQuestion, cardAnswer))
+  const addCardOnClickHandler = (
+    cardQuestion: string,
+    cardAnswer: string,
+    questionImg?: string
+  ) => {
+    packId && dispatch(addCardTC(packId, cardQuestion, cardAnswer, questionImg))
   }
 
   return (
@@ -42,6 +46,8 @@ export const EmptyPack = () => {
           callBack={addCardOnClickHandler}
           cardQuestion={''}
           cardAnswer={''}
+          questionFormatValue={'text'}
+          questionImg={''}
         />
       </div>
     </div>

@@ -53,18 +53,29 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
 
   const createData = (
     question: string,
+    questionImg: string,
     answer: string,
     lastUpdated: string,
     grade: number,
     id: string,
     cardId: string
   ) => {
-    return { question, answer, lastUpdated, grade, id, cardId }
+    return { question, questionImg, answer, lastUpdated, grade, id, cardId }
   }
 
   let rows = cardsData.map(pack =>
-    createData(pack.question, pack.answer, pack.updated, pack.grade, pack.cardsPack_id, pack._id)
+    createData(
+      pack.question,
+      pack.questionImg,
+      pack.answer,
+      pack.updated,
+      pack.grade,
+      pack.cardsPack_id,
+      pack._id
+    )
   )
+
+  console.log(rows)
 
   return (
     <TableContainer component={Paper}>
@@ -93,7 +104,13 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
         <TableBody>
           {rows.map(row => (
             <TableRow key={row.cardId} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell align="center">{row.question}</TableCell>
+              <TableCell align="center">
+                {row.questionImg ? (
+                  <img src={row.questionImg} alt="questionImg" style={{ width: '70px' }} />
+                ) : (
+                  row.question
+                )}
+              </TableCell>
               <TableCell align="center">{row.answer}</TableCell>
               <TableCell align="center">
                 {new Date(row.lastUpdated).toLocaleString('en-US', {
@@ -104,14 +121,14 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
               </TableCell>
               <TableCell align="center">
                 <StarIcon grade={row.grade} />
-                {/*<img src={Star} alt={'star'} />*/}
-                {/*<img src={Star} alt={'star'} />*/}
-                {/*<img src={Star} alt={'star'} />*/}
-                {/*<img src={Star} alt={'star'} />*/}
-                {/*<img src={Star} alt={'star'} />*/}
               </TableCell>
               <TableCell align="center">
-                <ActionsWithCards cardId={row.cardId} question={row.question} answer={row.answer} />
+                <ActionsWithCards
+                  cardId={row.cardId}
+                  question={row.question}
+                  answer={row.answer}
+                  questionImg={row.questionImg}
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -124,6 +141,7 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
 type cardData = {
   answer: string
   question: string
+  questionImg: string
   cardsPack_id: string
   grade: number
   shots: number

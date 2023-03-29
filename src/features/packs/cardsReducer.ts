@@ -5,8 +5,8 @@ import { AppThunk } from 'app/store'
 import { handleError } from 'common/utils/error-utils'
 import { updatePackAC } from 'features/packs/packsReducer'
 
-const initialState: InitialStateType = {
-  cards: [],
+const initialState = {
+  cards: [] as CardType[],
   cardsTotalCount: 0,
   maxGrade: 5,
   minGrade: 1,
@@ -90,6 +90,7 @@ export const getCardsTC =
     try {
       let res = await packsAPI.getCards(cardsInfo)
 
+      console.log(res)
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
@@ -123,7 +124,12 @@ export const getCardsSortDownTC =
   }
 
 export const addCardTC =
-  (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunk =>
+  (
+    cardsPack_id: string,
+    cardQuestion: string,
+    cardAnswer: string,
+    questionImg?: string
+  ): AppThunk =>
   async dispatch => {
     try {
       toggleButtonDisableAC(true)
@@ -132,6 +138,7 @@ export const addCardTC =
           cardsPack_id,
           question: cardQuestion,
           answer: cardAnswer,
+          questionImg: questionImg || '',
         },
       }
 
@@ -202,24 +209,12 @@ export type CardsActionsType =
   | ReturnType<typeof learnCardFilterAC>
   | ReturnType<typeof updatePackAC>
 
-export type InitialStateType = {
-  cards: CardType[]
-  cardsTotalCount: number
-  packName: string
-  packPrivate: boolean
-  packUpdated: string
-  maxGrade: number
-  minGrade: number
-  page: number
-  pageCount: number
-  packUserId: string
-  sortDirection: 'up' | 'down'
-  buttonDisableBecauseProcess: boolean
-}
+export type InitialStateType = typeof initialState
 
 export type CardType = {
   answer: string
   question: string
+  questionImg: string
   cardsPack_id: string
   grade: number
   shots: number

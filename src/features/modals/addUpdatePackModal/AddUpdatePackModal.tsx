@@ -75,7 +75,7 @@ export const AddUpdatePackModal = ({
                 onChange={onChangeHandler}
                 autoFocus={true}
               />
-              <UploadButton setCover={setCover} />
+              <UploadButton setImage={setCover} />
             </div>
 
             <div className={s.coverBox}>
@@ -96,6 +96,7 @@ export const AddUpdatePackModal = ({
                 name={'Cancel'}
                 callBack={() => {
                   handleClose()
+                  if (type === 'add') setCover('')
                 }}
                 style={cancelButtonStyle}
               />

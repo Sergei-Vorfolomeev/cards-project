@@ -10,10 +10,10 @@ import { setErrorAC } from 'app/appReducer'
 import { useAppDispatch } from 'app/store'
 
 type Props = {
-  setCover: (cover: string) => void
+  setImage: (cover: string) => void
 }
 
-export const UploadButton = ({ setCover }: Props) => {
+export const UploadButton = ({ setImage }: Props) => {
   const dispatch = useAppDispatch()
 
   const convertFileToBase64 = (file: File, callBack: (file64: string) => void) => {
@@ -35,7 +35,7 @@ export const UploadButton = ({ setCover }: Props) => {
       if (file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png') {
         if (file.size < 4000000) {
           convertFileToBase64(file, file64 => {
-            setCover(file64)
+            setImage(file64)
             console.log(file64)
           })
         } else {

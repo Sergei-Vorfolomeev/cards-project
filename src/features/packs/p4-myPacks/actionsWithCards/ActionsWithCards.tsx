@@ -13,9 +13,15 @@ type ActionsWithCardsPropsType = {
   cardId: string
   question: string
   answer: string
+  questionImg: string
 }
 
-export const ActionsWithCards = ({ cardId, question, answer }: ActionsWithCardsPropsType) => {
+export const ActionsWithCards = ({
+  cardId,
+  question,
+  answer,
+  questionImg,
+}: ActionsWithCardsPropsType) => {
   const dispatch = useAppDispatch()
   let { packId } = useParams()
 
@@ -34,6 +40,8 @@ export const ActionsWithCards = ({ cardId, question, answer }: ActionsWithCardsP
         cardQuestion={question}
         cardAnswer={answer}
         callBack={updateOnClickHandler}
+        questionImg={questionImg}
+        questionFormatValue={questionImg ? 'picture' : 'text'}
       />
       <DeleteModal type={'card'} title={question} deleteCallBack={deleteOnClickHandler} />
     </div>

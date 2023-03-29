@@ -22,9 +22,29 @@
   position: relative;
 }
 
-.coverBox {
+.uploadImageButton {
+  position: relative;
+
   display: flex;
-  justify-content: center;
+  align-items: center;
+
+  width: 200px;
+  height: 27px;
+  margin-bottom: 20px;
+}
+
+.uploadedImageBox {
+  position: relative;
+
+  margin-bottom: 20px;
+}
+
+.uploadedImageQuestion {
+  width: 350px;
+}
+
+.coverBox {
+  text-align: center;
 }
 
 .cover {

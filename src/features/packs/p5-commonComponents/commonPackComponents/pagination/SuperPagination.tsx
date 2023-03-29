@@ -69,7 +69,7 @@ export const SuperPagination: React.FC<SuperPaginationPropsType> = ({
       <span className={s.text1}>Show</span>
 
       <SuperSelect
-        id={id + '-packPagination-select'}
+        id={id + '-packPagination-basicSelect'}
         value={itemsCountForPage}
         options={[
           { id: 4, value: '4' },

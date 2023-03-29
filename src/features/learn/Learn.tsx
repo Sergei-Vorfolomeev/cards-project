@@ -38,6 +38,7 @@ export const Learn = () => {
     shots: 0,
     created: '',
     updated: '',
+    questionImg: '',
   })
 
   const [value, setValue] = useState('knew_the_answer')
