@@ -1,6 +1,6 @@
 import { getCardsDataType, packsAPI, ResponseTypeCards } from './packsAPI'
 
-import { setLoadingAC } from 'app/appReducer'
+import { setLinearLoadingAC, setLoadingAC } from 'app/appReducer'
 import { AppThunk } from 'app/store'
 import { handleError } from 'common/utils/error-utils'
 import { updatePackAC } from 'features/packs/packsReducer'
@@ -11,13 +11,13 @@ const initialState = {
   maxGrade: 5,
   minGrade: 1,
   packName: '',
+  packDeckCover: '',
   packPrivate: false,
   packUpdated: '',
   packUserId: '',
   page: 1,
   pageCount: 10,
   sortDirection: 'up',
-  buttonDisableBecauseProcess: false,
 }
 
 export const cardsReducer = (
@@ -54,6 +54,7 @@ export const cardsReducer = (
         packName: action.payload.newPackName,
         packPrivate: action.payload.isPrivate,
         packUpdated: action.payload.updated,
+        packDeckCover: action.payload.deckCover,
       }
     default:
       return state
@@ -88,10 +89,12 @@ export const getCardsTC =
   async dispatch => {
     dispatch(setLoadingAC(true))
     try {
+      let cards: ResponseTypeCards = { packDeckCover: '' }
       let res = await packsAPI.getCards(cardsInfo)
 
-      console.log(res)
-      dispatch(setCardsAC(res))
+      cards = { ...cards, ...res }
+      console.log('cards: ', cards)
+      dispatch(setCardsAC(cards))
     } catch (e) {
       handleError(e, dispatch)
     } finally {
@@ -131,6 +134,7 @@ export const addCardTC =
     questionImg?: string
   ): AppThunk =>
   async dispatch => {
+    dispatch(setLinearLoadingAC(true))
     try {
       toggleButtonDisableAC(true)
       let newCard = {
@@ -149,13 +153,14 @@ export const addCardTC =
     } catch (e) {
       handleError(e, dispatch)
     } finally {
-      toggleButtonDisableAC(false)
+      dispatch(setLinearLoadingAC(false))
     }
   }
 
 export const deleteCardTC =
   (cardsPack_id: string, cardId: string): AppThunk =>
   async dispatch => {
+    dispatch(setLinearLoadingAC(true))
     try {
       await packsAPI.deleteCard(cardId)
       let res = await packsAPI.getCards({ cardsPack_id })
@@ -163,18 +168,28 @@ export const deleteCardTC =
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
+    } finally {
+      dispatch(setLinearLoadingAC(false))
     }
   }
 
 export const updateCardTC =
-  (cardsPack_id: string, cardId: string, cardQuestion: string, cardAnswer: string): AppThunk =>
+  (
+    cardsPack_id: string,
+    cardId: string,
+    cardQuestion: string,
+    cardAnswer: string,
+    questionImg: string
+  ): AppThunk =>
   async dispatch => {
+    dispatch(setLinearLoadingAC(true))
     try {
       let updatedCard = {
         card: {
           _id: cardId,
           question: cardQuestion,
           answer: cardAnswer,
+          questionImg: questionImg,
         },
       }
 
@@ -184,6 +199,8 @@ export const updateCardTC =
       dispatch(setCardsAC(res))
     } catch (e) {
       handleError(e, dispatch)
+    } finally {
+      dispatch(setLinearLoadingAC(false))
     }
   }
 

@@ -11,6 +11,7 @@
 }
 
 .learn_body {
+  box-sizing: border-box;
   max-width: 439px;
   margin: 18px auto auto;
   padding: 30px 33px 48px;

@@ -75,8 +75,6 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
     )
   )
 
-  console.log(rows)
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ width: '100%', paddingLeft: '36px' }} aria-label="simple table">

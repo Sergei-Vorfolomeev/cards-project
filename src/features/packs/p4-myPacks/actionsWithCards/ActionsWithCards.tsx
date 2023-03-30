@@ -29,8 +29,8 @@ export const ActionsWithCards = ({
     packId && dispatch(deleteCardTC(packId, cardId))
   }
 
-  const updateOnClickHandler = (cardQuestion: string, cardAnswer: string) => {
-    packId && dispatch(updateCardTC(packId, cardId, cardQuestion, cardAnswer))
+  const updateOnClickHandler = (cardQuestion: string, cardAnswer: string, questionImg: string) => {
+    packId && dispatch(updateCardTC(packId, cardId, cardQuestion, cardAnswer, questionImg))
   }
 
   return (

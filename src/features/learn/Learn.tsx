@@ -95,16 +95,6 @@ export const Learn = () => {
         break
     }
 
-    // value === 'did_not_know'
-    //   ? (cardGrade = 1)
-    //   : value === 'forgot'
-    //   ? (cardGrade = 2)
-    //   : value === 'a_lot_of_thought'
-    //   ? (cardGrade = 3)
-    //   : value === 'confused'
-    //   ? (cardGrade = 4)
-    //   : (cardGrade = 5)
-
     if (value === 'knew_the_answer' && cards.length <= 1) {
       setNoMoreQuestion(true)
     } else {
@@ -155,7 +145,7 @@ export const Learn = () => {
           <LocalLoader />
         ) : (
           <div className={s.learn_body}>
-            <Question question={card.question} shots={card.shots} />
+            <Question question={card.question} shots={card.shots} questionImg={card.questionImg} />
 
             {isQuestionMode ? (
               <LearnButton title={'Show answer'} onClick={() => setIsQuestionMode(false)} />

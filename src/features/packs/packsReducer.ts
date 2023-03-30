@@ -1,4 +1,4 @@
-import { setLoadingAC } from 'app/appReducer'
+import { setLinearLoadingAC, setLoadingAC } from 'app/appReducer'
 import { AppThunk } from 'app/store'
 import { handleError } from 'common/utils/error-utils'
 import { getPacksDataType, packsAPI, ResponseTypePacks } from 'features/packs/packsAPI'
@@ -50,6 +50,7 @@ export const packsReducer = (
                 name: action.payload.newPackName,
                 private: action.payload.isPrivate,
                 updated: action.payload.updated,
+                packDeckCover: action.payload.deckCover,
               }
             : el
         ),
@@ -80,7 +81,8 @@ export const updatePackAC = (
   packId: string,
   newPackName: string,
   isPrivate: boolean,
-  updated: string
+  updated: string,
+  deckCover: string
 ) =>
   ({
     type: 'packs/UPDATE_PACK',
@@ -89,6 +91,7 @@ export const updatePackAC = (
       newPackName,
       isPrivate,
       updated,
+      deckCover,
     },
   } as const)
 
@@ -97,6 +100,7 @@ export const updatePackAC = (
 export const getPacksTC =
   (data: getPacksDataType): AppThunk<Promise<void>> =>
   async dispatch => {
+    dispatch(setLinearLoadingAC(true))
     try {
       let res = await packsAPI.getPacks(data)
 
@@ -105,6 +109,7 @@ export const getPacksTC =
       handleError(e, dispatch)
     } finally {
       dispatch(setLoadingAC(false))
+      dispatch(setLinearLoadingAC(false))
     }
   }
 
@@ -133,8 +138,9 @@ export const getSortDownPacksTC =
   }
 
 export const addPackTC =
-  (packName: string, isPrivate: boolean, deckCover?: string, userId?: string): AppThunk =>
+  (packName: string, isPrivate: boolean, deckCover: string, userId?: string): AppThunk =>
   async dispatch => {
+    dispatch(setLinearLoadingAC(true))
     try {
       dispatch(toggleButtonDisableAC(true))
       let newPack = {
@@ -152,13 +158,14 @@ export const addPackTC =
     } catch (e) {
       handleError(e, dispatch)
     } finally {
-      dispatch(toggleButtonDisableAC(false))
+      dispatch(setLinearLoadingAC(false))
     }
   }
 
 export const deletePackTC =
   (packId: string): AppThunk<Promise<void>> =>
   async dispatch => {
+    dispatch(setLinearLoadingAC(true))
     try {
       await packsAPI.deletePack(packId)
     } catch (e) {
@@ -167,21 +174,35 @@ export const deletePackTC =
   }
 
 export const updatePackTC =
-  (packId: string, packName: string, isPrivate: boolean): AppThunk =>
+  (
+    packId: string,
+    packName: string,
+    isPrivate: boolean,
+    deckCover: string
+  ): AppThunk<Promise<void>> =>
   async dispatch => {
+    dispatch(setLinearLoadingAC(true))
     try {
       let updatedPack = {
         cardsPack: {
           _id: packId,
           name: packName,
           private: isPrivate,
+          deckCover: deckCover,
         },
       }
+
       const res = await packsAPI.updatePack(updatedPack)
 
-      dispatch(updatePackAC(packId, packName, isPrivate, res.data.updatedCardsPack.updated))
+      // userId ? dispatch(getPacksTC({ user_id: userId })) : dispatch(getPacksTC({}))
+
+      dispatch(
+        updatePackAC(packId, packName, isPrivate, res.data.updatedCardsPack.updated, deckCover)
+      )
     } catch (e) {
       handleError(e, dispatch)
+    } finally {
+      dispatch(setLinearLoadingAC(false))
     }
   }
 
@@ -204,5 +225,5 @@ export type PackType = {
   created: string
   updated: string
   private: boolean
-  deckCover: string | undefined
+  deckCover: string
 }

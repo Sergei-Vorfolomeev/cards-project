@@ -12,10 +12,10 @@ import s2 from 'features/packs/p1-allPacks/actions/ActionsWithPacks.module.css'
 
 type AddPackModalPropsType = {
   type: 'add' | 'update'
-  callBack: (packName: string, isPrivate: boolean, deckCover?: string) => void
+  callBack: (packName: string, isPrivate: boolean, deckCover: string) => void
   packName: string
   isPrivate: boolean
-  deckCover?: string | undefined
+  deckCover: string
 }
 const cancelButtonStyle = {
   backgroundColor: '#FCFCFC',
@@ -34,7 +34,7 @@ export const AddUpdatePackModal = ({
 }: AddPackModalPropsType) => {
   const [newPackName, setNewPackName] = useState(packName)
   const [privateField, setPrivateField] = useState(isPrivate)
-  const [cover, setCover] = useState<string | undefined>(deckCover)
+  const [cover, setCover] = useState(deckCover)
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewPackName(e.currentTarget.value)
@@ -96,7 +96,11 @@ export const AddUpdatePackModal = ({
                 name={'Cancel'}
                 callBack={() => {
                   handleClose()
-                  if (type === 'add') setCover('')
+                  if (type === 'add') {
+                    setNewPackName('')
+                    setPrivateField(false)
+                    setCover('')
+                  }
                 }}
                 style={cancelButtonStyle}
               />
@@ -104,12 +108,11 @@ export const AddUpdatePackModal = ({
               <ButtonComponent
                 name={'Save'}
                 callBack={() => {
-                  cover
-                    ? callBack(newPackName, privateField, cover)
-                    : callBack(newPackName, privateField)
+                  callBack(newPackName, privateField, cover)
                   handleClose()
                   setNewPackName('')
                   setPrivateField(false)
+                  setCover('')
                 }}
                 style={saveButtonStyle}
                 disabled={newPackName === ''}
