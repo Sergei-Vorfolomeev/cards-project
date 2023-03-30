@@ -14,6 +14,7 @@ export const getButtonDisableSelector = (state: AppRootStateType) =>
 
 //cards
 export const getPackNameSelector = (state: AppRootStateType) => state.cards.packName
+export const getPackDeckCoverSelector = (state: AppRootStateType) => state.cards.packDeckCover
 export const getPackPrivateSelector = (state: AppRootStateType) => state.cards.packPrivate
 export const getPackIdSelector = (state: AppRootStateType) => state.cards.packUserId
 export const getCardsCountSelector = (state: AppRootStateType) => state.cards.cardsTotalCount

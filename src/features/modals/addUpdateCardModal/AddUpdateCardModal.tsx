@@ -13,7 +13,7 @@ type PropsType = {
   type: 'add' | 'update'
   cardQuestion: string
   cardAnswer: string
-  callBack: (question: string, answer: string, imageQuestion?: string) => void
+  callBack: (question: string, answer: string, questionImg: string) => void
   questionFormatValue: QuestionFormatType
   questionImg: string
 }

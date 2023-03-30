@@ -36,7 +36,6 @@ export const UploadButton = ({ setImage }: Props) => {
         if (file.size < 4000000) {
           convertFileToBase64(file, file64 => {
             setImage(file64)
-            console.log(file64)
           })
         } else {
           dispatch(setErrorAC('Image is too big'))

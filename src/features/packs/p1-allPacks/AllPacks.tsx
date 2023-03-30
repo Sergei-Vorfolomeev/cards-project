@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import { useSelector } from 'react-redux'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
 
 import s from './AllPacks.module.css'
@@ -75,15 +75,12 @@ export const AllPacks = () => {
     }
   }, [isMyPacks, user_id])
 
-  const addPackOnClickHandler = (packName: string, isPrivate: boolean, deckCover?: string) => {
+  const addPackOnClickHandler = (packName: string, isPrivate: boolean, deckCover: string) => {
     if (isMyPacks) {
-      deckCover
-        ? dispatch(addPackTC(packName, isPrivate, deckCover, user_id))
-        : dispatch(addPackTC(packName, isPrivate, user_id))
+      dispatch(addPackTC(packName, isPrivate, deckCover, user_id))
+      // debugger
     } else {
-      deckCover
-        ? dispatch(addPackTC(packName, isPrivate, deckCover))
-        : dispatch(addPackTC(packName, isPrivate))
+      dispatch(addPackTC(packName, isPrivate, deckCover))
     }
   }
   const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -151,7 +148,7 @@ export const AllPacks = () => {
             packName={''}
             isPrivate={false}
             callBack={addPackOnClickHandler}
-            deckCover={undefined}
+            deckCover={''}
           />
         </div>
         <div className={s.allPacks_interface}>

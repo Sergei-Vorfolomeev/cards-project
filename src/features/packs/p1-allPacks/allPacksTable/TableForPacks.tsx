@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -34,7 +34,7 @@ type packsData = {
   created: string
   updated: string
   private: boolean
-  deckCover: string | undefined
+  deckCover: string
 }
 
 type TableForPacksPropsType = {
@@ -75,28 +75,28 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
   }
 
   const createData = (
-    deckCover: string | undefined,
     name: string,
     cardsCount: number,
     lastUpdated: string,
     createdBy: string,
     userId: string,
     packId: string,
-    isPrivate: boolean
+    isPrivate: boolean,
+    deckCover: string
   ) => {
     return { name, cardsCount, lastUpdated, createdBy, userId, packId, isPrivate, deckCover }
   }
 
   let rows = packsData.map(pack =>
     createData(
-      pack.deckCover,
       pack.name,
       pack.cardsCount,
       pack.created,
       pack.updated,
       pack.user_id,
       pack._id,
-      pack.private
+      pack.private,
+      pack.deckCover
     )
   )
 
@@ -132,7 +132,7 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
             >
               <TableCell sx={{ maxWidth: '80px', overflow: 'hidden' }} align="center">
                 {row.deckCover ? (
-                  <img style={{ height: '50px', width: '50px' }} src={row.deckCover} alt="cover" />
+                  <img src={row.deckCover} alt="cover" style={{ height: '50px', width: '50px' }} />
                 ) : (
                   <img style={{ height: '50px', width: '50px' }} src={defaultCover} alt="cover" />
                 )}

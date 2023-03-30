@@ -13,6 +13,7 @@ import {
 } from 'app/appSelectors'
 import { useAppDispatch } from 'app/store'
 import myPackMenu from 'common/assets/pictures/myPackMenu.svg'
+import defaultCover from 'common/assets/pictures/noCoverImg-resized.jpeg'
 import { Error } from 'common/components/error/Error'
 import { Loader } from 'common/components/loader/Loader'
 import { PATH } from 'common/components/routes/RoutesComponent'
@@ -26,11 +27,12 @@ import { PacksInput } from 'features/packs/p5-commonComponents/commonPackCompone
 import { PacksTitle } from 'features/packs/p5-commonComponents/commonPackComponents/packTitle/PacksTitle'
 import { SuperPagination } from 'features/packs/p5-commonComponents/commonPackComponents/pagination/SuperPagination'
 import { LocalLoader } from 'features/packs/p5-commonComponents/usefullComponents/localLoader/LocalLoader'
-import { getPacksTC } from 'features/packs/packsReducer'
+import { getPacksTC, updatePackTC } from 'features/packs/packsReducer'
 import {
   getCardsDataSelector,
   getMaxCardsCountSelector,
   getMinCardsCountSelector,
+  getPackDeckCoverSelector,
   getPackNameSelector,
   getPackPageCountSelector,
   getPackPageSelector,
@@ -41,6 +43,7 @@ import {
 export const MyPack = () => {
   const isInitialize = useSelector(getIsInitializeSelector)
   const packName = useSelector(getPackNameSelector)
+  const packDeckCover = useSelector(getPackDeckCoverSelector)
   const isPrivate = useSelector(getPackPrivateSelector)
   const cardsData = useSelector(getCardsDataSelector)
   const isAuth = useSelector(getIsAuthSelector)
@@ -54,8 +57,6 @@ export const MyPack = () => {
 
   const dispatch = useAppDispatch()
   let { packId } = useParams()
-
-  console.log(cardsData)
 
   const [myPacksInput, setMyPacksInput] = useState('')
   const [openPopup, setOpenPopup] = useState(false)
@@ -73,6 +74,11 @@ export const MyPack = () => {
     questionImg?: string
   ) => {
     packId && dispatch(addCardTC(packId, cardQuestion, cardAnswer, questionImg))
+  }
+
+  const updatePack = (newPackName: string, isPrivate: boolean, newDeckCover: string) => {
+    packId && dispatch(updatePackTC(packId, newPackName, isPrivate, newDeckCover))
+    setOpenPopup(false)
   }
 
   const onChangePagination = (newPage: number, newCount: number) => {
@@ -116,7 +122,8 @@ export const MyPack = () => {
                 packId={packId}
                 packName={packName}
                 isPrivate={isPrivate}
-                setOpenPopup={setOpenPopup}
+                deckCover={packDeckCover}
+                updatePack={updatePack}
               />
             )}
           </div>
@@ -129,6 +136,14 @@ export const MyPack = () => {
             questionFormatValue={'text'}
             questionImg={''}
           />
+        </div>
+
+        <div className={s.deckCoverBox}>
+          {!packDeckCover ? (
+            <img src={defaultCover} alt="" className={s.deckCover} />
+          ) : (
+            <img src={packDeckCover} alt="" className={s.deckCover} />
+          )}
         </div>
 
         <PacksInput

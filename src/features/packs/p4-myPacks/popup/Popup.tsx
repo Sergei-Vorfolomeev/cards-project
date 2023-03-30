@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from 'app/store'
@@ -9,19 +8,17 @@ import { PATH } from 'common/components/routes/RoutesComponent'
 import { AddUpdatePackModal } from 'features/modals/addUpdatePackModal/AddUpdatePackModal'
 import { DeleteModal } from 'features/modals/deleteModal/DeleteModal'
 import s from 'features/packs/p4-myPacks/popup/Popup.module.css'
-import { deletePackTC, updatePackTC } from 'features/packs/packsReducer'
-import { getPacksSelector } from 'features/packs/selectors/packsSelectors'
+import { deletePackTC } from 'features/packs/packsReducer'
 
 type Props = {
   packId: string | undefined
   packName: string
   isPrivate: boolean
-  setOpenPopup: (openPopup: boolean) => void
+  deckCover: string
+  updatePack: (newPackName: string, isPrivate: boolean, newDeckCover: string) => void
 }
 
-export const Popup = ({ packId, packName, isPrivate, setOpenPopup }: Props) => {
-  const packs = useSelector(getPacksSelector)
-
+export const Popup = ({ packId, packName, isPrivate, deckCover, updatePack }: Props) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -29,9 +26,8 @@ export const Popup = ({ packId, packName, isPrivate, setOpenPopup }: Props) => {
     navigate(`/learn/${packId}/${packName}/${packType}`)
   }
 
-  const updateOnClickHandler = (newPackName: string, isPrivate: boolean) => {
-    packId && dispatch(updatePackTC(packId, newPackName, isPrivate))
-    setOpenPopup(false)
+  const updateOnClickHandler = (newPackName: string, isPrivate: boolean, newDeckCover: string) => {
+    updatePack(newPackName, isPrivate, newDeckCover)
   }
 
   const deleteOnClickHandler = (packId: string) => {
@@ -59,6 +55,7 @@ export const Popup = ({ packId, packName, isPrivate, setOpenPopup }: Props) => {
           callBack={updateOnClickHandler}
           packName={packName}
           isPrivate={isPrivate}
+          deckCover={deckCover}
         />
         <span>Edit</span>
       </div>

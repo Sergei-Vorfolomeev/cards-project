@@ -28,7 +28,7 @@ export const packsAPI = {
 
     return instance.get<ResponseTypePacks>('/cards/pack', { params }).then(res => res.data)
   },
-  addPack(newPack: { cardsPack: { name: string; private: boolean; deckCover?: string } }) {
+  addPack(newPack: { cardsPack: { name: string; private: boolean; deckCover: string } }) {
     return instance.post('/cards/pack', newPack)
   },
   deletePack(packId: string) {
@@ -76,13 +76,18 @@ export type ResponseTypePacks = {
 }
 
 export type ResponseTypeCards = {
-  cards: CardType[]
-  cardsTotalCount: number
-  maxGrade: number
-  minGrade: number
-  page: number
-  pageCount: number
-  packUserId: string
+  cards?: CardType[]
+  cardsTotalCount?: number
+  packName?: string
+  packPrivate?: boolean
+  packDeckCover?: string
+  packUserId?: string
+  maxGrade?: number
+  minGrade?: number
+  page?: number
+  pageCount?: number
+  packCreated?: string
+  packUpdated?: string
 }
 
 type CardType = {

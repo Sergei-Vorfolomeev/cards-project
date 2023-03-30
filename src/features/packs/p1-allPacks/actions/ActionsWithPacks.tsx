@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import s from './ActionsWithPacks.module.css'
 
+import { setLinearLoadingAC } from 'app/appReducer'
 import { useAppDispatch } from 'app/store'
 import learnPack from 'common/assets/pictures/addPack.svg'
 import { getPacksUtils } from 'common/utils/getPacks-utils'
@@ -18,7 +19,7 @@ type PropsType = {
   packName: string
   cardsNumber: number
   isPrivate: boolean
-  deckCover?: string | undefined
+  deckCover: string
 }
 
 export const ActionsWithPacks = ({
@@ -33,19 +34,23 @@ export const ActionsWithPacks = ({
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
+  console.log(deckCover)
+
   const PacksTypeLocalStorage = localStorage.getItem('PackType')
     ? localStorage.getItem('PackType')
     : 'AllPacks'
   const isMyPacks = PacksTypeLocalStorage !== 'AllPacks'
 
   const deleteOnClickHandler = () => {
-    let promise = dispatch(deletePackTC(packId))
+    const promise = dispatch(deletePackTC(packId))
 
     getPacksUtils(isMyPacks, dispatch, promise, userId)
   }
 
-  const updateOnClickHandler = (packName: string, isPrivate: boolean) => {
-    dispatch(updatePackTC(packId, packName, isPrivate))
+  const updateOnClickHandler = (packName: string, isPrivate: boolean, newDeckCover: string) => {
+    const promise = dispatch(updatePackTC(packId, packName, isPrivate, newDeckCover))
+
+    getPacksUtils(isMyPacks, dispatch, promise, userId)
   }
 
   const learnOnClickHandler = (packType: 'my' | 'friend') => {
