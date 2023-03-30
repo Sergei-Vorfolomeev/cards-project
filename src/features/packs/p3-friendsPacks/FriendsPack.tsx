@@ -4,10 +4,14 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
 
+import { popUpHeaderToggleAC } from '../../../app/appReducer'
+import { LocalLoader } from '../p5-commonComponents/usefullComponents/localLoader/LocalLoader'
+
 import s from './FriendsPack.module.css'
 
 import { getLoadingSelector } from 'app/appSelectors'
 import { useAppDispatch } from 'app/store'
+import defaultCover from 'common/assets/pictures/noCoverImg-resized.jpeg'
 import { getCardsTC } from 'features/packs/cardsReducer'
 import { FriendsPackTable } from 'features/packs/p3-friendsPacks/friendsPackTable/FriendsPackTable'
 import { BackToPackLists } from 'features/packs/p5-commonComponents/commonPackComponents/backToPackLists/BackToPackLists'
@@ -24,6 +28,7 @@ import {
   getCardTotalCountSelector,
   getMaxCardsCountSelector,
   getMinCardsCountSelector,
+  getPackDeckCoverSelector,
 } from 'features/packs/selectors/packsSelectors'
 
 export const FriendsPack = () => {
@@ -36,11 +41,14 @@ export const FriendsPack = () => {
   const min = useSelector(getMinCardsCountSelector)
   const max = useSelector(getMaxCardsCountSelector)
   const buttonDisableBecauseProcess = useSelector(getButtonDisableSelector)
+  const packDeckCover = useSelector(getPackDeckCoverSelector)
 
   const [inputValue, setInputValue] = useState<string>('')
 
   const navigate = useNavigate()
   let { packId, packName } = useParams()
+
+  dispatch(popUpHeaderToggleAC(false))
 
   const inputOnChaneHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.currentTarget.value)
@@ -54,6 +62,7 @@ export const FriendsPack = () => {
   }
 
   useEffect(() => {
+    dispatch(popUpHeaderToggleAC(false))
     packId && dispatch(getCardsTC({ cardsPack_id: packId }))
   }, [packId])
 
@@ -77,6 +86,13 @@ export const FriendsPack = () => {
             onClick={learnOnClickButtonHandler}
           />
         </div>
+        <div className={s.deckCoverBox}>
+          {!packDeckCover ? (
+            <img src={defaultCover} alt="" className={s.deckCover} />
+          ) : (
+            <img src={packDeckCover} alt="" className={s.deckCover} />
+          )}
+        </div>
         <PacksInput
           id={'friendsPackInput'}
           text={'Search'}
@@ -85,23 +101,28 @@ export const FriendsPack = () => {
           width={'98%'}
           onChange={inputOnChaneHandler}
         />
-        {isLoading && tableData.length === 0 && (
+
+        {isLoading && <LocalLoader />}
+
+        {!isLoading && tableData.length === 0 && (
           <div className={s.friendsPack_noCardsWasFound}>NO PACKS WERE FOUND. TRY AGAIN ;)</div>
         )}
-        {isLoading && tableData.length !== 0 && (
+        {!isLoading && tableData.length !== 0 && (
           <div className={s.friendsPack_table}>
             <FriendsPackTable cardsData={tableData} />
           </div>
         )}
 
-        <div className={s.friendsPack_pagintion}>
-          <SuperPagination
-            page={page}
-            itemsCountForPage={pageCount}
-            totalCount={totalCount}
-            onChange={onChangePagination}
-          />
-        </div>
+        {!isLoading && tableData.length !== 0 && (
+          <div className={s.friendsPack_pagintion}>
+            <SuperPagination
+              page={page}
+              itemsCountForPage={pageCount}
+              totalCount={totalCount}
+              onChange={onChangePagination}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

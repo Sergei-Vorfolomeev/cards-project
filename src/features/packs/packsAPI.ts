@@ -42,13 +42,13 @@ export const packsAPI = {
 
     return instance.get<ResponseTypeCards>('/cards/card', { params }).then(res => res.data)
   },
-  getSortUpCards(cardsPack_id: string) {
-    let data = { sortPacks: '0updated', page: 1, pageCount: 10, cardsPack_id }
+  getSortUpCards(info: getCardsDataType = {}) {
+    let data = { sortCards: '0updated', page: 1, pageCount: 10, ...info }
 
     return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
   },
-  getSortDownCards(cardsPack_id: string) {
-    let data = { sortPacks: '1updated', page: 1, pageCount: 10, cardsPack_id }
+  getSortDownCards(info: getCardsDataType = {}) {
+    let data = { sortCards: '1updated', page: 1, pageCount: 10, ...info }
 
     return instance.get<ResponseTypeCards>('/cards/card', { params: data }).then(res => res.data)
   },

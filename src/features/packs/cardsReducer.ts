@@ -1,4 +1,4 @@
-import { getCardsDataType, packsAPI, ResponseTypeCards } from './packsAPI'
+import { getCardsDataType, getPacksDataType, packsAPI, ResponseTypeCards } from './packsAPI'
 
 import { setLinearLoadingAC, setLoadingAC } from 'app/appReducer'
 import { AppThunk } from 'app/store'
@@ -26,13 +26,23 @@ export const cardsReducer = (
 ): InitialStateType => {
   switch (action.type) {
     case 'cards/SET-CARDS':
-      return { ...state, ...action.cardsInfo }
+      return { ...state, ...action.cardsInfo, cards: [...action.cardsInfo.cards!] }
     case 'packs/SET-CARDS-SORTED-UP':
-      return { ...state, ...action.cardsInfo, sortDirection: 'up' }
+      return {
+        ...state,
+        ...action.cardsInfo,
+        cards: [...action.cardsInfo.cards!],
+        sortDirection: 'up',
+      }
     case 'packs/SET-CARDS-SORTED-DOWN':
-      return { ...state, ...action.cardsInfo, sortDirection: 'down' }
+      return {
+        ...state,
+        ...action.cardsInfo,
+        cards: [...action.cardsInfo.cards!],
+        sortDirection: 'down',
+      }
     case 'cards/SET-DEFAULT-CARDS':
-      return { ...state, cardsTotalCount: 0 }
+      return { ...state, cardsTotalCount: 0, packDeckCover: '' }
     case 'packs/SET-lEARN-TYPE-FILTER':
       return {
         ...state,
@@ -103,10 +113,10 @@ export const getCardsTC =
   }
 
 export const getCardsSortUpTC =
-  (cardsPack_id: string): AppThunk =>
+  (data: getCardsDataType): AppThunk =>
   async dispatch => {
     try {
-      let res = await packsAPI.getSortUpCards(cardsPack_id)
+      let res = await packsAPI.getSortUpCards(data)
 
       dispatch(setCardsSortUpdAC(res))
     } catch (e) {
@@ -115,10 +125,10 @@ export const getCardsSortUpTC =
   }
 
 export const getCardsSortDownTC =
-  (cardsPack_id: string): AppThunk =>
+  (data: getCardsDataType): AppThunk =>
   async dispatch => {
     try {
-      let res = await packsAPI.getSortDownCards(cardsPack_id)
+      let res = await packsAPI.getSortDownCards(data)
 
       dispatch(setCardsSortDownAC(res))
     } catch (e) {

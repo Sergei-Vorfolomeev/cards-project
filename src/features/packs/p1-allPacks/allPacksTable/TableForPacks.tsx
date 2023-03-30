@@ -19,6 +19,7 @@ import { getUserIdSelector } from 'features/login/selectors/loginSelectors'
 import { ActionsWithPacks } from 'features/packs/p1-allPacks/actions/ActionsWithPacks'
 import { getSortDownPacksTC, getSortUpPacksTC } from 'features/packs/packsReducer'
 import {
+  getButtonDisableSelector,
   getPackPageCountSelector,
   getPackPageSelector,
   getSorDirectionSelector,
@@ -40,38 +41,68 @@ type packsData = {
 type TableForPacksPropsType = {
   packsData: packsData[]
   minMaxCardsValue: number[]
+  isMyPacks: boolean
 }
 
-export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksPropsType) => {
+export const TableForPacks = ({
+  packsData,
+  minMaxCardsValue,
+  isMyPacks,
+}: TableForPacksPropsType) => {
   const sortDirection = useSelector(getSorDirectionSelector)
   const userId = useSelector(getUserIdSelector)
   const page = useSelector(getPackPageSelector)
   const pageCount = useSelector(getPackPageCountSelector)
+  const ButtonDisable = useSelector(getButtonDisableSelector)
 
   const dispatch = useAppDispatch()
 
   const columnsData = ['Cover', 'Name', 'Cards', 'Last updated', 'Created By', 'Actions']
 
   const setSortDirectionHandler = () => {
-    sortDirection === 'up'
-      ? dispatch(
-          getSortDownPacksTC({
-            sortPacks: '0updated',
-            min: minMaxCardsValue[0],
-            max: minMaxCardsValue[1],
-            page,
-            pageCount,
-          })
-        )
-      : dispatch(
-          getSortUpPacksTC({
-            sortPacks: '1updated',
-            min: minMaxCardsValue[0],
-            max: minMaxCardsValue[1],
-            page,
-            pageCount,
-          })
-        )
+    if (isMyPacks) {
+      sortDirection === 'up'
+        ? dispatch(
+            getSortDownPacksTC({
+              sortPacks: '0updated',
+              min: minMaxCardsValue[0],
+              max: minMaxCardsValue[1],
+              page,
+              pageCount,
+              user_id: userId,
+            })
+          )
+        : dispatch(
+            getSortUpPacksTC({
+              sortPacks: '1updated',
+              min: minMaxCardsValue[0],
+              max: minMaxCardsValue[1],
+              page,
+              pageCount,
+              user_id: userId,
+            })
+          )
+    } else {
+      sortDirection === 'up'
+        ? dispatch(
+            getSortDownPacksTC({
+              sortPacks: '0updated',
+              min: minMaxCardsValue[0],
+              max: minMaxCardsValue[1],
+              page,
+              pageCount,
+            })
+          )
+        : dispatch(
+            getSortUpPacksTC({
+              sortPacks: '1updated',
+              min: minMaxCardsValue[0],
+              max: minMaxCardsValue[1],
+              page,
+              pageCount,
+            })
+          )
+    }
   }
 
   const createData = (
@@ -158,7 +189,10 @@ export const TableForPacks = ({ packsData, minMaxCardsValue }: TableForPacksProp
                 ) : row.cardsCount === 0 ? (
                   <span style={{ opacity: 0.5 }}>{row.name}</span>
                 ) : (
-                  <NavLink className={s.allPacks_link} to={`/friendsPack/${row.packId}`}>
+                  <NavLink
+                    className={s.allPacks_link}
+                    to={`/friendsPack/${row.packId}/${row.name}`}
+                  >
                     {row.name}
                   </NavLink>
                 )}

@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios'
+
 import { authAPI, ChangeDataResponseType, LoginRequestType, UserResponseType } from './authAPI'
 
 import { setLoadingAC } from 'app/appReducer'

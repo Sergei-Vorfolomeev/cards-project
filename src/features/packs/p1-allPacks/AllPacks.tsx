@@ -6,7 +6,7 @@ import useDebouncedEffect from 'use-debounced-effect'
 
 import s from './AllPacks.module.css'
 
-import { setLoadingAC } from 'app/appReducer'
+import { popUpHeaderToggleAC, setLoadingAC } from 'app/appReducer'
 import { getErrorMessageSelector, getLoadingSelector } from 'app/appSelectors'
 import { useAppDispatch } from 'app/store'
 import cleanFiltersIcon from 'common/assets/pictures/cleanFiletetIcon.svg'
@@ -54,6 +54,8 @@ export const AllPacks = () => {
     +maxLocalStorage!,
   ])
 
+  dispatch(popUpHeaderToggleAC(false))
+
   let PacksTypeLocalStorage = localStorage.getItem('PackType')
     ? localStorage.getItem('PackType')
     : 'AllPacks'
@@ -64,12 +66,12 @@ export const AllPacks = () => {
   useEffect(() => {
     if (isMyPacks) {
       dispatch(setLoadingAC(true))
-      dispatch(getPacksTC({ user_id, min: +minLocalStorage!, max: +minLocalStorage! }))
+      dispatch(getPacksTC({ user_id, min: +minLocalStorage!, max: +maxLocalStorage! }))
       localStorage.setItem('PackType', 'MyPacks')
       setMinMaxCardsValue([+minLocalStorage!, +maxLocalStorage!])
     } else {
       dispatch(setLoadingAC(true))
-      dispatch(getPacksTC({ min: +minLocalStorage!, max: +minLocalStorage! }))
+      dispatch(getPacksTC({ min: +minLocalStorage!, max: +maxLocalStorage! }))
       localStorage.setItem('PackType', 'AllPacks')
       setMinMaxCardsValue([+minLocalStorage!, +maxLocalStorage!])
     }
@@ -126,13 +128,22 @@ export const AllPacks = () => {
 
   const onChangePagination = (newPage: number, newCount: number) => {
     dispatch(
-      getPacksTC({
-        min: minMaxCardsValue[0],
-        max: minMaxCardsValue[1],
-        page: newPage,
-        pageCount: newCount,
-        packName: inputValue,
-      })
+      isMyPacks
+        ? getPacksTC({
+            min: minMaxCardsValue[0],
+            max: minMaxCardsValue[1],
+            page: newPage,
+            pageCount: newCount,
+            packName: inputValue,
+            user_id,
+          })
+        : getPacksTC({
+            min: minMaxCardsValue[0],
+            max: minMaxCardsValue[1],
+            page: newPage,
+            pageCount: newCount,
+            packName: inputValue,
+          })
     )
   }
 
@@ -175,18 +186,23 @@ export const AllPacks = () => {
 
         {!isLoading && packs.length !== 0 && (
           <div className={s.allPacks_table}>
-            <TableForPacks packsData={packs} minMaxCardsValue={minMaxCardsValue} />
+            <TableForPacks
+              packsData={packs}
+              minMaxCardsValue={minMaxCardsValue}
+              isMyPacks={isMyPacks}
+            />
           </div>
         )}
-
-        <div className={s.allPacks_pagination}>
-          <SuperPagination
-            page={page}
-            itemsCountForPage={pageCount}
-            totalCount={totalCount}
-            onChange={onChangePagination}
-          />
-        </div>
+        {!isLoading && packs.length !== 0 && (
+          <div className={s.allPacks_pagination}>
+            <SuperPagination
+              page={page}
+              itemsCountForPage={pageCount}
+              totalCount={totalCount}
+              onChange={onChangePagination}
+            />
+          </div>
+        )}
       </div>
       {errorMessage && <Error message={errorMessage} />}
     </div>

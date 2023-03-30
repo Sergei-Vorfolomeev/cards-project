@@ -10,24 +10,24 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { useSelector } from 'react-redux'
 
+import { getCardsSortDownTC, getCardsSortUpTC } from '../../cardsReducer'
+
 import { useAppDispatch } from 'app/store'
 import { ActionsWithCards } from 'features/packs/p4-myPacks/actionsWithCards/ActionsWithCards'
 import StarIcon from 'features/packs/p5-commonComponents/usefullComponents/StarIcon/StarIcon'
-import { getSortDownPacksTC, getSortUpPacksTC } from 'features/packs/packsReducer'
 import {
   getPackPageCountSelector,
   getPackPageSelector,
-  getSorDirectionSelector,
+  getSorDirectionCardsSelector,
 } from 'features/packs/selectors/packsSelectors'
 
 type PropsType = {
   cardsData: cardData[]
+  cardsPack_id: string
 }
 
-export const MyPackTable = ({ cardsData }: PropsType) => {
-  const sortDirection = useSelector(getSorDirectionSelector)
-  const page = useSelector(getPackPageSelector)
-  const pageCount = useSelector(getPackPageCountSelector)
+export const MyPackTable = ({ cardsData, cardsPack_id }: PropsType) => {
+  const sortDirection = useSelector(getSorDirectionCardsSelector)
 
   const dispatch = useAppDispatch()
 
@@ -36,17 +36,13 @@ export const MyPackTable = ({ cardsData }: PropsType) => {
   const setSortDirectionHandler = () => {
     sortDirection === 'up'
       ? dispatch(
-          getSortDownPacksTC({
-            sortPacks: '0updated',
-            page,
-            pageCount,
+          getCardsSortDownTC({
+            cardsPack_id,
           })
         )
       : dispatch(
-          getSortUpPacksTC({
-            sortPacks: '0updated',
-            page,
-            pageCount,
+          getCardsSortUpTC({
+            cardsPack_id,
           })
         )
   }

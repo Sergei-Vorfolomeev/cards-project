@@ -6,6 +6,7 @@ import useDebouncedEffect from 'use-debounced-effect'
 
 import s from './MyPack.module.css'
 
+import { popUpHeaderToggleAC } from 'app/appReducer'
 import {
   getErrorMessageSelector,
   getIsInitializeSelector,
@@ -60,6 +61,8 @@ export const MyPack = () => {
 
   const [myPacksInput, setMyPacksInput] = useState('')
   const [openPopup, setOpenPopup] = useState(false)
+
+  dispatch(popUpHeaderToggleAC(false))
 
   useEffect(() => {
     packId && dispatch(getCardsTC({ cardsPack_id: packId }))
@@ -159,7 +162,7 @@ export const MyPack = () => {
 
         {!isLoading && cardsData.length !== 0 && (
           <div className={s.myPacks_table}>
-            <MyPackTable cardsData={cardsData} />
+            <MyPackTable cardsData={cardsData} cardsPack_id={packId!} />
           </div>
         )}
 
@@ -173,14 +176,16 @@ export const MyPack = () => {
           <Navigate to={`/emptyPack/${packId}/${packName}`} />
         )}
 
-        <div className={s.myPacks_pagination}>
-          <SuperPagination
-            page={page}
-            itemsCountForPage={pageCount}
-            totalCount={totalCount}
-            onChange={onChangePagination}
-          />
-        </div>
+        {!isLoading && cardsData.length !== 0 && (
+          <div className={s.myPacks_pagination}>
+            <SuperPagination
+              page={page}
+              itemsCountForPage={pageCount}
+              totalCount={totalCount}
+              onChange={onChangePagination}
+            />
+          </div>
+        )}
       </div>
       {errorMessage && <Error message={errorMessage} />}
     </div>

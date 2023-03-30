@@ -104,7 +104,9 @@ export const Learn = () => {
   }
 
   const backToPack =
-    packType === 'friend' ? `/friendsPack/${cardsPack_id}` : `/myPack/${cardsPack_id}/${packName}`
+    packType === 'friend'
+      ? `/friendsPack/${cardsPack_id}/${packName}`
+      : `/myPack/${cardsPack_id}/${packName}`
 
   if (noMoreQuestion) {
     return (

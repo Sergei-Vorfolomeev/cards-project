@@ -119,11 +119,14 @@ export const getSortUpPacksTC =
   (data: getPacksDataType): AppThunk =>
   async dispatch => {
     try {
+      dispatch(toggleButtonDisableAC(true))
       let res = await packsAPI.getSortUpPacks(data)
 
       dispatch(setAllPacksSortUpdAC(res))
     } catch (e) {
       handleError(e, dispatch)
+    } finally {
+      dispatch(toggleButtonDisableAC(false))
     }
   }
 
