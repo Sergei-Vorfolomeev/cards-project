@@ -34,8 +34,6 @@ export const ActionsWithPacks = ({
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  console.log(deckCover)
-
   const PacksTypeLocalStorage = localStorage.getItem('PackType')
     ? localStorage.getItem('PackType')
     : 'AllPacks'

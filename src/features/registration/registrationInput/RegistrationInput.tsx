@@ -27,7 +27,8 @@ const RegistrationInput = (props: PropsType) => {
         {props.text}
       </label>
       <input
-        type={(props.type === 'email' && 'email') || isHidden ? 'password' : 'text'}
+        /* eslint-disable-next-line no-nested-ternary */
+        type={props.type === 'email' ? 'email' : isHidden ? 'password' : 'text'}
         id={props.id}
         value={props.value}
         onChange={props.onChange}

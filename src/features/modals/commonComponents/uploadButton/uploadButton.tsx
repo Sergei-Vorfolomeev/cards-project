@@ -33,12 +33,12 @@ export const UploadButton = ({ setImage }: Props) => {
 
       console.log('File: ', file)
       if (file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png') {
-        if (file.size < 4000000) {
+        if (file.size < 102400) {
           convertFileToBase64(file, file64 => {
             setImage(file64)
           })
         } else {
-          dispatch(setErrorAC('Image is too big'))
+          dispatch(setErrorAC('Image is too big. Image size can not be more than 100kB'))
         }
       } else {
         dispatch(setErrorAC('Use only jpg/jpeg or png format'))

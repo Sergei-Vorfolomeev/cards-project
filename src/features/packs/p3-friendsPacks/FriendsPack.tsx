@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import useDebouncedEffect from 'use-debounced-effect'
 
-import { popUpHeaderToggleAC } from '../../../app/appReducer'
 import { LocalLoader } from '../p5-commonComponents/usefullComponents/localLoader/LocalLoader'
 
 import s from './FriendsPack.module.css'
 
+import { popUpHeaderToggleAC } from 'app/appReducer'
 import { getLoadingSelector } from 'app/appSelectors'
 import { useAppDispatch } from 'app/store'
 import defaultCover from 'common/assets/pictures/noCoverImg-resized.jpeg'
