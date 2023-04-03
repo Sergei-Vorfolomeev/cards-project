@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { popUpHeaderToggleAC } from '../../app/appReducer'
 import { logoutTC } from '../login/authReducer'
 
 import styles from './Header.module.css'
 
+import { popUpHeaderToggleAC } from 'app/appReducer'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import backToProfile from 'common/assets/pictures/backToProfile.svg'
 import defaultAvatar from 'common/assets/pictures/defaultAvatar.jpg'
+import logo from 'common/assets/pictures/it-incubator-logo.svg'
 import logout from 'common/assets/pictures/logout.svg'
 import { ButtonComponent } from 'common/components/button/ButtonComponent'
 import { PATH } from 'common/components/routes/RoutesComponent'
@@ -24,14 +25,14 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
-      <span>IT-Incubator</span>
+      <img src={logo} alt="logo" />
       {isAuth && (
         <div>
           <div
             className={styles.headerAvatar}
             onClick={() => dispatch(popUpHeaderToggleAC(popUpHeader === true ? false : true))}
           >
-            <span>{userName}</span>
+            <span className={styles.userName}>{userName}</span>
             <img className={styles.header_avatar} src={profileImg ? profileImg : defaultAvatar} />
           </div>
         </div>
@@ -42,7 +43,7 @@ export const Header = () => {
           <div
             className={styles.header_profile}
             onClick={() => {
-              dispatch(popUpHeaderToggleAC(popUpHeader === true ? false : true))
+              dispatch(popUpHeaderToggleAC(!popUpHeader))
               navigate(PATH.PROFILE)
             }}
           >
@@ -52,7 +53,7 @@ export const Header = () => {
           <div
             className={styles.header_logout}
             onClick={() => {
-              dispatch(popUpHeaderToggleAC(popUpHeader === true ? false : true))
+              dispatch(popUpHeaderToggleAC(!popUpHeader))
               dispatch(logoutTC())
               navigate(PATH.LOGIN)
             }}
