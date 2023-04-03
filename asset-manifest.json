@@ -1,9 +1,10 @@
 {
   "files": {
-    "main.css": "./static/css/main.07403090.css",
-    "main.js": "./static/js/main.819c5264.js",
+    "main.css": "./static/css/main.6e83a262.css",
+    "main.js": "./static/js/main.be009966.js",
     "static/js/787.7136d4b4.chunk.js": "./static/js/787.7136d4b4.chunk.js",
     "static/media/checkEmail.svg": "./static/media/checkEmail.836e246556dd50d082cf05d8309583a6.svg",
+    "static/media/it-incubator-logo.svg": "./static/media/it-incubator-logo.1dc6c0ad2304335a133294ca0436ca89.svg",
     "static/media/cleanFiletetIcon.svg": "./static/media/cleanFiletetIcon.c4793bbcf90fe29bcb7331d236d7b6de.svg",
     "static/media/deletePack.svg": "./static/media/deletePack.bd70db32d2cf2e85278850c42a045cbc.svg",
     "static/media/changePack.svg": "./static/media/changePack.80237abf8b3a40342bca9b516ae5808a.svg",
@@ -21,12 +22,12 @@
     "static/media/arrow.svg": "./static/media/arrow.9c43ee4473c188dca315.svg",
     "static/media/arrowBack.svg": "./static/media/arrowBack.9c43ee4473c188dca31578cbfa023bb9.svg",
     "static/media/select-arrow.svg": "./static/media/select-arrow.74a95a0aa71762db0c34.svg",
-    "main.07403090.css.map": "./static/css/main.07403090.css.map",
-    "main.819c5264.js.map": "./static/js/main.819c5264.js.map",
+    "main.6e83a262.css.map": "./static/css/main.6e83a262.css.map",
+    "main.be009966.js.map": "./static/js/main.be009966.js.map",
     "787.7136d4b4.chunk.js.map": "./static/js/787.7136d4b4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.07403090.css",
-    "static/js/main.819c5264.js"
+    "static/css/main.6e83a262.css",
+    "static/js/main.be009966.js"
   ]
 }
