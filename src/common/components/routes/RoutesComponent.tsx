@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 import UpdatePassword from '../../../features/login/forgotPassword/f3-updatePassword/UpdatePassword'
 import Registration from '../../../features/registration/Registration'
 
+import { Page404 } from 'common/components/routes/page404/Page404'
 import { Learn } from 'features/learn/Learn'
 import { ForgotPassword } from 'features/login/forgotPassword/f1-forgotPassword/ForgotPassword'
 import SentEmail from 'features/login/forgotPassword/f2-sentEmail/SentEmail'
@@ -34,7 +35,6 @@ export const PATH = {
 export const RoutesComponent = () => {
   return (
     <Routes>
-      {/*add your routes here*/}
       <Route path={'/'} element={<AllPacks />} />
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.REGISTRATION} element={<Registration />} />
@@ -47,9 +47,8 @@ export const RoutesComponent = () => {
       <Route path={PATH.NO_PACKS} element={<EmptyPack />} />
       <Route path={PATH.PACK_FRIEND} element={<FriendsPack />} />
       <Route path={PATH.LEARN} element={<Learn />} />
-
-      {/*<Route path={PATH.ERROR_404} element={<Page404 />} />*/}
-      {/*<Route path="*" element={<Navigate to={PATH.ERROR_404} />} />*/}
+      <Route path={PATH.ERROR_404} element={<Page404 />} />
+      <Route path="*" element={<Navigate to={PATH.ERROR_404} />} />
     </Routes>
   )
 }
