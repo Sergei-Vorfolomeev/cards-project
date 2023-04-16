@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from 'react'
 
-import passwordEyeHide from '../../../../../new-social-network/src/common/assets/img/eye-off.svg'
-import passwordEye from '../../../../../new-social-network/src/common/assets/img/eye.svg'
-
 import s from './RegistrationInput.module.css'
+
+import passwordEyeHide from 'common/assets/pictures/eye-off.svg'
+import passwordEye from 'common/assets/pictures/eye.svg'
 
 type PropsType = {
   type: string

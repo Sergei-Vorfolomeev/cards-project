@@ -2,9 +2,10 @@ import React from 'react'
 
 import { ErrorMessage, Field } from 'formik'
 
-import passwordEyeHide from '../../../../../new-social-network/src/common/assets/img/eye-off.svg'
-import passwordEye from '../../../../../new-social-network/src/common/assets/img/eye.svg'
 import styles from '../Login.module.css'
+
+import passwordEyeHide from 'common/assets/pictures/eye-off.svg'
+import passwordEye from 'common/assets/pictures/eye.svg'
 
 type PropsType = {
   isHidden: boolean

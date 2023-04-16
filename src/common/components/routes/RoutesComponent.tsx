@@ -47,6 +47,7 @@ export const RoutesComponent = () => {
       <Route path={PATH.NO_PACKS} element={<EmptyPack />} />
       <Route path={PATH.PACK_FRIEND} element={<FriendsPack />} />
       <Route path={PATH.LEARN} element={<Learn />} />
+
       <Route path={PATH.ERROR_404} element={<Page404 />} />
       <Route path="*" element={<Navigate to={PATH.ERROR_404} />} />
     </Routes>

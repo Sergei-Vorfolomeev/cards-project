@@ -45,11 +45,11 @@ export const Login = () => {
     }
   }, [isAuth, navigate])
 
+  if (loading) return <Loader />
+
   return (
     <div>
-      {loading && <Loader />}
       <div className={styles.login}>
-        {loading && <Loader />}
         <h2>Sign In</h2>
         <Formik
           initialValues={{ email: '', password: '', rememberMe: false }}

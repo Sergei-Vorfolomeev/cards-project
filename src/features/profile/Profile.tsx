@@ -3,7 +3,6 @@ import React, { ChangeEvent, createRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, useNavigate } from 'react-router-dom'
 
-import { convertFileToBase64 } from '../../common/utils/image-loader-utils'
 import { changeDataTC, logoutTC } from '../login/authReducer'
 
 import { EditableSpan } from './editable-span/EditableSpan'
@@ -16,6 +15,7 @@ import avatarDownload from 'common/assets/pictures/dounloadPhoto.svg'
 import { Error } from 'common/components/error/Error'
 import { Loader } from 'common/components/loader/Loader'
 import { PATH } from 'common/components/routes/RoutesComponent'
+import { convertFileToBase64 } from 'common/utils/image-loader-utils'
 import { getEmailSelector, getIsAuthSelector } from 'features/login/selectors/loginSelectors'
 
 export const Profile = () => {
